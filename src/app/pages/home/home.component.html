@@ -1,17 +1,8 @@
-<!-- Navigation Bar -->
-<nav class="sticky top-0 z-50 bg-white border-b border-gray-200">
-  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-    <div class="flex justify-between items-center h-24">
-      <img src="/logo-nova-300.png" alt="ipswim" class="h-20 w-auto">
-      <div class="hidden md:flex space-x-8">
-        <a routerLink="/" class="text-gray-900 hover:text-blue-600 font-medium">Accueil</a>
-        <a routerLink="/apropos" class="text-gray-900 hover:text-blue-600 font-medium">À propos de nous</a>
-        <a routerLink="/realisations" class="text-gray-900 hover:text-blue-600 font-medium">Réalisations</a>
-        <a routerLink="/contact" class="text-gray-900 hover:text-blue-600 font-medium">Nous contacter</a>
-      </div>
-    </div>
-  </div>
-</nav>
+<!-- Navbar -->
+<app-navbar></app-navbar>
+
+<!-- Image Slider -->
+<app-image-slider></app-image-slider>
 
 <!-- Hero Section -->
 <section class="bg-white py-20 px-4 sm:px-6 lg:px-8">
@@ -19,13 +10,13 @@
     <h1 class="text-5xl md:text-6xl font-bold text-gray-900 mb-6">Votre piscine personnalisée</h1>
     <p class="text-xl text-gray-600 mb-8">Construction et rénovation de piscines en béton sur mesure pour vos projets résidentiels et commerciaux.</p>
     <div class="flex flex-col sm:flex-row gap-4 justify-center">
-      <a routerLink="/realisations" class="bg-blue-600 text-white px-8 py-3 rounded-lg hover:bg-blue-700 inline-block">Voir nos réalisations</a>
+      <a routerLink="/realisations" class="px-8 py-3 rounded-lg font-semibold transition-all inline-block hover-custom" style="border: 2px solid #C09453; color: #C09453;">Voir nos réalisations</a>
     </div>
   </div>
 </section>
 
 <!-- Credentials Section -->
-<section class="bg-gray-50 py-16 px-4 sm:px-6 lg:px-8">
+<section class="bg-gray-200 py-16 px-4 sm:px-6 lg:px-8">
   <div class="max-w-6xl mx-auto">
     <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
       <div class="text-center">
@@ -45,7 +36,7 @@
 </section>
 
 <!-- Services Section -->
-<section class="py-20 px-4 sm:px-6 lg:px-8">
+<section class="bg-white py-20 px-4 sm:px-6 lg:px-8">
   <div class="max-w-6xl mx-auto">
     <h2 class="text-4xl font-bold text-gray-900 mb-12 text-center">Nos Services</h2>
     <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
@@ -79,7 +70,7 @@
 </section>
 
 <!-- About Section -->
-<section class="bg-gray-50 py-20 px-4 sm:px-6 lg:px-8">
+<section class="bg-gray-200 py-20 px-4 sm:px-6 lg:px-8">
   <div class="max-w-4xl mx-auto">
     <h2 class="text-4xl font-bold text-gray-900 mb-12 text-center">À propos de nous</h2>
     <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-center mb-12">
@@ -96,7 +87,7 @@
 </section>
 
 <!-- Testimonials Section -->
-<section class="py-20 px-4 sm:px-6 lg:px-8">
+<section class="bg-white py-20 px-4 sm:px-6 lg:px-8">
   <div class="max-w-6xl mx-auto">
     <h2 class="text-4xl font-bold text-gray-900 mb-12 text-center">Avis de nos clients</h2>
     <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
@@ -120,7 +111,7 @@
 </section>
 
 <!-- Projects Gallery -->
-<section class="bg-gray-50 py-20 px-4 sm:px-6 lg:px-8">
+<section class="bg-gray-200 py-20 px-4 sm:px-6 lg:px-8">
   <div class="max-w-6xl mx-auto">
     <h2 class="text-4xl font-bold text-gray-900 mb-12 text-center">Nos Réalisations</h2>
     <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
@@ -140,7 +131,7 @@
     <h2 class="text-4xl font-bold mb-6">Nous contacter</h2>
     <p class="text-lg mb-8">Nous serions heureux de discuter de votre projet.</p>
     <div class="flex flex-col sm:flex-row gap-4 justify-center">
-      <a routerLink="/contact" class="bg-white text-blue-600 px-8 py-3 rounded-lg hover:bg-gray-100 font-semibold">Nous contacter</a>
+      <a routerLink="/contact" class="px-8 py-3 rounded-lg font-semibold transition-all inline-block hover-custom" style="border: 2px solid #C09453; color: #C09453;">Nous contacter</a>
     </div>
     <div class="mt-8 flex justify-center gap-6">
       <a href="#" class="text-white hover:text-gray-200">Facebook</a>

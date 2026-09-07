@@ -1,17 +1,5 @@
-<!-- Navigation Bar -->
-<nav class="sticky top-0 z-50 bg-white border-b border-gray-200">
-  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-    <div class="flex justify-between items-center h-24">
-      <img src="/logo-nova-300.png" alt="ipswim" class="h-20 w-auto">
-      <div class="hidden md:flex space-x-8">
-        <a routerLink="/" class="text-gray-900 hover:text-blue-600 font-medium">Accueil</a>
-        <a routerLink="/apropos" class="text-gray-900 hover:text-blue-600 font-medium">À propos de nous</a>
-        <a routerLink="/realisations" class="text-gray-900 hover:text-blue-600 font-medium">Réalisations</a>
-        <a routerLink="/contact" class="text-gray-900 hover:text-blue-600 font-medium">Nous contacter</a>
-      </div>
-    </div>
-  </div>
-</nav>
+<!-- Navbar -->
+<app-navbar></app-navbar>
 
 <!-- Projects Section -->
 <section class="bg-white py-20 px-4 sm:px-6 lg:px-8">
@@ -80,6 +68,6 @@
   <div class="max-w-4xl mx-auto text-center">
     <h2 class="text-4xl font-bold mb-6">Inspirer par nos réalisations ?</h2>
     <p class="text-lg mb-8">Contactez-nous pour discuter de votre projet.</p>
-    <a routerLink="/contact" class="bg-white text-blue-600 px-8 py-3 rounded-lg hover:bg-gray-100 font-semibold inline-block">Nous contacter</a>
+    <a routerLink="/contact" class="px-8 py-3 rounded-lg font-semibold transition-all inline-block hover-custom" style="border: 2px solid #C09453; color: #C09453;">Nous contacter</a>
   </div>
 </section>

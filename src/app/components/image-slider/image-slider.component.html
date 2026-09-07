@@ -1,0 +1,64 @@
+<div class="relative w-full h-[600px] bg-black overflow-hidden">
+  <!-- Slides -->
+  <div class="relative w-full h-full">
+    @for (slide of slides; let i = $index; track slide.id) {
+      <div
+        class="absolute inset-0 transition-opacity duration-1000 ease-in-out"
+        [class.opacity-100]="currentSlide() === i"
+        [class.opacity-0]="currentSlide() !== i"
+        [class.pointer-events-none]="currentSlide() !== i"
+      >
+        <img
+          [src]="slide.image"
+          [alt]="slide.title"
+          class="w-full h-full object-cover"
+        >
+        <!-- Overlay Gradient -->
+        <div class="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-50"></div>
+      </div>
+    }
+  </div>
+
+  <!-- Slide Content (Text Overlay) -->
+  <div class="absolute inset-0 flex flex-col items-center justify-center text-white z-10">
+    <div class="text-center px-4 max-w-2xl">
+      <h2 class="text-5xl md:text-6xl font-bold mb-4">{{ slides[currentSlide()].title }}</h2>
+      <p class="text-xl md:text-2xl text-gray-200">{{ slides[currentSlide()].description }}</p>
+    </div>
+  </div>
+
+  <!-- Previous Button -->
+  <button
+    (click)="prevSlide()"
+    class="absolute left-8 top-1/2 transform -translate-y-1/2 z-20 bg-white bg-opacity-30 hover:bg-opacity-50 text-white p-3 rounded-full transition-all"
+    aria-label="Previous slide"
+  >
+    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+    </svg>
+  </button>
+
+  <!-- Next Button -->
+  <button
+    (click)="nextSlide()"
+    class="absolute right-8 top-1/2 transform -translate-y-1/2 z-20 bg-white bg-opacity-30 hover:bg-opacity-50 text-white p-3 rounded-full transition-all"
+    aria-label="Next slide"
+  >
+    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+    </svg>
+  </button>
+
+  <!-- Dot Indicators -->
+  <div class="absolute bottom-8 left-1/2 transform -translate-x-1/2 z-20 flex gap-3">
+    @for (slide of slides; let i = $index; track slide.id) {
+      <button
+        (click)="goToSlide(i)"
+        [class.bg-white]="currentSlide() === i"
+        [class.bg-white/50]="currentSlide() !== i"
+        class="w-3 h-3 rounded-full transition-all hover:bg-white"
+        [attr.aria-label]="'Go to slide ' + (i + 1)"
+      ></button>
+    }
+  </div>
+</div>

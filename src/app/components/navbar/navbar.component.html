@@ -1,0 +1,74 @@
+<!-- Navigation Bar -->
+<nav class="sticky top-0 z-40 bg-white border-b border-gray-200">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="flex justify-between items-center h-24 py-2">
+      <!-- Logo -->
+      <a routerLink="/" class="flex-shrink-0">
+        <img src="/icon-only.png" alt="ipswim" class="h-20 w-40">
+      </a>
+
+      <!-- Desktop Menu -->
+      <div class="hidden md:flex space-x-8">
+        <a routerLink="/" class="text-gray-900 hover:text-blue-600 font-medium transition">Accueil</a>
+        <a routerLink="/apropos" class="text-gray-900 hover:text-blue-600 font-medium transition">À propos de nous</a>
+        <a routerLink="/realisations" class="text-gray-900 hover:text-blue-600 font-medium transition">Réalisations</a>
+        <a routerLink="/contact" class="text-gray-900 hover:text-blue-600 font-medium transition">Nous contacter</a>
+      </div>
+
+      <!-- Mobile Menu Button -->
+      <button
+        (click)="toggleMenu()"
+        class="md:hidden p-2 rounded-lg hover:bg-gray-100 transition"
+        aria-label="Toggle menu"
+      >
+        @if (!isMenuOpen()) {
+          <!-- Hamburger Icon -->
+          <svg class="w-6 h-6 text-gray-900" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+          </svg>
+        } @else {
+          <!-- Close Icon -->
+          <svg class="w-6 h-6 text-gray-900" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+          </svg>
+        }
+      </button>
+    </div>
+  </div>
+
+  <!-- Full-Screen Mobile Menu -->
+  @if (isMenuOpen()) {
+    <div class="md:hidden fixed inset-0 top-32 z-50 bg-white flex flex-col items-center justify-start pt-24 h-screen menu-enter">
+      <div class="space-y-8 text-center menu-content-enter">
+        <a
+          routerLink="/"
+          (click)="closeMenu()"
+          class="block text-3xl text-gray-900 hover:text-blue-600 font-bold transition"
+        >
+          Accueil
+        </a>
+        <a
+          routerLink="/apropos"
+          (click)="closeMenu()"
+          class="block text-3xl text-gray-900 hover:text-blue-600 font-bold transition"
+        >
+          À propos de nous
+        </a>
+        <a
+          routerLink="/realisations"
+          (click)="closeMenu()"
+          class="block text-3xl text-gray-900 hover:text-blue-600 font-bold transition"
+        >
+          Réalisations
+        </a>
+        <a
+          routerLink="/contact"
+          (click)="closeMenu()"
+          class="block text-3xl text-gray-900 hover:text-blue-600 font-bold transition"
+        >
+          Nous contacter
+        </a>
+      </div>
+    </div>
+  }
+</nav>
