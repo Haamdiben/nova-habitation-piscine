@@ -1,25 +1,25 @@
 <!-- Navigation Bar -->
 <nav class="sticky top-0 z-50 bg-white border-b border-gray-200">
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-    <div class="flex justify-between items-center h-20">
-      <img src="/logo-nova-300.png" alt="ipswim" class="h-16">
+    <div class="flex justify-between items-center h-24">
+      <img src="/logo-nova-300.png" alt="ipswim" class="h-20 w-auto">
       <div class="hidden md:flex space-x-8">
-        <a href="#accueil" class="text-gray-900 hover:text-blue-600 font-medium">Accueil</a>
-        <a href="#apropos" class="text-gray-900 hover:text-blue-600 font-medium">À propos de nous</a>
-        <a href="#realisations" class="text-gray-900 hover:text-blue-600 font-medium">Réalisations</a>
-        <a href="#contact" class="text-gray-900 hover:text-blue-600 font-medium">Nous contacter</a>
+        <a routerLink="/" class="text-gray-900 hover:text-blue-600 font-medium">Accueil</a>
+        <a routerLink="/apropos" class="text-gray-900 hover:text-blue-600 font-medium">À propos de nous</a>
+        <a routerLink="/realisations" class="text-gray-900 hover:text-blue-600 font-medium">Réalisations</a>
+        <a routerLink="/contact" class="text-gray-900 hover:text-blue-600 font-medium">Nous contacter</a>
       </div>
     </div>
   </div>
 </nav>
 
 <!-- Hero Section -->
-<section id="accueil" class="bg-white py-20 px-4 sm:px-6 lg:px-8">
+<section class="bg-white py-20 px-4 sm:px-6 lg:px-8">
   <div class="max-w-4xl mx-auto text-center">
     <h1 class="text-5xl md:text-6xl font-bold text-gray-900 mb-6">Votre piscine personnalisée</h1>
     <p class="text-xl text-gray-600 mb-8">Construction et rénovation de piscines en béton sur mesure pour vos projets résidentiels et commerciaux.</p>
     <div class="flex flex-col sm:flex-row gap-4 justify-center">
-      <a href="#realisations" class="bg-blue-600 text-white px-8 py-3 rounded-lg hover:bg-blue-700 inline-block">Voir nos réalisations</a>
+      <a routerLink="/realisations" class="bg-blue-600 text-white px-8 py-3 rounded-lg hover:bg-blue-700 inline-block">Voir nos réalisations</a>
     </div>
   </div>
 </section>
@@ -48,7 +48,7 @@
 <section class="py-20 px-4 sm:px-6 lg:px-8">
   <div class="max-w-6xl mx-auto">
     <h2 class="text-4xl font-bold text-gray-900 mb-12 text-center">Nos Services</h2>
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-12">
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
       <div class="border border-gray-200 p-8 rounded-lg hover:shadow-lg transition">
         <h3 class="text-2xl font-bold text-gray-900 mb-4">Construction de piscine</h3>
         <p class="text-gray-600">Conception et construction de piscines en béton personnalisées selon votre vision et vos besoins.</p>
@@ -57,24 +57,40 @@
         <h3 class="text-2xl font-bold text-gray-900 mb-4">Rénovation de piscine</h3>
         <p class="text-gray-600">Services professionnels de rénovation pour restaurer et moderniser vos installations existantes.</p>
       </div>
+      <div class="border border-gray-200 p-8 rounded-lg hover:shadow-lg transition">
+        <h3 class="text-2xl font-bold text-gray-900 mb-4">Rénovation de bâtiment</h3>
+        <p class="text-gray-600">Rénovation complète de vos espaces résidentiels et commerciaux avec expertise et qualité.</p>
+      </div>
     </div>
-    <div class="mt-12 p-8 bg-gray-50 rounded-lg">
-      <h3 class="text-xl font-bold text-gray-900 mb-4">Zones de service</h3>
-      <p class="text-gray-600">Région Occitanie - Toulouse, Montpellier, Nîmes et ses alentours</p>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12">
+      <div class="border border-gray-200 p-8 rounded-lg hover:shadow-lg transition">
+        <h3 class="text-2xl font-bold text-gray-900 mb-4">Peinture et finitions</h3>
+        <p class="text-gray-600">Services de peinture professionnels pour intérieur et extérieur avec des finitions impeccables.</p>
+      </div>
+      <div class="border border-gray-200 p-8 rounded-lg hover:shadow-lg transition">
+        <h3 class="text-2xl font-bold text-gray-900 mb-4">Zones de service</h3>
+        <p class="text-gray-600">Région Occitanie - Toulouse, Montpellier, Nîmes et ses alentours</p>
+      </div>
+    </div>
+    <div class="text-center">
+      <a routerLink="/realisations" class="bg-blue-600 text-white px-8 py-3 rounded-lg hover:bg-blue-700 inline-block">Découvrir nos réalisations</a>
     </div>
   </div>
 </section>
 
 <!-- About Section -->
-<section id="apropos" class="bg-gray-50 py-20 px-4 sm:px-6 lg:px-8">
+<section class="bg-gray-50 py-20 px-4 sm:px-6 lg:px-8">
   <div class="max-w-4xl mx-auto">
     <h2 class="text-4xl font-bold text-gray-900 mb-12 text-center">À propos de nous</h2>
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-center mb-12">
       <img src="/logo-nova-600.png" alt="Fondateur" class="rounded-lg">
       <div>
-        <p class="text-lg text-gray-600 italic mb-6">"Je ne sous-traite pas. Chaque piscine que je livre, je l'ai construite moi-même. C'est ma signature."</p>
-        <p class="text-gray-600">Avec plus de 20 ans d'expérience en construction et rénovation de piscines, notre fondateur apporte une expertise personnelle et un engagement envers chaque projet. Contact direct avec l'artisan signifie que vous travaillez directement avec le maître d'œuvre.</p>
+        <p class="text-lg text-gray-600 italic mb-6">"Je ne sous-traite pas. Chaque projet que je livre, je l'ai réalisé moi-même. C'est ma signature."</p>
+        <p class="text-gray-600">Avec plus de 20 ans d'expérience en construction, rénovation et finitions, notre fondateur apporte une expertise personnelle et un engagement envers chaque projet. Contact direct avec l'artisan signifie que vous travaillez directement avec le maître d'œuvre.</p>
       </div>
+    </div>
+    <div class="text-center">
+      <a routerLink="/apropos" class="bg-blue-600 text-white px-8 py-3 rounded-lg hover:bg-blue-700 inline-block">En savoir plus sur nous</a>
     </div>
   </div>
 </section>
@@ -83,7 +99,7 @@
 <section class="py-20 px-4 sm:px-6 lg:px-8">
   <div class="max-w-6xl mx-auto">
     <h2 class="text-4xl font-bold text-gray-900 mb-12 text-center">Avis de nos clients</h2>
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
       <div class="bg-white border border-gray-200 p-6 rounded-lg">
         <div class="flex mb-4 text-yellow-400">★★★★★</div>
         <p class="text-gray-600 mb-4">"Artisanat exceptionnel et professionnalisme. Dépassé toutes nos attentes."</p>
@@ -104,28 +120,27 @@
 </section>
 
 <!-- Projects Gallery -->
-<section id="realisations" class="bg-gray-50 py-20 px-4 sm:px-6 lg:px-8">
+<section class="bg-gray-50 py-20 px-4 sm:px-6 lg:px-8">
   <div class="max-w-6xl mx-auto">
     <h2 class="text-4xl font-bold text-gray-900 mb-12 text-center">Nos Réalisations</h2>
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
       <div class="bg-gray-300 h-64 rounded-lg flex items-center justify-center text-gray-600 font-medium">Piscine Travertin Contemporaine</div>
       <div class="bg-gray-300 h-64 rounded-lg flex items-center justify-center text-gray-600 font-medium">Piscine à Débordement</div>
       <div class="bg-gray-300 h-64 rounded-lg flex items-center justify-center text-gray-600 font-medium">Piscine Miroir</div>
-      <div class="bg-gray-300 h-64 rounded-lg flex items-center justify-center text-gray-600 font-medium">Bassin Olympique Vitré</div>
-      <div class="bg-gray-300 h-64 rounded-lg flex items-center justify-center text-gray-600 font-medium">Piscine Familiale</div>
-      <div class="bg-gray-300 h-64 rounded-lg flex items-center justify-center text-gray-600 font-medium">Piscine de Luxe</div>
+    </div>
+    <div class="text-center">
+      <a routerLink="/realisations" class="bg-blue-600 text-white px-8 py-3 rounded-lg hover:bg-blue-700 inline-block">Voir toutes nos réalisations</a>
     </div>
   </div>
 </section>
 
 <!-- Contact Section -->
-<section id="contact" class="bg-blue-600 text-white py-16 px-4 sm:px-6 lg:px-8">
+<section class="bg-blue-600 text-white py-16 px-4 sm:px-6 lg:px-8">
   <div class="max-w-4xl mx-auto text-center">
     <h2 class="text-4xl font-bold mb-6">Nous contacter</h2>
-    <p class="text-lg mb-8">Nous serions heureux de discuter de votre projet de piscine.</p>
+    <p class="text-lg mb-8">Nous serions heureux de discuter de votre projet.</p>
     <div class="flex flex-col sm:flex-row gap-4 justify-center">
-      <a href="tel:+33123456789" class="bg-white text-blue-600 px-8 py-3 rounded-lg hover:bg-gray-100 font-semibold">Appelez-nous</a>
-      <a href="mailto:contact@ipswim.fr" class="border-2 border-white text-white px-8 py-3 rounded-lg hover:bg-blue-700">Envoyez un email</a>
+      <a routerLink="/contact" class="bg-white text-blue-600 px-8 py-3 rounded-lg hover:bg-gray-100 font-semibold">Nous contacter</a>
     </div>
     <div class="mt-8 flex justify-center gap-6">
       <a href="#" class="text-white hover:text-gray-200">Facebook</a>
