@@ -7,30 +7,30 @@
     <h1 class="text-6xl font-bold mb-12" style="color: #C09453;">À propos de nous</h1>
 
     <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-center mb-16">
-      <img src="/logo-nova-600.png" alt="Fondateur" class="rounded-lg">
-      <div>
+      <img appScrollReveal="left" [src]="getAboutPhotoUrl()" alt="Fondateur" class="rounded-lg">
+      <div appScrollReveal="right">
         <p class="text-lg text-gray-600 italic mb-6">"{{ info()?.quote }}"</p>
         <p class="text-gray-600 mb-4">{{ info()?.paragraph1 }}</p>
         <p class="text-gray-600 mb-4">{{ info()?.paragraph2 }}</p>
       </div>
     </div>
 
-    <div class="bg-gray-50 p-8 rounded-lg mb-16">
+    <div appScrollReveal="up" class="bg-gray-50 p-8 rounded-lg mb-16">
       <h2 class="text-2xl font-bold text-gray-900 mb-6">Notre philosophie</h2>
       <p class="text-gray-600 mb-4">{{ info()?.philosophyText1 }}</p>
       <p class="text-gray-600">{{ info()?.philosophyText2 }}</p>
     </div>
 
     <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-      <div class="text-center">
+      <div appScrollReveal="up" class="text-center">
         <h3 class="text-4xl font-bold mb-2" style="color: #C09453;">{{ info()?.stat1Value }}</h3>
         <p class="text-gray-600">{{ info()?.stat1Label }}</p>
       </div>
-      <div class="text-center">
+      <div appScrollReveal="up" [revealDelay]="100" class="text-center">
         <h3 class="text-4xl font-bold mb-2" style="color: #C09453;">{{ info()?.stat2Value }}</h3>
         <p class="text-gray-600">{{ info()?.stat2Label }}</p>
       </div>
-      <div class="text-center">
+      <div appScrollReveal="up" [revealDelay]="200" class="text-center">
         <h3 class="text-4xl font-bold mb-2" style="color: #C09453;">{{ info()?.stat3Value }}</h3>
         <p class="text-gray-600">{{ info()?.stat3Label }}</p>
       </div>
@@ -41,9 +41,14 @@
 <!-- Services Section -->
 <section id="domaines-expertise" class="bg-gray-50 py-20 px-4 sm:px-6 lg:px-8 scroll-mt-24">
   <div class="max-w-6xl mx-auto">
-    <h2 class="text-5xl font-bold mb-12 text-center" style="color: #C09453;">Nos domaines d'expertise</h2>
+    <h2 appScrollReveal="up" class="text-5xl font-bold mb-12 text-center" style="color: #C09453;">Nos domaines d'expertise</h2>
     <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-      <div *ngFor="let service of services()" class="bg-white p-8 rounded-lg border border-gray-200">
+      <div
+        *ngFor="let service of services(); let i = index"
+        appScrollReveal="up"
+        [revealDelay]="(i % 2) * 100"
+        class="bg-white p-8 rounded-lg border border-gray-200"
+      >
         <h3 class="text-2xl font-bold text-gray-900 mb-4">{{ service.title }}</h3>
         <p class="text-gray-600 mb-4">{{ service.description }}</p>
         <ul *ngIf="service.features" class="text-gray-600 space-y-2">

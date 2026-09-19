@@ -4,12 +4,13 @@ import { RouterLink } from '@angular/router';
 import { ImageSliderComponent } from '../../components/image-slider/image-slider.component';
 import { NavbarComponent } from '../../components/navbar/navbar.component';
 import { FooterComponent } from '../../components/footer/footer.component';
+import { ScrollRevealDirective } from '../../directives/scroll-reveal.directive';
 import { ApiService } from '../../services/api.service';
 
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [CommonModule, RouterLink, ImageSliderComponent, NavbarComponent, FooterComponent],
+  imports: [CommonModule, RouterLink, ImageSliderComponent, NavbarComponent, FooterComponent, ScrollRevealDirective],
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss',
 })
@@ -46,5 +47,10 @@ export class HomeComponent implements OnInit {
 
   getPhotoUrl(filepath: string): string {
     return `http://localhost:3000/${filepath}`;
+  }
+
+  getAboutPhotoUrl(): string {
+    const path = this.aboutInfo()?.photoFilepath;
+    return path ? this.getPhotoUrl(path) : '/logo-nova-600.png';
   }
 }

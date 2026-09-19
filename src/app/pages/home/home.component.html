@@ -7,8 +7,8 @@
 <!-- Hero Section -->
 <section class="bg-white py-16 px-4 sm:px-6 lg:px-8">
   <div class="max-w-4xl mx-auto text-center">
-    <h1 class="text-6xl md:text-7xl font-bold mb-6" style="color: #C09453;">Votre piscine personnalisée</h1>
-    <p class="text-xl text-gray-600 mb-4">Construction et rénovation de piscines en béton sur mesure pour vos projets résidentiels et commerciaux.</p>
+    <h1 appScrollReveal="up" class="text-6xl md:text-7xl font-bold mb-6" style="color: #C09453;">Votre piscine personnalisée</h1>
+    <p appScrollReveal="up" [revealDelay]="120" class="text-xl text-gray-600 mb-4">Construction et rénovation de piscines en béton sur mesure pour vos projets résidentiels et commerciaux.</p>
 
   </div>
 </section>
@@ -17,15 +17,15 @@
 <section class="bg-gray-200 py-16 px-4 sm:px-6 lg:px-8">
   <div class="max-w-6xl mx-auto">
     <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-      <div class="text-center">
+      <div appScrollReveal="up" class="text-center">
         <h3 class="text-4xl font-bold mb-2" style="color: #C09453;">500+</h3>
         <p class="text-gray-600">Projets réalisés</p>
       </div>
-      <div class="text-center">
+      <div appScrollReveal="up" [revealDelay]="100" class="text-center">
         <h3 class="text-4xl font-bold mb-2" style="color: #C09453;">20+</h3>
         <p class="text-gray-600">Années d'expérience</p>
       </div>
-      <div class="text-center">
+      <div appScrollReveal="up" [revealDelay]="200" class="text-center">
         <h3 class="text-4xl font-bold mb-2" style="color: #C09453;">4.8/5</h3>
         <p class="text-gray-600">30 avis vérifiés</p>
       </div>
@@ -36,10 +36,12 @@
 <!-- Services Section -->
 <section class="bg-white py-20 px-4 sm:px-6 lg:px-8">
   <div class="max-w-6xl mx-auto">
-    <h2 class="text-5xl font-bold mb-12 text-center" style="color: #C09453;">Nos Services</h2>
+    <h2 appScrollReveal="up" class="text-5xl font-bold mb-12 text-center" style="color: #C09453;">Nos Services</h2>
     <div class="flex flex-wrap justify-center gap-8 mb-12">
       <div
-        *ngFor="let service of services()"
+        *ngFor="let service of services(); let i = index"
+        appScrollReveal="up"
+        [revealDelay]="i * 100"
         class="border border-gray-200 p-8 rounded-lg hover:shadow-lg transition w-full md:w-[calc(50%-1rem)] lg:w-[calc((100%-4rem)/3)]"
       >
         <h3 class="text-2xl font-bold text-gray-900 mb-4">{{ service.title }}</h3>
@@ -62,10 +64,10 @@
 <!-- About Section -->
 <section class="bg-gray-200 py-20 px-4 sm:px-6 lg:px-8">
   <div class="max-w-4xl mx-auto">
-    <h2 class="text-5xl font-bold mb-12 text-center" style="color: #C09453;">À propos de nous</h2>
+    <h2 appScrollReveal="up" class="text-5xl font-bold mb-12 text-center" style="color: #C09453;">À propos de nous</h2>
     <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-center mb-12">
-      <img src="/logo-nova-600.png" alt="Fondateur" class="rounded-lg">
-      <div>
+      <img appScrollReveal="left" [src]="getAboutPhotoUrl()" alt="Fondateur" class="rounded-lg">
+      <div appScrollReveal="right">
         <p class="text-lg text-gray-600 italic mb-6">"{{ aboutInfo()?.quote }}"</p>
         <p class="text-gray-600">{{ aboutInfo()?.paragraph1 }} {{ aboutInfo()?.paragraph2 }}</p>
       </div>
@@ -79,19 +81,19 @@
 <!-- Testimonials Section -->
 <section class="bg-white py-20 px-4 sm:px-6 lg:px-8">
   <div class="max-w-6xl mx-auto">
-    <h2 class="text-5xl font-bold mb-12 text-center" style="color: #C09453;">Avis de nos clients</h2>
+    <h2 appScrollReveal="up" class="text-5xl font-bold mb-12 text-center" style="color: #C09453;">Avis de nos clients</h2>
     <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
-      <div class="bg-white border border-gray-200 p-6 rounded-lg">
+      <div appScrollReveal="up" class="bg-white border border-gray-200 p-6 rounded-lg">
         <div class="flex mb-4 text-yellow-400">★★★★★</div>
         <p class="text-gray-600 mb-4">"Artisanat exceptionnel et professionnalisme. Dépassé toutes nos attentes."</p>
         <p class="font-semibold text-gray-900">- Sarah M.</p>
       </div>
-      <div class="bg-white border border-gray-200 p-6 rounded-lg">
+      <div appScrollReveal="up" [revealDelay]="100" class="bg-white border border-gray-200 p-6 rounded-lg">
         <div class="flex mb-4 text-yellow-400">★★★★★</div>
         <p class="text-gray-600 mb-4">"Meilleure décision que nous ayons prise. L'attention aux détails est exceptionnelle."</p>
         <p class="font-semibold text-gray-900">- Jean D.</p>
       </div>
-      <div class="bg-white border border-gray-200 p-6 rounded-lg">
+      <div appScrollReveal="up" [revealDelay]="200" class="bg-white border border-gray-200 p-6 rounded-lg">
         <div class="flex mb-4 text-yellow-400">★★★★★</div>
         <p class="text-gray-600 mb-4">"Professionnel, fiable, et livré à temps. Fortement recommandé."</p>
         <p class="font-semibold text-gray-900">- Marie T.</p>
@@ -103,7 +105,7 @@
 <!-- Projects Gallery -->
 <section class="bg-gray-200 py-20 px-4 sm:px-6 lg:px-8">
   <div class="max-w-6xl mx-auto">
-    <h2 class="text-5xl font-bold mb-12 text-center" style="color: #C09453;">Nos Réalisations</h2>
+    <h2 appScrollReveal="up" class="text-5xl font-bold mb-12 text-center" style="color: #C09453;">Nos Réalisations</h2>
 
     <!-- Loading -->
     <div *ngIf="loadingChantiers()" class="text-center py-8 mb-12">
@@ -118,8 +120,10 @@
     <!-- Dynamic grid: last 3 updated chantiers -->
     <div *ngIf="!loadingChantiers() && recentChantiers().length > 0" class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
       <a
-        *ngFor="let chantier of recentChantiers()"
+        *ngFor="let chantier of recentChantiers(); let i = index"
         [routerLink]="['/chantier', chantier.id]"
+        appScrollReveal="up"
+        [revealDelay]="i * 100"
         class="bg-gray-300 h-64 rounded-lg flex items-center justify-center text-gray-600 font-medium overflow-hidden cursor-pointer hover:opacity-80 transition group relative"
       >
         <img

@@ -2,12 +2,13 @@ import { Component, OnInit, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { NavbarComponent } from '../../components/navbar/navbar.component';
 import { FooterComponent } from '../../components/footer/footer.component';
+import { ScrollRevealDirective } from '../../directives/scroll-reveal.directive';
 import { ApiService } from '../../services/api.service';
 
 @Component({
   selector: 'app-mentions-legales',
   standalone: true,
-  imports: [CommonModule, NavbarComponent, FooterComponent],
+  imports: [CommonModule, NavbarComponent, FooterComponent, ScrollRevealDirective],
   template: `
     <app-navbar></app-navbar>
 
@@ -18,7 +19,7 @@ import { ApiService } from '../../services/api.service';
 
         <div class="prose-legal space-y-12">
           <!-- 1. Éditeur -->
-          <div>
+          <div appScrollReveal="up">
             <h2 class="text-2xl font-bold text-gray-900 mb-4">1. Éditeur du site</h2>
             <p class="text-gray-600 leading-relaxed">
               Le présent site est édité par <strong>ipswim</strong>, entreprise spécialisée dans la construction,
@@ -36,7 +37,7 @@ import { ApiService } from '../../services/api.service';
           </div>
 
           <!-- 2. Hébergement -->
-          <div>
+          <div appScrollReveal="up">
             <h2 class="text-2xl font-bold text-gray-900 mb-4">2. Hébergement</h2>
             <p class="text-gray-600 leading-relaxed">
               Le site est hébergé par un prestataire tiers. Les coordonnées complètes de l'hébergeur
@@ -46,7 +47,7 @@ import { ApiService } from '../../services/api.service';
           </div>
 
           <!-- 3. Propriété intellectuelle -->
-          <div>
+          <div appScrollReveal="up">
             <h2 class="text-2xl font-bold text-gray-900 mb-4">3. Propriété intellectuelle</h2>
             <p class="text-gray-600 leading-relaxed">
               L'ensemble des contenus présents sur ce site (textes, images, photographies, logos, graphismes,
@@ -58,7 +59,7 @@ import { ApiService } from '../../services/api.service';
           </div>
 
           <!-- 4. Liens hypertextes -->
-          <div>
+          <div appScrollReveal="up">
             <h2 class="text-2xl font-bold text-gray-900 mb-4">4. Liens hypertextes</h2>
             <p class="text-gray-600 leading-relaxed">
               Le site peut contenir des liens hypertextes vers d'autres sites. ipswim n'exerce aucun contrôle sur
@@ -68,7 +69,7 @@ import { ApiService } from '../../services/api.service';
           </div>
 
           <!-- 5. Responsabilité -->
-          <div>
+          <div appScrollReveal="up">
             <h2 class="text-2xl font-bold text-gray-900 mb-4">5. Limitation de responsabilité</h2>
             <p class="text-gray-600 leading-relaxed">
               ipswim s'efforce d'assurer l'exactitude et la mise à jour des informations diffusées sur ce site,
@@ -80,7 +81,7 @@ import { ApiService } from '../../services/api.service';
           </div>
 
           <!-- 6. RGPD -->
-          <div class="border-t border-gray-200 pt-12">
+          <div appScrollReveal="up" class="border-t border-gray-200 pt-12">
             <h2 class="text-3xl font-bold mb-6" style="color: #C09453;">Protection des données personnelles (RGPD)</h2>
 
             <div class="space-y-8">
@@ -196,7 +197,7 @@ import { ApiService } from '../../services/api.service';
           </div>
 
           <!-- 7. Droit applicable -->
-          <div class="border-t border-gray-200 pt-12">
+          <div appScrollReveal="up" class="border-t border-gray-200 pt-12">
             <h2 class="text-2xl font-bold text-gray-900 mb-4">7. Droit applicable</h2>
             <p class="text-gray-600 leading-relaxed">
               Les présentes mentions légales sont soumises au droit français. Tout litige relatif à

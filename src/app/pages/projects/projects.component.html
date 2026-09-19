@@ -22,12 +22,14 @@
     <!-- Category Sections -->
     <div *ngIf="!loading()">
       <div *ngFor="let category of categories()" class="mb-16">
-        <h2 class="text-4xl font-bold mb-8 text-center uppercase tracking-wide" style="color: #C09453;">{{ category.name }}</h2>
+        <h2 appScrollReveal="up" class="text-4xl font-bold mb-8 text-center uppercase tracking-wide" style="color: #C09453;">{{ category.name }}</h2>
 
         <div *ngIf="(category.chantiers || []).length > 0; else noChantiers" class="grid grid-cols-1 md:grid-cols-3 gap-8">
           <a
-            *ngFor="let chantier of category.chantiers"
+            *ngFor="let chantier of category.chantiers; let i = index"
             [routerLink]="['/chantier', chantier.id]"
+            appScrollReveal="up"
+            [revealDelay]="(i % 3) * 100"
             class="bg-gray-300 h-80 rounded-lg flex items-center justify-center text-gray-600 font-medium overflow-hidden cursor-pointer hover:opacity-80 transition group relative"
           >
             <img
@@ -62,15 +64,15 @@
 
     <!-- Stats Section -->
     <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mt-16 pt-16 border-t border-gray-200">
-      <div class="text-center">
+      <div appScrollReveal="up" class="text-center">
         <h3 class="text-4xl font-bold mb-2" style="color: #C09453;">500+</h3>
         <p class="text-gray-600">Projets réalisés</p>
       </div>
-      <div class="text-center">
+      <div appScrollReveal="up" [revealDelay]="100" class="text-center">
         <h3 class="text-4xl font-bold mb-2" style="color: #C09453;">20+</h3>
         <p class="text-gray-600">Années d'expérience</p>
       </div>
-      <div class="text-center">
+      <div appScrollReveal="up" [revealDelay]="200" class="text-center">
         <h3 class="text-4xl font-bold mb-2" style="color: #C09453;">4.8/5</h3>
         <p class="text-gray-600">30 avis vérifiés</p>
       </div>

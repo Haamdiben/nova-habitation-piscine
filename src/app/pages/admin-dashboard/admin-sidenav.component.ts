@@ -9,7 +9,7 @@ import { RouterLink, RouterLinkActive } from '@angular/router';
   template: `
     <!-- Mobile Top Bar -->
     <div class="md:hidden fixed top-0 left-0 right-0 z-30 bg-gray-900 text-white flex items-center justify-between px-4 h-16 shadow-lg">
-      <h2 class="text-xl font-bold" style="color: #C09453;">ipswim Admin</h2>
+      <span class="text-sm font-bold leading-tight" style="color: #C09453;">Nova Habitation et Piscine</span>
       <button
         (click)="toggleMenu()"
         class="p-2 rounded-lg hover:bg-gray-800 transition"
@@ -42,8 +42,8 @@ import { RouterLink, RouterLinkActive } from '@angular/router';
       [class.translate-x-0]="isMenuOpen()"
     >
       <div class="p-6 border-b border-gray-700">
-        <h2 class="text-2xl font-bold" style="color: #C09453;">ipswim Admin</h2>
-        <p class="text-gray-400 text-sm mt-2">Panel de gestion</p>
+        <h2 class="text-lg font-bold leading-tight" style="color: #C09453;">Nova Habitation et piscine</h2>
+        <p class="text-gray-400 text-sm mt-2">Tableau de bord</p>
       </div>
 
       <nav class="mt-8 space-y-2 px-4 overflow-y-auto pb-40" style="max-height: calc(100vh - 6rem);">

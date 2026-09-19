@@ -113,6 +113,14 @@ export class ApiService {
     });
   }
 
+  uploadAboutPhoto(file: File): Observable<any> {
+    const formData = new FormData();
+    formData.append('file', file);
+    return this.http.post(`${this.apiUrl}/about-info/photo`, formData, {
+      headers: this.getAuthHeaders(),
+    });
+  }
+
   // Slider images (home page slider management)
   getSlides(): Observable<any[]> {
     return this.http.get<any[]>(`${this.apiUrl}/slides`);

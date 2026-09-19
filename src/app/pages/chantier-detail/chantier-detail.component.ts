@@ -4,12 +4,13 @@ import { ActivatedRoute, RouterLink } from '@angular/router';
 import { NavbarComponent } from '../../components/navbar/navbar.component';
 import { FooterComponent } from '../../components/footer/footer.component';
 import { PhotoLightboxComponent, LightboxPhoto } from '../../components/photo-lightbox/photo-lightbox.component';
+import { ScrollRevealDirective } from '../../directives/scroll-reveal.directive';
 import { ApiService } from '../../services/api.service';
 
 @Component({
   selector: 'app-chantier-detail',
   standalone: true,
-  imports: [CommonModule, RouterLink, NavbarComponent, FooterComponent, PhotoLightboxComponent],
+  imports: [CommonModule, RouterLink, NavbarComponent, FooterComponent, PhotoLightboxComponent, ScrollRevealDirective],
   template: `
     <app-navbar></app-navbar>
 
@@ -69,18 +70,20 @@ import { ApiService } from '../../services/api.service';
         </div>
 
         <!-- Description -->
-        <div class="max-w-4xl mx-auto px-4 sm:px-6 py-12">
+        <div appScrollReveal="up" class="max-w-4xl mx-auto px-4 sm:px-6 py-12">
           <h2 class="text-2xl font-bold mb-4" style="color: #C09453;">Description du chantier</h2>
           <p class="text-gray-700 leading-relaxed whitespace-pre-line">{{ c.description }}</p>
         </div>
 
         <!-- Photo grid -->
         <div *ngIf="c.photos && c.photos.length > 0" class="max-w-6xl mx-auto px-4 sm:px-6 pb-20">
-          <h2 class="text-2xl font-bold mb-6" style="color: #C09453;">Galerie photo</h2>
+          <h2 appScrollReveal="up" class="text-2xl font-bold mb-6" style="color: #C09453;">Galerie photo</h2>
           <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3 sm:gap-4">
             <button
               *ngFor="let photo of c.photos; let i = index"
               (click)="openGallery(i)"
+              appScrollReveal="up"
+              [revealDelay]="(i % 4) * 80"
               class="relative h-36 sm:h-44 rounded-lg overflow-hidden group"
             >
               <img [src]="getPhotoUrl(photo.filepath)" [alt]="c.title" class="w-full h-full object-cover group-hover:scale-110 transition duration-500" />
@@ -90,7 +93,7 @@ import { ApiService } from '../../services/api.service';
         </div>
 
         <!-- CTA -->
-        <div class="max-w-4xl mx-auto px-4 sm:px-6 pb-20 text-center">
+        <div appScrollReveal="up" class="max-w-4xl mx-auto px-4 sm:px-6 pb-20 text-center">
           <a
             routerLink="/contact"
             class="inline-block px-8 py-3 rounded-lg font-semibold transition"

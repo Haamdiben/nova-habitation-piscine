@@ -32,6 +32,37 @@ import { Router } from '@angular/router';
           </div>
 
           <div *ngIf="!loading()" class="bg-white rounded-lg shadow p-4 sm:p-8">
+            <!-- Photo -->
+            <div class="mb-8 pb-8 border-b border-gray-200">
+              <h2 class="text-lg font-bold mb-4" style="color: #C09453;">Photo (colonne "À propos" — accueil et page dédiée)</h2>
+              <div class="flex flex-col sm:flex-row gap-6 items-start">
+                <img
+                  [src]="getPhotoUrl()"
+                  alt="Aperçu photo à propos"
+                  class="w-full sm:w-48 h-48 object-cover rounded-lg border border-gray-200 flex-shrink-0"
+                />
+                <div>
+                  <input
+                    type="file"
+                    #photoInput
+                    accept="image/*"
+                    (change)="onPhotoSelected($event)"
+                    class="hidden"
+                  />
+                  <button
+                    type="button"
+                    (click)="photoInput.click()"
+                    [disabled]="uploadingPhoto()"
+                    class="px-4 py-2 rounded-lg text-sm font-semibold transition"
+                    style="border: 2px solid #C09453; color: #C09453;"
+                  >
+                    {{ uploadingPhoto() ? 'Téléchargement...' : '📤 Changer la photo' }}
+                  </button>
+                  <p class="text-xs text-gray-500 mt-2">Cette photo apparaît sur la page d'accueil et sur la page À propos.</p>
+                </div>
+              </div>
+            </div>
+
             <form (ngSubmit)="saveAbout()" class="space-y-8">
               <!-- Intro -->
               <div>
@@ -188,8 +219,10 @@ import { Router } from '@angular/router';
 export class AdminAboutComponent implements OnInit {
   loading = signal(true);
   saving = signal(false);
+  uploadingPhoto = signal(false);
   successMessage = signal('');
   errorMessage = signal('');
+  photoFilepath = signal('');
 
   aboutData = {
     quote: '',
@@ -227,6 +260,7 @@ export class AdminAboutComponent implements OnInit {
           stat3Value: data.stat3Value || '',
           stat3Label: data.stat3Label || '',
         };
+        this.photoFilepath.set(data.photoFilepath || '');
         this.loading.set(false);
       },
       error: (err) => {
@@ -234,6 +268,30 @@ export class AdminAboutComponent implements OnInit {
         this.loading.set(false);
       },
     });
+  }
+
+  onPhotoSelected(event: any) {
+    const file = event.target.files[0];
+    if (!file) return;
+
+    this.uploadingPhoto.set(true);
+    this.apiService.uploadAboutPhoto(file).subscribe({
+      next: (data) => {
+        this.photoFilepath.set(data.photoFilepath || '');
+        this.uploadingPhoto.set(false);
+        event.target.value = '';
+      },
+      error: (err) => {
+        console.error('Error uploading photo:', err);
+        this.uploadingPhoto.set(false);
+        event.target.value = '';
+      },
+    });
+  }
+
+  getPhotoUrl(): string {
+    const path = this.photoFilepath();
+    return path ? `http://localhost:3000/${path}` : '/logo-nova-600.png';
   }
 
   saveAbout() {
