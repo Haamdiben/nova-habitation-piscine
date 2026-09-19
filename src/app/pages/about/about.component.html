@@ -39,51 +39,15 @@
 </section>
 
 <!-- Services Section -->
-<section class="bg-gray-50 py-20 px-4 sm:px-6 lg:px-8">
+<section id="domaines-expertise" class="bg-gray-50 py-20 px-4 sm:px-6 lg:px-8 scroll-mt-24">
   <div class="max-w-6xl mx-auto">
     <h2 class="text-5xl font-bold mb-12 text-center" style="color: #C09453;">Nos domaines d'expertise</h2>
     <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-      <div class="bg-white p-8 rounded-lg border border-gray-200">
-        <h3 class="text-2xl font-bold text-gray-900 mb-4">Piscines</h3>
-        <p class="text-gray-600 mb-4">Construction et rénovation de piscines en béton personnalisées pour résidentiel et commercial.</p>
-        <ul class="text-gray-600 space-y-2">
-          <li>✓ Piscines contemporaines</li>
-          <li>✓ Piscines miroir et débordement</li>
-          <li>✓ Rénovation complète</li>
-          <li>✓ Accessoires et finitions</li>
-        </ul>
-      </div>
-
-      <div class="bg-white p-8 rounded-lg border border-gray-200">
-        <h3 class="text-2xl font-bold text-gray-900 mb-4">Rénovation de bâtiment</h3>
-        <p class="text-gray-600 mb-4">Rénovation complète de vos espaces résidentiels et commerciaux.</p>
-        <ul class="text-gray-600 space-y-2">
-          <li>✓ Rénovation intérieure</li>
-          <li>✓ Rénovation extérieure</li>
-          <li>✓ Restructuration d'espaces</li>
-          <li>✓ Modernisation complète</li>
-        </ul>
-      </div>
-
-      <div class="bg-white p-8 rounded-lg border border-gray-200">
-        <h3 class="text-2xl font-bold text-gray-900 mb-4">Peinture et finitions</h3>
-        <p class="text-gray-600 mb-4">Services de peinture professionnels pour intérieur et extérieur.</p>
-        <ul class="text-gray-600 space-y-2">
-          <li>✓ Peinture intérieure</li>
-          <li>✓ Peinture extérieure</li>
-          <li>✓ Finitions spécialisées</li>
-          <li>✓ Revêtements de sols</li>
-        </ul>
-      </div>
-
-      <div class="bg-white p-8 rounded-lg border border-gray-200">
-        <h3 class="text-2xl font-bold text-gray-900 mb-4">Zones de service</h3>
-        <p class="text-gray-600 mb-4">Nous intervenons dans toute la région Occitanie.</p>
-        <ul class="text-gray-600 space-y-2">
-          <li>✓ Toulouse et alentours</li>
-          <li>✓ Montpellier et alentours</li>
-          <li>✓ Nîmes et alentours</li>
-          <li>✓ Toute la région Occitanie</li>
+      <div *ngFor="let service of services()" class="bg-white p-8 rounded-lg border border-gray-200">
+        <h3 class="text-2xl font-bold text-gray-900 mb-4">{{ service.title }}</h3>
+        <p class="text-gray-600 mb-4">{{ service.description }}</p>
+        <ul *ngIf="service.features" class="text-gray-600 space-y-2">
+          <li *ngFor="let feature of splitFeatures(service.features)">✓ {{ feature }}</li>
         </ul>
       </div>
     </div>

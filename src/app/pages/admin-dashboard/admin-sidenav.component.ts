@@ -46,7 +46,16 @@ import { RouterLink, RouterLinkActive } from '@angular/router';
         <p class="text-gray-400 text-sm mt-2">Panel de gestion</p>
       </div>
 
-      <nav class="mt-8 space-y-2 px-4">
+      <nav class="mt-8 space-y-2 px-4 overflow-y-auto pb-40" style="max-height: calc(100vh - 6rem);">
+        <a
+          routerLink="/admin/dashboard/slides"
+          routerLinkActive="bg-gray-800"
+          (click)="closeMenu()"
+          class="block px-4 py-3 rounded-lg transition hover:bg-gray-800"
+        >
+          <span class="text-lg">🖼️</span> Slider Accueil
+        </a>
+
         <a
           routerLink="/admin/dashboard/realisations"
           routerLinkActive="bg-gray-800"
@@ -57,12 +66,12 @@ import { RouterLink, RouterLinkActive } from '@angular/router';
         </a>
 
         <a
-          routerLink="/admin/dashboard/contact"
+          routerLink="/admin/dashboard/services"
           routerLinkActive="bg-gray-800"
           (click)="closeMenu()"
           class="block px-4 py-3 rounded-lg transition hover:bg-gray-800"
         >
-          <span class="text-lg">📋</span> Informations Contact
+          <span class="text-lg">🛠️</span> Nos Services
         </a>
 
         <a
@@ -75,12 +84,12 @@ import { RouterLink, RouterLinkActive } from '@angular/router';
         </a>
 
         <a
-          routerLink="/admin/dashboard/slides"
+          routerLink="/admin/dashboard/contact"
           routerLinkActive="bg-gray-800"
           (click)="closeMenu()"
           class="block px-4 py-3 rounded-lg transition hover:bg-gray-800"
         >
-          <span class="text-lg">🖼️</span> Slider Accueil
+          <span class="text-lg">📋</span> Nos coordonnées
         </a>
       </nav>
 
@@ -90,7 +99,7 @@ import { RouterLink, RouterLinkActive } from '@angular/router';
           target="_blank"
           class="w-full px-4 py-3 rounded-lg text-sm font-semibold transition text-center border-2 border-gray-500 text-gray-300 hover:bg-gray-800"
         >
-          🌐 Voir le site
+          Voir le site
         </a>
         <button
           (click)="logout()"

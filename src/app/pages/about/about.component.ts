@@ -13,6 +13,7 @@ import { ApiService } from '../../services/api.service';
 })
 export class AboutComponent implements OnInit {
   info = signal<any>(null);
+  services = signal<any[]>([]);
 
   constructor(private apiService: ApiService) {}
 
@@ -21,5 +22,14 @@ export class AboutComponent implements OnInit {
       next: (data) => this.info.set(data),
       error: (err) => console.error('Error loading about info:', err),
     });
+
+    this.apiService.getServices().subscribe({
+      next: (data) => this.services.set(data),
+      error: (err) => console.error('Error loading services:', err),
+    });
+  }
+
+  splitFeatures(features: string): string[] {
+    return (features || '').split('\n').map((f) => f.trim()).filter((f) => f.length > 0);
   }
 }

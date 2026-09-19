@@ -148,6 +148,37 @@ export class ApiService {
     );
   }
 
+  // Services (Nos Services / Nos domaines d'expertise — shared content)
+  getServices(): Observable<any[]> {
+    return this.http.get<any[]>(`${this.apiUrl}/services`);
+  }
+
+  createService(data: { title: string; description: string; features: string }): Observable<any> {
+    return this.http.post(`${this.apiUrl}/services`, data, {
+      headers: this.getAuthHeaders(),
+    });
+  }
+
+  updateService(id: number, data: { title?: string; description?: string; features?: string }): Observable<any> {
+    return this.http.put(`${this.apiUrl}/services/${id}`, data, {
+      headers: this.getAuthHeaders(),
+    });
+  }
+
+  deleteService(id: number): Observable<any> {
+    return this.http.delete(`${this.apiUrl}/services/${id}`, {
+      headers: this.getAuthHeaders(),
+    });
+  }
+
+  reorderServices(ids: number[]): Observable<any[]> {
+    return this.http.put<any[]>(
+      `${this.apiUrl}/services/reorder`,
+      { ids },
+      { headers: this.getAuthHeaders() },
+    );
+  }
+
   private getAuthHeaders(): HttpHeaders {
     const token = localStorage.getItem('token');
     return new HttpHeaders({

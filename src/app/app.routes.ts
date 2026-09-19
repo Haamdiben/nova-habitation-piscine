@@ -8,6 +8,7 @@ import { AdminDashboardComponent } from './pages/admin-dashboard/admin-dashboard
 import { AdminContactComponent } from './pages/admin-dashboard/admin-contact.component';
 import { AdminAboutComponent } from './pages/admin-dashboard/admin-about.component';
 import { AdminSlidesComponent } from './pages/admin-dashboard/admin-slides.component';
+import { AdminServicesComponent } from './pages/admin-dashboard/admin-services.component';
 import { ChantierDetailComponent } from './pages/chantier-detail/chantier-detail.component';
 
 export const routes: Routes = [
@@ -26,6 +27,7 @@ export const routes: Routes = [
       { path: 'contact', component: AdminContactComponent },
       { path: 'about', component: AdminAboutComponent },
       { path: 'slides', component: AdminSlidesComponent },
+      { path: 'services', component: AdminServicesComponent },
     ],
   },
 ];

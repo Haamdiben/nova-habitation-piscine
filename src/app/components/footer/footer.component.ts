@@ -14,7 +14,7 @@ import { ApiService } from '../../services/api.service';
           <!-- About -->
           <div>
             <h3 class="text-xl font-bold mb-4">ipswim</h3>
-            <p class="text-gray-300 text-sm mb-4">Spécialiste en construction et rénovation de piscines depuis plus de 20 ans.</p>
+            <p class="text-gray-300 text-sm mb-4">{{ info()?.tagline }}</p>
             <div class="text-sm text-gray-400">
               <p><strong>SIREN:</strong> {{ info()?.siren }}</p>
               <p><strong>SIRET:</strong> {{ info()?.siret }}</p>
@@ -25,10 +25,10 @@ import { ApiService } from '../../services/api.service';
           <div>
             <h3 class="text-xl font-bold mb-4">Services</h3>
             <ul class="space-y-2 text-gray-300 text-sm">
-              <li><a href="#" class="hover:text-white transition">Construction</a></li>
-              <li><a href="#" class="hover:text-white transition">Rénovation</a></li>
-              <li><a href="#" class="hover:text-white transition">Peinture</a></li>
-              <li><a href="#" class="hover:text-white transition">Bâtiment</a></li>
+              <li><a [routerLink]="['/apropos']" fragment="domaines-expertise" class="hover:text-white transition">Construction</a></li>
+              <li><a [routerLink]="['/apropos']" fragment="domaines-expertise" class="hover:text-white transition">Rénovation</a></li>
+              <li><a [routerLink]="['/apropos']" fragment="domaines-expertise" class="hover:text-white transition">Peinture</a></li>
+              <li><a [routerLink]="['/apropos']" fragment="domaines-expertise" class="hover:text-white transition">Bâtiment</a></li>
             </ul>
           </div>
 
@@ -58,11 +58,11 @@ import { ApiService } from '../../services/api.service';
         <!-- Divider -->
         <div class="border-t border-gray-700 pt-8 text-center">
           <div class="flex justify-center gap-6 mb-4">
-            <a href="#" class="text-gray-300 hover:text-white transition">Facebook</a>
-            <a href="#" class="text-gray-300 hover:text-white transition">Instagram</a>
-            <a href="#" class="text-gray-300 hover:text-white transition">LinkedIn</a>
+            <a [href]="info()?.facebookUrl || '#'" class="text-gray-300 hover:text-white transition">Facebook</a>
+            <a [href]="info()?.instagramUrl || '#'" class="text-gray-300 hover:text-white transition">Instagram</a>
+            <a [href]="info()?.linkedinUrl || '#'" class="text-gray-300 hover:text-white transition">LinkedIn</a>
           </div>
-          <p class="text-gray-400 text-sm">© 2026 ipswim. Tous droits réservés. | <a href="#" class="hover:text-white transition">Mentions légales</a></p>
+          <p class="text-gray-400 text-sm">© 2026 ipswim. Tous droits réservés. | <a [href]="info()?.legalUrl || '#'" class="hover:text-white transition">Mentions légales</a></p>
         </div>
       </div>
     </section>

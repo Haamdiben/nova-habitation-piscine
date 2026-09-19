@@ -37,32 +37,24 @@
 <section class="bg-white py-20 px-4 sm:px-6 lg:px-8">
   <div class="max-w-6xl mx-auto">
     <h2 class="text-5xl font-bold mb-12 text-center" style="color: #C09453;">Nos Services</h2>
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
-      <div class="border border-gray-200 p-8 rounded-lg hover:shadow-lg transition">
-        <h3 class="text-2xl font-bold text-gray-900 mb-4">Construction de piscine</h3>
-        <p class="text-gray-600">Conception et construction de piscines en béton personnalisées selon votre vision et vos besoins.</p>
-      </div>
-      <div class="border border-gray-200 p-8 rounded-lg hover:shadow-lg transition">
-        <h3 class="text-2xl font-bold text-gray-900 mb-4">Rénovation de piscine</h3>
-        <p class="text-gray-600">Services professionnels de rénovation pour restaurer et moderniser vos installations existantes.</p>
-      </div>
-      <div class="border border-gray-200 p-8 rounded-lg hover:shadow-lg transition">
-        <h3 class="text-2xl font-bold text-gray-900 mb-4">Rénovation de bâtiment</h3>
-        <p class="text-gray-600">Rénovation complète de vos espaces résidentiels et commerciaux avec expertise et qualité.</p>
-      </div>
-    </div>
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12">
-      <div class="border border-gray-200 p-8 rounded-lg hover:shadow-lg transition">
-        <h3 class="text-2xl font-bold text-gray-900 mb-4">Peinture et finitions</h3>
-        <p class="text-gray-600">Services de peinture professionnels pour intérieur et extérieur avec des finitions impeccables.</p>
-      </div>
-      <div class="border border-gray-200 p-8 rounded-lg hover:shadow-lg transition">
-        <h3 class="text-2xl font-bold text-gray-900 mb-4">Zones de service</h3>
-        <p class="text-gray-600">Région Occitanie - Toulouse, Montpellier, Nîmes et ses alentours</p>
+    <div class="flex flex-wrap justify-center gap-8 mb-12">
+      <div
+        *ngFor="let service of services()"
+        class="border border-gray-200 p-8 rounded-lg hover:shadow-lg transition w-full md:w-[calc(50%-1rem)] lg:w-[calc((100%-4rem)/3)]"
+      >
+        <h3 class="text-2xl font-bold text-gray-900 mb-4">{{ service.title }}</h3>
+        <p class="text-gray-600">{{ service.description }}</p>
       </div>
     </div>
     <div class="text-center">
-      <a routerLink="/realisations" class="px-8 py-3 rounded-lg font-semibold transition-all block w-full max-w-[320px] mx-auto text-center hover-custom" style="border: 2px solid #C09453; color: #C09453;">Découvrir nos réalisations</a>
+      <a
+        [routerLink]="['/apropos']"
+        fragment="domaines-expertise"
+        class="px-8 py-3 rounded-lg font-semibold transition-all block w-full max-w-[320px] mx-auto text-center hover-custom"
+        style="border: 2px solid #C09453; color: #C09453;"
+      >
+        Plus de détails
+      </a>
     </div>
   </div>
 </section>

@@ -20,8 +20,8 @@ import { Router } from '@angular/router';
         <!-- Header -->
         <div class="bg-white shadow">
           <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
-            <h1 class="text-2xl sm:text-3xl font-bold" style="color: #C09453;">Informations de Contact</h1>
-            <p class="text-gray-600 mt-2 text-sm sm:text-base">Mettez à jour les informations de contact de votre entreprise</p>
+            <h1 class="text-2xl sm:text-3xl font-bold" style="color: #C09453;">Nos coordonnées</h1>
+            <p class="text-gray-600 mt-2 text-sm sm:text-base">Mettez à jour les informations affichées dans le footer et la page de contact</p>
           </div>
         </div>
 
@@ -128,6 +128,70 @@ import { Router } from '@angular/router';
                 ></textarea>
               </div>
 
+              <div class="border-t border-gray-200 pt-6">
+                <h2 class="text-lg font-bold mb-4" style="color: #C09453;">Footer</h2>
+
+                <div class="mb-4">
+                  <label class="block text-sm font-medium text-gray-900 mb-2">Phrase d'accroche (colonne "À propos" du footer)</label>
+                  <textarea
+                    [(ngModel)]="contactData.tagline"
+                    name="tagline"
+                    rows="2"
+                    class="w-full px-4 py-2 border-2 rounded-lg"
+                    style="border-color: #C09453;"
+                    placeholder="Spécialiste en construction et rénovation de piscines depuis plus de 20 ans."
+                  ></textarea>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-4">
+                  <div>
+                    <label class="block text-sm font-medium text-gray-900 mb-2">Lien Facebook</label>
+                    <input
+                      type="text"
+                      [(ngModel)]="contactData.facebookUrl"
+                      name="facebookUrl"
+                      class="w-full px-4 py-2 border-2 rounded-lg"
+                      style="border-color: #C09453;"
+                      placeholder="https://facebook.com/..."
+                    />
+                  </div>
+                  <div>
+                    <label class="block text-sm font-medium text-gray-900 mb-2">Lien Instagram</label>
+                    <input
+                      type="text"
+                      [(ngModel)]="contactData.instagramUrl"
+                      name="instagramUrl"
+                      class="w-full px-4 py-2 border-2 rounded-lg"
+                      style="border-color: #C09453;"
+                      placeholder="https://instagram.com/..."
+                    />
+                  </div>
+                  <div>
+                    <label class="block text-sm font-medium text-gray-900 mb-2">Lien LinkedIn</label>
+                    <input
+                      type="text"
+                      [(ngModel)]="contactData.linkedinUrl"
+                      name="linkedinUrl"
+                      class="w-full px-4 py-2 border-2 rounded-lg"
+                      style="border-color: #C09453;"
+                      placeholder="https://linkedin.com/..."
+                    />
+                  </div>
+                </div>
+
+                <div>
+                  <label class="block text-sm font-medium text-gray-900 mb-2">Lien Mentions légales</label>
+                  <input
+                    type="text"
+                    [(ngModel)]="contactData.legalUrl"
+                    name="legalUrl"
+                    class="w-full px-4 py-2 border-2 rounded-lg"
+                    style="border-color: #C09453;"
+                    placeholder="/mentions-legales"
+                  />
+                </div>
+              </div>
+
               <div class="flex gap-4">
                 <button
                   type="submit"
@@ -167,6 +231,11 @@ export class AdminContactComponent implements OnInit {
     siren: '',
     siret: '',
     hours: '',
+    tagline: '',
+    facebookUrl: '',
+    instagramUrl: '',
+    linkedinUrl: '',
+    legalUrl: '',
   };
 
   constructor(
@@ -187,6 +256,11 @@ export class AdminContactComponent implements OnInit {
           siren: data.siren || '',
           siret: data.siret || '',
           hours: data.hours || '',
+          tagline: data.tagline || '',
+          facebookUrl: data.facebookUrl || '',
+          instagramUrl: data.instagramUrl || '',
+          linkedinUrl: data.linkedinUrl || '',
+          legalUrl: data.legalUrl || '',
         };
         this.loading.set(false);
       },

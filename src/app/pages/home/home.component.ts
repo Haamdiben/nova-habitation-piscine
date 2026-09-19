@@ -17,6 +17,7 @@ export class HomeComponent implements OnInit {
   loadingChantiers = signal(true);
   recentChantiers = signal<any[]>([]);
   aboutInfo = signal<any>(null);
+  services = signal<any[]>([]);
 
   constructor(private apiService: ApiService) {}
 
@@ -35,6 +36,11 @@ export class HomeComponent implements OnInit {
     this.apiService.getAboutInfo().subscribe({
       next: (data) => this.aboutInfo.set(data),
       error: (err) => console.error('Error loading about info:', err),
+    });
+
+    this.apiService.getServices().subscribe({
+      next: (data) => this.services.set(data),
+      error: (err) => console.error('Error loading services:', err),
     });
   }
 
