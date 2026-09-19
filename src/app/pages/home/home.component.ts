@@ -16,6 +16,7 @@ import { ApiService } from '../../services/api.service';
 export class HomeComponent implements OnInit {
   loadingChantiers = signal(true);
   recentChantiers = signal<any[]>([]);
+  aboutInfo = signal<any>(null);
 
   constructor(private apiService: ApiService) {}
 
@@ -29,6 +30,11 @@ export class HomeComponent implements OnInit {
         console.error('Error loading recent chantiers:', err);
         this.loadingChantiers.set(false);
       },
+    });
+
+    this.apiService.getAboutInfo().subscribe({
+      next: (data) => this.aboutInfo.set(data),
+      error: (err) => console.error('Error loading about info:', err),
     });
   }
 

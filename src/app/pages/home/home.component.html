@@ -76,8 +76,8 @@
     <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-center mb-12">
       <img src="/logo-nova-600.png" alt="Fondateur" class="rounded-lg">
       <div>
-        <p class="text-lg text-gray-600 italic mb-6">"Je ne sous-traite pas. Chaque projet que je livre, je l'ai réalisé moi-même. C'est ma signature."</p>
-        <p class="text-gray-600">Avec plus de 20 ans d'expérience en construction, rénovation et finitions, notre fondateur apporte une expertise personnelle et un engagement envers chaque projet. Contact direct avec l'artisan signifie que vous travaillez directement avec le maître d'œuvre.</p>
+        <p class="text-lg text-gray-600 italic mb-6">"{{ aboutInfo()?.quote }}"</p>
+        <p class="text-gray-600">{{ aboutInfo()?.paragraph1 }} {{ aboutInfo()?.paragraph2 }}</p>
       </div>
     </div>
     <div class="text-center">

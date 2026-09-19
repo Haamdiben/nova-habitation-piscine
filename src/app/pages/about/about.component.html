@@ -9,30 +9,30 @@
     <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-center mb-16">
       <img src="/logo-nova-600.png" alt="Fondateur" class="rounded-lg">
       <div>
-        <p class="text-lg text-gray-600 italic mb-6">"Je ne sous-traite pas. Chaque projet que je livre, je l'ai réalisé moi-même. C'est ma signature."</p>
-        <p class="text-gray-600 mb-4">Avec plus de 20 ans d'expérience en construction, rénovation et finitions, notre fondateur apporte une expertise personnelle et un engagement envers chaque projet.</p>
-        <p class="text-gray-600 mb-4">Contact direct avec l'artisan signifie que vous travaillez directement avec le maître d'œuvre. Pas de sous-traitance, pas d'intermédiaires. Juste du travail de qualité.</p>
+        <p class="text-lg text-gray-600 italic mb-6">"{{ info()?.quote }}"</p>
+        <p class="text-gray-600 mb-4">{{ info()?.paragraph1 }}</p>
+        <p class="text-gray-600 mb-4">{{ info()?.paragraph2 }}</p>
       </div>
     </div>
 
     <div class="bg-gray-50 p-8 rounded-lg mb-16">
       <h2 class="text-2xl font-bold text-gray-900 mb-6">Notre philosophie</h2>
-      <p class="text-gray-600 mb-4">Nous croyons que chaque projet est unique et mérite une attention particulière. Notre approche combine savoir-faire traditionnel et techniques modernes pour livrer des résultats exceptionnels.</p>
-      <p class="text-gray-600">La satisfaction de nos clients est notre priorité absolue. Nous nous engageons à respecter les délais, les budgets et les attentes de qualité.</p>
+      <p class="text-gray-600 mb-4">{{ info()?.philosophyText1 }}</p>
+      <p class="text-gray-600">{{ info()?.philosophyText2 }}</p>
     </div>
 
     <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
       <div class="text-center">
-        <h3 class="text-4xl font-bold mb-2" style="color: #C09453;">500+</h3>
-        <p class="text-gray-600">Projets réalisés</p>
+        <h3 class="text-4xl font-bold mb-2" style="color: #C09453;">{{ info()?.stat1Value }}</h3>
+        <p class="text-gray-600">{{ info()?.stat1Label }}</p>
       </div>
       <div class="text-center">
-        <h3 class="text-4xl font-bold mb-2" style="color: #C09453;">20+</h3>
-        <p class="text-gray-600">Années d'expérience</p>
+        <h3 class="text-4xl font-bold mb-2" style="color: #C09453;">{{ info()?.stat2Value }}</h3>
+        <p class="text-gray-600">{{ info()?.stat2Label }}</p>
       </div>
       <div class="text-center">
-        <h3 class="text-4xl font-bold mb-2" style="color: #C09453;">100%</h3>
-        <p class="text-gray-600">Satisfaction client</p>
+        <h3 class="text-4xl font-bold mb-2" style="color: #C09453;">{{ info()?.stat3Value }}</h3>
+        <p class="text-gray-600">{{ info()?.stat3Label }}</p>
       </div>
     </div>
   </div>

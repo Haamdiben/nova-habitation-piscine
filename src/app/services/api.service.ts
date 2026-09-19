@@ -102,6 +102,17 @@ export class ApiService {
     });
   }
 
+  // About info (À propos de nous page content)
+  getAboutInfo(): Observable<any> {
+    return this.http.get<any>(`${this.apiUrl}/about-info`);
+  }
+
+  updateAboutInfo(data: any): Observable<any> {
+    return this.http.put(`${this.apiUrl}/about-info`, data, {
+      headers: this.getAuthHeaders(),
+    });
+  }
+
   private getAuthHeaders(): HttpHeaders {
     const token = localStorage.getItem('token');
     return new HttpHeaders({
