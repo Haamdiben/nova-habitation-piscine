@@ -10,6 +10,7 @@ import { AdminAboutComponent } from './pages/admin-dashboard/admin-about.compone
 import { AdminSlidesComponent } from './pages/admin-dashboard/admin-slides.component';
 import { AdminServicesComponent } from './pages/admin-dashboard/admin-services.component';
 import { ChantierDetailComponent } from './pages/chantier-detail/chantier-detail.component';
+import { MentionsLegalesComponent } from './pages/mentions-legales/mentions-legales.component';
 
 export const routes: Routes = [
   { path: '', component: HomeComponent },
@@ -18,6 +19,7 @@ export const routes: Routes = [
   { path: 'realisations', component: ProjectsComponent },
   { path: 'chantier/:id', component: ChantierDetailComponent },
   { path: 'contact', component: ContactComponent },
+  { path: 'mentions-legales', component: MentionsLegalesComponent },
   { path: 'admin/login', component: AdminLoginComponent },
   {
     path: 'admin/dashboard',
