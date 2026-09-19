@@ -28,9 +28,16 @@ import { Router } from '@angular/router';
         <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
           <!-- Add Slide Form -->
           <div class="bg-white rounded-lg shadow p-4 sm:p-6 mb-8">
-            <h2 class="text-lg font-bold mb-4" style="color: #C09453;">Ajouter une photo</h2>
+            <button
+              type="button"
+              (click)="toggleAddForm()"
+              class="w-full flex items-center justify-between"
+            >
+              <h2 class="text-lg font-bold" style="color: #C09453;">+ Ajouter une photo</h2>
+              <span class="text-gray-400 text-xl transition-transform" [class.rotate-180]="showAddForm()">▾</span>
+            </button>
 
-            <form (ngSubmit)="addSlide()" class="space-y-4">
+            <form *ngIf="showAddForm()" (ngSubmit)="addSlide()" class="space-y-4 mt-4">
               <div>
                 <label class="block text-sm font-medium text-gray-900 mb-2">Photo</label>
                 <input
@@ -192,6 +199,7 @@ export class AdminSlidesComponent implements OnInit {
   uploading = signal(false);
   errorMessage = signal('');
   slides = signal<any[]>([]);
+  showAddForm = signal(false);
   selectedFile: File | null = null;
   selectedFileName = signal('');
 
@@ -232,6 +240,10 @@ export class AdminSlidesComponent implements OnInit {
     }
   }
 
+  toggleAddForm() {
+    this.showAddForm.set(!this.showAddForm());
+  }
+
   addSlide() {
     if (!this.selectedFile) {
       this.errorMessage.set('Veuillez sélectionner une photo.');
@@ -247,6 +259,7 @@ export class AdminSlidesComponent implements OnInit {
         this.selectedFile = null;
         this.selectedFileName.set('');
         this.newSlide = { title: '', description: '' };
+        this.showAddForm.set(false);
         this.loadSlides();
       },
       error: (err) => {

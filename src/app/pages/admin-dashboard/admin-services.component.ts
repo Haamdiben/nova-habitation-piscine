@@ -30,9 +30,16 @@ import { Router } from '@angular/router';
         <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
           <!-- Add Service Form -->
           <div class="bg-white rounded-lg shadow p-4 sm:p-6 mb-8">
-            <h2 class="text-lg font-bold mb-4" style="color: #C09453;">Ajouter un service</h2>
+            <button
+              type="button"
+              (click)="toggleAddForm()"
+              class="w-full flex items-center justify-between"
+            >
+              <h2 class="text-lg font-bold" style="color: #C09453;">+ Ajouter un service</h2>
+              <span class="text-gray-400 text-xl transition-transform" [class.rotate-180]="showAddForm()">▾</span>
+            </button>
 
-            <form (ngSubmit)="addService()" class="space-y-4">
+            <form *ngIf="showAddForm()" (ngSubmit)="addService()" class="space-y-4 mt-4">
               <div>
                 <label class="block text-sm font-medium text-gray-900 mb-2">Titre</label>
                 <input
@@ -200,6 +207,7 @@ export class AdminServicesComponent implements OnInit {
   loading = signal(true);
   saving = signal(false);
   services = signal<any[]>([]);
+  showAddForm = signal(false);
 
   editingId = signal<number | null>(null);
   editData = { title: '', description: '', features: '' };
@@ -234,6 +242,10 @@ export class AdminServicesComponent implements OnInit {
     return (features || '').split('\n').map((f) => f.trim()).filter((f) => f.length > 0);
   }
 
+  toggleAddForm() {
+    this.showAddForm.set(!this.showAddForm());
+  }
+
   addService() {
     if (!this.newService.title.trim()) {
       alert('Veuillez entrer un titre.');
@@ -245,6 +257,7 @@ export class AdminServicesComponent implements OnInit {
       next: () => {
         this.saving.set(false);
         this.newService = { title: '', description: '', features: '' };
+        this.showAddForm.set(false);
         this.loadServices();
       },
       error: (err) => {

@@ -1,7 +1,7 @@
 import { Component, OnInit, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { ApiService } from '../../services/api.service';
 import { AuthService } from '../../services/auth.service';
 import { AdminSidenavComponent } from './admin-sidenav.component';
@@ -9,7 +9,7 @@ import { AdminSidenavComponent } from './admin-sidenav.component';
 @Component({
   selector: 'app-admin-dashboard',
   standalone: true,
-  imports: [CommonModule, FormsModule, AdminSidenavComponent],
+  imports: [CommonModule, FormsModule, RouterLink, AdminSidenavComponent],
   template: `
     <div class="flex">
       <!-- Sidenav -->
@@ -19,42 +19,30 @@ import { AdminSidenavComponent } from './admin-sidenav.component';
       <div class="flex-1 md:ml-64 pt-16 md:pt-0 min-h-screen bg-gray-50">
         <!-- Header -->
         <div class="bg-white shadow">
-          <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+          <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
             <h1 class="text-2xl sm:text-3xl font-bold" style="color: #C09453;">Réalisations</h1>
-            <p class="text-gray-600 mt-2 text-sm sm:text-base">Gérez vos catégories et les chantiers qu'elles contiennent</p>
+            <p class="text-gray-600 mt-2 text-sm sm:text-base">Choisissez une catégorie pour gérer ses chantiers</p>
           </div>
         </div>
 
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-          <!-- Category Management -->
+        <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+          <!-- Add Category Form -->
           <div class="bg-white rounded-lg shadow p-4 sm:p-6 mb-8">
-            <h2 class="text-lg font-bold mb-4" style="color: #C09453;">Catégories de réalisations</h2>
+            <button
+              type="button"
+              (click)="toggleAddForm()"
+              class="w-full flex items-center justify-between"
+            >
+              <h2 class="text-lg font-bold" style="color: #C09453;">+ Ajouter une catégorie</h2>
+              <span class="text-gray-400 text-xl transition-transform" [class.rotate-180]="showAddForm()">▾</span>
+            </button>
 
-            <div class="flex flex-wrap gap-2 mb-4">
-              <div
-                *ngFor="let category of categories()"
-                class="flex items-center gap-2 pl-3 pr-2 py-1.5 rounded-full text-sm"
-                style="border: 1.5px solid #C09453; color: #7a5a30;"
-              >
-                <span>{{ category.name }}</span>
-                <span class="text-xs text-gray-400">({{ category.chantiers?.length || 0 }})</span>
-                <button
-                  (click)="deleteCategory(category)"
-                  class="w-5 h-5 rounded-full flex items-center justify-center text-red-500 hover:bg-red-50 transition text-xs"
-                  title="Supprimer la catégorie"
-                >
-                  ✕
-                </button>
-              </div>
-              <p *ngIf="categories().length === 0 && !loading()" class="text-gray-500 text-sm">Aucune catégorie pour le moment.</p>
-            </div>
-
-            <form (ngSubmit)="addCategory()" class="flex flex-col sm:flex-row gap-3">
+            <form *ngIf="showAddForm()" (ngSubmit)="addCategory()" class="flex flex-col sm:flex-row gap-3 mt-4">
               <input
                 type="text"
                 [(ngModel)]="newCategoryName"
                 name="newCategoryName"
-                placeholder="Nom de la nouvelle catégorie (ex: Terrasses)"
+                placeholder="Nom de la catégorie (ex: Terrasses)"
                 class="flex-1 px-4 py-2 border-2 rounded-lg"
                 style="border-color: #C09453;"
               />
@@ -64,73 +52,8 @@ import { AdminSidenavComponent } from './admin-sidenav.component';
                 class="px-6 py-2 rounded-lg font-semibold transition"
                 style="border: 2px solid #C09453; color: #C09453;"
               >
-                {{ addingCategory() ? 'Ajout...' : '+ Nouvelle réalisation' }}
+                {{ addingCategory() ? 'Ajout...' : '+ Nouvelle catégorie' }}
               </button>
-            </form>
-          </div>
-
-          <!-- Add/Edit Chantier Form -->
-          <div *ngIf="showForm()" class="bg-white rounded-lg shadow-lg p-4 sm:p-8 mb-8">
-            <h2 class="text-2xl font-bold mb-6" style="color: #C09453;">
-              {{ editingId() ? 'Modifier' : 'Ajouter' }} un chantier
-            </h2>
-
-            <form (ngSubmit)="saveChantier()" class="space-y-6">
-              <div>
-                <label class="block text-sm font-medium text-gray-900 mb-2">Titre</label>
-                <input
-                  type="text"
-                  [(ngModel)]="formData.title"
-                  name="title"
-                  class="w-full px-4 py-2 border-2 rounded-lg"
-                  style="border-color: #C09453;"
-                  required
-                />
-              </div>
-
-              <div>
-                <label class="block text-sm font-medium text-gray-900 mb-2">Description</label>
-                <textarea
-                  [(ngModel)]="formData.description"
-                  name="description"
-                  rows="5"
-                  class="w-full px-4 py-2 border-2 rounded-lg"
-                  style="border-color: #C09453;"
-                  required
-                ></textarea>
-              </div>
-
-              <div>
-                <label class="block text-sm font-medium text-gray-900 mb-2">Catégorie</label>
-                <select
-                  [(ngModel)]="formData.realisationId"
-                  name="realisationId"
-                  class="w-full px-4 py-2 border-2 rounded-lg"
-                  style="border-color: #C09453;"
-                  required
-                >
-                  <option [ngValue]="null">Sélectionnez une catégorie</option>
-                  <option *ngFor="let category of categories()" [ngValue]="category.id">{{ category.name }}</option>
-                </select>
-              </div>
-
-              <div class="flex flex-col sm:flex-row gap-4">
-                <button
-                  type="submit"
-                  [disabled]="saving()"
-                  class="px-6 py-3 rounded-lg font-semibold transition"
-                  style="border: 2px solid #C09453; color: #C09453;"
-                >
-                  {{ saving() ? 'Enregistrement...' : 'Enregistrer' }}
-                </button>
-                <button
-                  type="button"
-                  (click)="cancelForm()"
-                  class="px-6 py-3 rounded-lg font-semibold border-2 border-gray-400 text-gray-600 transition hover:bg-gray-100"
-                >
-                  Annuler
-                </button>
-              </div>
             </form>
           </div>
 
@@ -138,136 +61,49 @@ import { AdminSidenavComponent } from './admin-sidenav.component';
             <p class="text-gray-600">Chargement...</p>
           </div>
 
-          <!-- Category Sections -->
-          <div *ngIf="!loading()" class="space-y-10">
-            <section *ngFor="let category of categories()">
-              <div class="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-3 mb-4">
-                <h2 class="text-xl sm:text-2xl font-bold" style="color: #C09453;">{{ category.name }}</h2>
-                <button
-                  (click)="showAddForm(category)"
-                  class="px-4 py-2 rounded-lg text-sm font-semibold transition self-start"
+          <div *ngIf="!loading() && categories().length === 0" class="bg-white rounded-lg shadow p-6 text-center text-gray-500">
+            Aucune catégorie pour le moment. Ajoutez-en une ci-dessus pour commencer.
+          </div>
+
+          <!-- Category Cards -->
+          <div *ngIf="!loading()" class="grid grid-cols-1 gap-4">
+            <div
+              *ngFor="let category of categories()"
+              class="bg-white rounded-lg shadow p-5 flex items-center justify-between gap-3"
+            >
+              <a [routerLink]="['/admin/dashboard/realisations', category.id]" class="flex-1 min-w-0">
+                <h3 class="text-lg font-bold text-gray-900 truncate">{{ category.name }}</h3>
+                <p class="text-sm text-gray-500">{{ category.chantiers?.length || 0 }} chantier(s)</p>
+              </a>
+              <div class="flex items-center gap-2 flex-shrink-0">
+                <a
+                  [routerLink]="['/admin/dashboard/realisations', category.id]"
+                  class="px-4 py-2 rounded-lg text-sm font-semibold transition"
                   style="border: 2px solid #C09453; color: #C09453;"
                 >
-                  + Ajouter un chantier
+                  Gérer →
+                </a>
+                <button
+                  (click)="deleteCategory(category)"
+                  class="w-9 h-9 rounded-full flex items-center justify-center text-red-500 hover:bg-red-50 transition"
+                  title="Supprimer la catégorie"
+                >
+                  🗑️
                 </button>
               </div>
-
-              <div *ngIf="(category.chantiers || []).length === 0" class="text-gray-500 text-sm bg-white rounded-lg shadow p-4">
-                Aucun chantier dans cette catégorie pour le moment.
-              </div>
-
-              <!-- Folders -->
-              <div class="space-y-3">
-                <div *ngFor="let chantier of category.chantiers" class="bg-white rounded-lg shadow overflow-hidden">
-                  <!-- Folder Header -->
-                  <button
-                    type="button"
-                    (click)="toggleFolder(chantier.id)"
-                    class="w-full flex items-center justify-between gap-3 p-4 sm:p-6 text-left hover:bg-gray-50 transition"
-                  >
-                    <div class="flex items-center gap-3 min-w-0">
-                      <span class="text-2xl">📁</span>
-                      <div class="min-w-0">
-                        <h3 class="text-lg sm:text-xl font-bold text-gray-900 truncate">{{ chantier.title }}</h3>
-                        <p class="text-sm text-gray-500">{{ chantier.photos?.length || 0 }} photo(s)</p>
-                      </div>
-                    </div>
-                    <span class="text-gray-400 text-xl flex-shrink-0" [class.rotate-180]="isFolderOpen(chantier.id)">▾</span>
-                  </button>
-
-                  <!-- Folder Content -->
-                  <div *ngIf="isFolderOpen(chantier.id)" class="px-4 sm:px-6 pb-6 border-t border-gray-100">
-                    <div class="flex flex-col sm:flex-row sm:justify-end gap-2 pt-4 mb-4">
-                      <button
-                        (click)="editChantier(chantier)"
-                        class="px-4 py-2 rounded text-sm font-semibold"
-                        style="border: 2px solid #C09453; color: #C09453;"
-                      >
-                        Modifier
-                      </button>
-                      <button
-                        (click)="deleteChantier(chantier.id)"
-                        class="px-4 py-2 rounded text-sm font-semibold border-2 border-red-500 text-red-500"
-                      >
-                        Supprimer
-                      </button>
-                    </div>
-
-                    <p class="text-gray-600 mb-6">{{ chantier.description }}</p>
-
-                    <!-- Photos Section -->
-                    <div class="bg-gray-50 p-4 rounded">
-                      <h4 class="font-bold mb-4">Photos ({{ chantier.photos?.length || 0 }})</h4>
-
-                      <!-- Upload Photo -->
-                      <div class="mb-4">
-                        <input
-                          type="file"
-                          #fileInput
-                          accept="image/*"
-                          multiple
-                          (change)="onFilesSelected($event, chantier.id)"
-                          class="hidden"
-                        />
-                        <button
-                          (click)="fileInput.click()"
-                          [disabled]="uploadingPhotoId() === chantier.id"
-                          class="px-4 py-2 rounded text-sm font-semibold"
-                          style="border: 2px solid #C09453; color: #C09453;"
-                        >
-                          {{ uploadingPhotoId() === chantier.id ? 'Téléchargement...' : '📤 Ajouter des photos' }}
-                        </button>
-                        <p class="text-xs text-gray-500 mt-2">Vous pouvez sélectionner plusieurs photos à la fois.</p>
-                      </div>
-
-                      <!-- Photos Grid -->
-                      <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
-                        <div *ngFor="let photo of chantier.photos" class="relative">
-                          <img
-                            [src]="getPhotoUrl(photo.filepath)"
-                            [alt]="photo.filename"
-                            class="w-full h-32 object-cover rounded"
-                          />
-                          <button
-                            (click)="deletePhoto(photo.id)"
-                            class="absolute top-1 right-1 bg-red-500 text-white rounded-full w-6 h-6 flex items-center justify-center text-xs hover:bg-red-600"
-                          >
-                            ✕
-                          </button>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </section>
+            </div>
           </div>
         </div>
       </div>
     </div>
   `,
-  styles: [`
-    :host {
-      display: block;
-    }
-  `],
 })
 export class AdminDashboardComponent implements OnInit {
   categories = signal<any[]>([]);
   loading = signal(false);
-  saving = signal(false);
   addingCategory = signal(false);
-  uploadingPhotoId = signal<number | null>(null);
-  showForm = signal(false);
-  editingId = signal<number | null>(null);
-  openFolderIds = signal<Set<number>>(new Set());
+  showAddForm = signal(false);
   newCategoryName = '';
-
-  formData: { title: string; description: string; realisationId: number | null } = {
-    title: '',
-    description: '',
-    realisationId: null,
-  };
 
   constructor(
     private apiService: ApiService,
@@ -297,6 +133,10 @@ export class AdminDashboardComponent implements OnInit {
     });
   }
 
+  toggleAddForm() {
+    this.showAddForm.set(!this.showAddForm());
+  }
+
   addCategory() {
     const name = this.newCategoryName.trim();
     if (!name) return;
@@ -306,6 +146,7 @@ export class AdminDashboardComponent implements OnInit {
       next: () => {
         this.newCategoryName = '';
         this.addingCategory.set(false);
+        this.showAddForm.set(false);
         this.loadCategories();
       },
       error: (err) => {
@@ -329,122 +170,6 @@ export class AdminDashboardComponent implements OnInit {
         error: (err) => console.error('Error deleting category:', err),
       });
     }
-  }
-
-  showAddForm(category: any) {
-    this.editingId.set(null);
-    this.formData = { title: '', description: '', realisationId: category.id };
-    this.showForm.set(true);
-  }
-
-  toggleFolder(id: number) {
-    const open = new Set(this.openFolderIds());
-    if (open.has(id)) {
-      open.delete(id);
-    } else {
-      open.add(id);
-    }
-    this.openFolderIds.set(open);
-  }
-
-  isFolderOpen(id: number): boolean {
-    return this.openFolderIds().has(id);
-  }
-
-  editChantier(chantier: any) {
-    this.editingId.set(chantier.id);
-    this.formData = {
-      title: chantier.title,
-      description: chantier.description,
-      realisationId: chantier.realisationId ?? chantier.realisation?.id ?? null,
-    };
-    this.showForm.set(true);
-  }
-
-  cancelForm() {
-    this.showForm.set(false);
-    this.editingId.set(null);
-  }
-
-  saveChantier() {
-    if (!this.formData.title || !this.formData.description || !this.formData.realisationId) {
-      alert('Veuillez remplir tous les champs');
-      return;
-    }
-
-    this.saving.set(true);
-    const payload = {
-      title: this.formData.title,
-      description: this.formData.description,
-      realisationId: this.formData.realisationId,
-    };
-
-    if (this.editingId()) {
-      this.apiService.updateChantier(this.editingId()!, payload).subscribe({
-        next: () => {
-          this.loadCategories();
-          this.cancelForm();
-          this.saving.set(false);
-        },
-        error: (err) => {
-          console.error('Error updating chantier:', err);
-          this.saving.set(false);
-        },
-      });
-    } else {
-      this.apiService.createChantier(payload).subscribe({
-        next: () => {
-          this.loadCategories();
-          this.cancelForm();
-          this.saving.set(false);
-        },
-        error: (err) => {
-          console.error('Error creating chantier:', err);
-          this.saving.set(false);
-        },
-      });
-    }
-  }
-
-  deleteChantier(id: number) {
-    if (confirm('Êtes-vous sûr de vouloir supprimer ce chantier ?')) {
-      this.apiService.deleteChantier(id).subscribe({
-        next: () => this.loadCategories(),
-        error: (err) => console.error('Error deleting chantier:', err),
-      });
-    }
-  }
-
-  onFilesSelected(event: any, chantierId: number) {
-    const files: File[] = Array.from(event.target.files || []);
-    if (files.length === 0) return;
-
-    this.uploadingPhotoId.set(chantierId);
-    this.apiService.uploadPhotos(chantierId, files).subscribe({
-      next: () => {
-        this.loadCategories();
-        this.uploadingPhotoId.set(null);
-        event.target.value = '';
-      },
-      error: (err) => {
-        console.error('Error uploading photos:', err);
-        this.uploadingPhotoId.set(null);
-        event.target.value = '';
-      },
-    });
-  }
-
-  deletePhoto(photoId: number) {
-    if (confirm('Êtes-vous sûr de vouloir supprimer cette photo ?')) {
-      this.apiService.deletePhoto(photoId).subscribe({
-        next: () => this.loadCategories(),
-        error: (err) => console.error('Error deleting photo:', err),
-      });
-    }
-  }
-
-  getPhotoUrl(filepath: string): string {
-    return `http://localhost:3000/${filepath}`;
   }
 
   logout() {
