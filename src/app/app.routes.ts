@@ -6,12 +6,14 @@ import { ContactComponent } from './pages/contact/contact.component';
 import { AdminLoginComponent } from './pages/admin-login/admin-login.component';
 import { AdminDashboardComponent } from './pages/admin-dashboard/admin-dashboard.component';
 import { AdminContactComponent } from './pages/admin-dashboard/admin-contact.component';
+import { ChantierDetailComponent } from './pages/chantier-detail/chantier-detail.component';
 
 export const routes: Routes = [
   { path: '', component: HomeComponent },
   { path: 'accueil', component: HomeComponent },
   { path: 'apropos', component: AboutComponent },
   { path: 'realisations', component: ProjectsComponent },
+  { path: 'chantier/:id', component: ChantierDetailComponent },
   { path: 'contact', component: ContactComponent },
   { path: 'admin/login', component: AdminLoginComponent },
   {

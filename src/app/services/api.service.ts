@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Observable, forkJoin, of } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -19,7 +19,7 @@ export class ApiService {
     return this.http.post(`${this.apiUrl}/auth/register`, { username, password, email });
   }
 
-  // Realisations endpoints
+  // Realisations (categories: Piscines, Rénovations de bâtiments, ...)
   getRealisations(): Observable<any[]> {
     return this.http.get<any[]>(`${this.apiUrl}/realisations`);
   }
@@ -28,16 +28,12 @@ export class ApiService {
     return this.http.get<any>(`${this.apiUrl}/realisations/${id}`);
   }
 
-  createRealisation(data: any): Observable<any> {
-    return this.http.post(`${this.apiUrl}/realisations`, data, {
-      headers: this.getAuthHeaders(),
-    });
-  }
-
-  updateRealisation(id: number, data: any): Observable<any> {
-    return this.http.put(`${this.apiUrl}/realisations/${id}`, data, {
-      headers: this.getAuthHeaders(),
-    });
+  createRealisation(name: string): Observable<any> {
+    return this.http.post(
+      `${this.apiUrl}/realisations`,
+      { name },
+      { headers: this.getAuthHeaders() },
+    );
   }
 
   deleteRealisation(id: number): Observable<any> {
@@ -46,21 +42,62 @@ export class ApiService {
     });
   }
 
-  // Photo endpoints
-  uploadPhoto(realisationId: number, file: File): Observable<any> {
-    const formData = new FormData();
-    formData.append('file', file);
-    return this.http.post(`${this.apiUrl}/realisations/${realisationId}/photos`, formData, {
+  // Chantiers (individual projects under a realisation category)
+  getChantiers(): Observable<any[]> {
+    return this.http.get<any[]>(`${this.apiUrl}/chantiers`);
+  }
+
+  getChantier(id: number): Observable<any> {
+    return this.http.get<any>(`${this.apiUrl}/chantiers/${id}`);
+  }
+
+  createChantier(data: { title: string; description: string; realisationId: number }): Observable<any> {
+    return this.http.post(`${this.apiUrl}/chantiers`, data, {
       headers: this.getAuthHeaders(),
     });
   }
 
-  getPhotos(realisationId: number): Observable<any[]> {
-    return this.http.get<any[]>(`${this.apiUrl}/realisations/${realisationId}/photos`);
+  updateChantier(id: number, data: any): Observable<any> {
+    return this.http.put(`${this.apiUrl}/chantiers/${id}`, data, {
+      headers: this.getAuthHeaders(),
+    });
+  }
+
+  deleteChantier(id: number): Observable<any> {
+    return this.http.delete(`${this.apiUrl}/chantiers/${id}`, {
+      headers: this.getAuthHeaders(),
+    });
+  }
+
+  // Photo endpoints
+  uploadPhoto(chantierId: number, file: File): Observable<any> {
+    const formData = new FormData();
+    formData.append('file', file);
+    return this.http.post(`${this.apiUrl}/chantiers/${chantierId}/photos`, formData, {
+      headers: this.getAuthHeaders(),
+    });
+  }
+
+  uploadPhotos(chantierId: number, files: File[]): Observable<any[]> {
+    if (files.length === 0) {
+      return of([]);
+    }
+    return forkJoin(files.map((file) => this.uploadPhoto(chantierId, file)));
   }
 
   deletePhoto(photoId: number): Observable<any> {
-    return this.http.delete(`${this.apiUrl}/photo/${photoId}`, {
+    return this.http.delete(`${this.apiUrl}/chantiers/photo/${photoId}`, {
+      headers: this.getAuthHeaders(),
+    });
+  }
+
+  // Contact info (footer / contact page details)
+  getContactInfo(): Observable<any> {
+    return this.http.get<any>(`${this.apiUrl}/contact-info`);
+  }
+
+  updateContactInfo(data: any): Observable<any> {
+    return this.http.put(`${this.apiUrl}/contact-info`, data, {
       headers: this.getAuthHeaders(),
     });
   }

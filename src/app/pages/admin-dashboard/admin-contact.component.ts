@@ -1,8 +1,9 @@
-import { Component, signal } from '@angular/core';
+import { Component, OnInit, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { AdminSidenavComponent } from './admin-sidenav.component';
 import { AuthService } from '../../services/auth.service';
+import { ApiService } from '../../services/api.service';
 import { Router } from '@angular/router';
 
 @Component({
@@ -26,7 +27,11 @@ import { Router } from '@angular/router';
 
         <!-- Content -->
         <div class="max-w-4xl mx-auto px-4 py-8">
-          <div class="bg-white rounded-lg shadow p-4 sm:p-8">
+          <div *ngIf="loading()" class="text-center py-8">
+            <p class="text-gray-600">Chargement...</p>
+          </div>
+
+          <div *ngIf="!loading()" class="bg-white rounded-lg shadow p-4 sm:p-8">
             <form (ngSubmit)="saveContact()" class="space-y-6">
               <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div>
@@ -137,6 +142,9 @@ import { Router } from '@angular/router';
               <div *ngIf="successMessage()" class="p-4 bg-green-50 border border-green-200 rounded text-green-700">
                 {{ successMessage() }}
               </div>
+              <div *ngIf="errorMessage()" class="p-4 bg-red-50 border border-red-200 rounded text-red-700">
+                {{ errorMessage() }}
+              </div>
             </form>
           </div>
         </div>
@@ -144,36 +152,67 @@ import { Router } from '@angular/router';
     </div>
   `,
 })
-export class AdminContactComponent {
+export class AdminContactComponent implements OnInit {
+  loading = signal(true);
   saving = signal(false);
   successMessage = signal('');
+  errorMessage = signal('');
 
   contactData = {
-    phone: '+33 6 12 34 56 78',
-    email: 'contact@ipswim.fr',
-    address: 'Toulouse, Occitanie',
-    city: 'Toulouse',
-    postalCode: '31000',
-    siren: '123 456 789',
-    siret: '123 456 789 00012',
-    hours: 'Lundi - Vendredi: 8h00 - 18h00\nSamedi: 9h00 - 13h00\nDimanche: Fermé',
+    phone: '',
+    email: '',
+    address: '',
+    city: '',
+    postalCode: '',
+    siren: '',
+    siret: '',
+    hours: '',
   };
 
   constructor(
+    private apiService: ApiService,
     private authService: AuthService,
     private router: Router,
   ) {}
 
+  ngOnInit() {
+    this.apiService.getContactInfo().subscribe({
+      next: (data) => {
+        this.contactData = {
+          phone: data.phone || '',
+          email: data.email || '',
+          address: data.address || '',
+          city: data.city || '',
+          postalCode: data.postalCode || '',
+          siren: data.siren || '',
+          siret: data.siret || '',
+          hours: data.hours || '',
+        };
+        this.loading.set(false);
+      },
+      error: (err) => {
+        console.error('Error loading contact info:', err);
+        this.loading.set(false);
+      },
+    });
+  }
+
   saveContact() {
     this.saving.set(true);
-    // Save to localStorage for demo
-    localStorage.setItem('contactInfo', JSON.stringify(this.contactData));
+    this.errorMessage.set('');
 
-    setTimeout(() => {
-      this.saving.set(false);
-      this.successMessage.set('✅ Informations de contact enregistrées avec succès!');
-      setTimeout(() => this.successMessage.set(''), 3000);
-    }, 500);
+    this.apiService.updateContactInfo(this.contactData).subscribe({
+      next: () => {
+        this.saving.set(false);
+        this.successMessage.set('✅ Informations de contact enregistrées avec succès!');
+        setTimeout(() => this.successMessage.set(''), 3000);
+      },
+      error: (err) => {
+        console.error('Error saving contact info:', err);
+        this.saving.set(false);
+        this.errorMessage.set('❌ Erreur lors de l\'enregistrement. Vérifiez que vous êtes bien connecté.');
+      },
+    });
   }
 
   logout() {

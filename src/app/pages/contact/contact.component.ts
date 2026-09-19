@@ -1,12 +1,25 @@
-import { Component } from '@angular/core';
-import { RouterLink } from '@angular/router';
+import { Component, OnInit, signal } from '@angular/core';
+import { CommonModule } from '@angular/common';
 import { NavbarComponent } from '../../components/navbar/navbar.component';
+import { FooterComponent } from '../../components/footer/footer.component';
+import { ApiService } from '../../services/api.service';
 
 @Component({
   selector: 'app-contact',
   standalone: true,
-  imports: [RouterLink, NavbarComponent],
+  imports: [CommonModule, NavbarComponent, FooterComponent],
   templateUrl: './contact.component.html',
   styleUrl: './contact.component.scss',
 })
-export class ContactComponent {}
+export class ContactComponent implements OnInit {
+  info = signal<any>(null);
+
+  constructor(private apiService: ApiService) {}
+
+  ngOnInit() {
+    this.apiService.getContactInfo().subscribe({
+      next: (data) => this.info.set(data),
+      error: (err) => console.error('Error loading contact info:', err),
+    });
+  }
+}
