@@ -1,5 +1,6 @@
-import { Component, OnInit, signal } from '@angular/core';
+import { Component, OnInit, OnDestroy, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { ApiService } from '../../services/api.service';
 
 @Component({
   selector: 'app-image-slider',
@@ -8,26 +9,41 @@ import { CommonModule } from '@angular/common';
   templateUrl: './image-slider.component.html',
   styleUrl: './image-slider.component.scss',
 })
-export class ImageSliderComponent implements OnInit {
+export class ImageSliderComponent implements OnInit, OnDestroy {
   currentSlide = signal(0);
   autoPlayInterval: any;
 
-  slides = [
-    { id: 1, image: '/1.webp', title: 'Piscine Travertin Contemporaine', description: 'Design moderne et élégant' },
-    { id: 2, image: '/2.jpg', title: 'Piscine à Débordement', description: 'Luxe et technologie' },
-    { id: 3, image: '/3.jpg', title: 'Rénovation Complète', description: 'Transformation professionnelle' },
-  ];
+  loading = signal(true);
+  slides = signal<any[]>([]);
+
+  constructor(private apiService: ApiService) {}
 
   ngOnInit() {
-    this.startAutoPlay();
+    this.apiService.getSlides().subscribe({
+      next: (data) => {
+        this.slides.set(data);
+        this.loading.set(false);
+        if (data.length > 1) {
+          this.startAutoPlay();
+        }
+      },
+      error: (err) => {
+        console.error('Error loading slides:', err);
+        this.loading.set(false);
+      },
+    });
   }
 
   nextSlide() {
-    this.currentSlide.set((this.currentSlide() + 1) % this.slides.length);
+    const total = this.slides().length;
+    if (total === 0) return;
+    this.currentSlide.set((this.currentSlide() + 1) % total);
   }
 
   prevSlide() {
-    this.currentSlide.set((this.currentSlide() - 1 + this.slides.length) % this.slides.length);
+    const total = this.slides().length;
+    if (total === 0) return;
+    this.currentSlide.set((this.currentSlide() - 1 + total) % total);
   }
 
   goToSlide(index: number) {
@@ -43,7 +59,13 @@ export class ImageSliderComponent implements OnInit {
 
   resetAutoPlay() {
     clearInterval(this.autoPlayInterval);
-    this.startAutoPlay();
+    if (this.slides().length > 1) {
+      this.startAutoPlay();
+    }
+  }
+
+  getPhotoUrl(filepath: string): string {
+    return `http://localhost:3000/${filepath}`;
   }
 
   ngOnDestroy() {

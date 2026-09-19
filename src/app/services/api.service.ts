@@ -113,6 +113,41 @@ export class ApiService {
     });
   }
 
+  // Slider images (home page slider management)
+  getSlides(): Observable<any[]> {
+    return this.http.get<any[]>(`${this.apiUrl}/slides`);
+  }
+
+  createSlide(file: File, title: string, description: string): Observable<any> {
+    const formData = new FormData();
+    formData.append('file', file);
+    formData.append('title', title);
+    formData.append('description', description);
+    return this.http.post(`${this.apiUrl}/slides`, formData, {
+      headers: this.getAuthHeaders(),
+    });
+  }
+
+  updateSlide(id: number, data: { title?: string; description?: string }): Observable<any> {
+    return this.http.put(`${this.apiUrl}/slides/${id}`, data, {
+      headers: this.getAuthHeaders(),
+    });
+  }
+
+  deleteSlide(id: number): Observable<any> {
+    return this.http.delete(`${this.apiUrl}/slides/${id}`, {
+      headers: this.getAuthHeaders(),
+    });
+  }
+
+  reorderSlides(ids: number[]): Observable<any[]> {
+    return this.http.put<any[]>(
+      `${this.apiUrl}/slides/reorder`,
+      { ids },
+      { headers: this.getAuthHeaders() },
+    );
+  }
+
   private getAuthHeaders(): HttpHeaders {
     const token = localStorage.getItem('token');
     return new HttpHeaders({
