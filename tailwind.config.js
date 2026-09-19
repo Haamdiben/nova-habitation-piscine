@@ -4,7 +4,12 @@ module.exports = {
     "./src/**/*.{html,ts}",
   ],
   theme: {
-    extend: {},
+    extend: {
+      fontFamily: {
+        garamond: ['EB Garamond', 'serif'],
+        lato: ['Lato', 'sans-serif'],
+      },
+    },
   },
   plugins: [],
 }

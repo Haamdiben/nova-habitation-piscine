@@ -8,11 +8,14 @@
       </a>
 
       <!-- Desktop Menu -->
-      <div class="hidden md:flex space-x-8">
+      <div class="hidden md:flex space-x-8 items-center">
         <a routerLink="/" class="text-gray-900 font-medium transition" style="transition: color 0.3s;" onmouseover="this.style.color='#C09453'" onmouseout="this.style.color='#1f2937'">Accueil</a>
         <a routerLink="/apropos" class="text-gray-900 font-medium transition" style="transition: color 0.3s;" onmouseover="this.style.color='#C09453'" onmouseout="this.style.color='#1f2937'">À propos de nous</a>
         <a routerLink="/realisations" class="text-gray-900 font-medium transition" style="transition: color 0.3s;" onmouseover="this.style.color='#C09453'" onmouseout="this.style.color='#1f2937'">Réalisations</a>
         <a routerLink="/contact" class="text-gray-900 font-medium transition" style="transition: color 0.3s;" onmouseover="this.style.color='#C09453'" onmouseout="this.style.color='#1f2937'">Nous contacter</a>
+        <div class="border-l border-gray-300 pl-8">
+          <a routerLink="/admin/login" class="text-xs text-gray-500 hover:text-gray-900 transition">Admin</a>
+        </div>
       </div>
 
       <!-- Mobile Menu Button -->

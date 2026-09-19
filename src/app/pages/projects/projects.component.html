@@ -4,45 +4,95 @@
 <!-- Projects Section -->
 <section class="bg-white py-20 px-4 sm:px-6 lg:px-8">
   <div class="max-w-6xl mx-auto">
-    <h1 class="text-5xl font-bold mb-12 text-center" style="color: #C09453;">Nos Réalisations</h1>
+    <h1 class="text-6xl font-bold mb-12 text-center" style="color: #C09453;">Nos Réalisations</h1>
+
+    <!-- Loading State -->
+    <div *ngIf="loading()" class="text-center py-8">
+      <p class="text-gray-600">Chargement des réalisations...</p>
+    </div>
 
     <!-- Piscines Section -->
-    <div class="mb-16">
-      <h2 class="text-3xl font-bold mb-8" style="color: #C09453;">Piscines</h2>
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-        <div class="bg-gray-300 h-80 rounded-lg flex items-center justify-center text-gray-600 font-medium">Piscine Travertin Contemporaine</div>
-        <div class="bg-gray-300 h-80 rounded-lg flex items-center justify-center text-gray-600 font-medium">Piscine à Débordement</div>
-        <div class="bg-gray-300 h-80 rounded-lg flex items-center justify-center text-gray-600 font-medium">Piscine Miroir</div>
-        <div class="bg-gray-300 h-80 rounded-lg flex items-center justify-center text-gray-600 font-medium">Bassin Olympique Vitré</div>
-        <div class="bg-gray-300 h-80 rounded-lg flex items-center justify-center text-gray-600 font-medium">Piscine Familiale</div>
-        <div class="bg-gray-300 h-80 rounded-lg flex items-center justify-center text-gray-600 font-medium">Piscine de Luxe</div>
+    <div *ngIf="!loading()" class="mb-16">
+      <h2 class="text-4xl font-bold mb-8" style="color: #C09453;">Piscines</h2>
+      <div *ngIf="(realisationsByCategory()['Piscines'] || []).length > 0; else noPiscines" class="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <div
+          *ngFor="let realisation of realisationsByCategory()['Piscines']"
+          class="bg-gray-300 h-80 rounded-lg flex items-center justify-center text-gray-600 font-medium overflow-hidden cursor-pointer hover:opacity-80 transition group relative"
+        >
+          <img
+            *ngIf="realisation.photos && realisation.photos.length > 0"
+            [src]="getPhotoUrl(realisation.photos[0].filepath)"
+            [alt]="realisation.title"
+            class="w-full h-full object-cover"
+          />
+          <div *ngIf="!realisation.photos || realisation.photos.length === 0" class="text-center p-4">
+            <p class="text-lg font-semibold">{{ realisation.title }}</p>
+            <p class="text-sm text-gray-500 mt-2">Pas de photos disponibles</p>
+          </div>
+          <div class="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-50 transition flex items-center justify-center opacity-0 group-hover:opacity-100">
+            <p class="text-white font-semibold text-center px-4">{{ realisation.title }}</p>
+          </div>
+        </div>
       </div>
+      <ng-template #noPiscines>
+        <p class="text-gray-600 text-center py-8">Aucune réalisation dans cette catégorie pour le moment.</p>
+      </ng-template>
     </div>
 
     <!-- Rénovations Section -->
-    <div class="mb-16">
-      <h2 class="text-3xl font-bold mb-8" style="color: #C09453;">Rénovations de bâtiments</h2>
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-        <div class="bg-gray-300 h-80 rounded-lg flex items-center justify-center text-gray-600 font-medium">Rénovation Maison Ancienne</div>
-        <div class="bg-gray-300 h-80 rounded-lg flex items-center justify-center text-gray-600 font-medium">Rénovation Salle de bains</div>
-        <div class="bg-gray-300 h-80 rounded-lg flex items-center justify-center text-gray-600 font-medium">Rénovation Cuisine</div>
-        <div class="bg-gray-300 h-80 rounded-lg flex items-center justify-center text-gray-600 font-medium">Rénovation Locale Commercial</div>
-        <div class="bg-gray-300 h-80 rounded-lg flex items-center justify-center text-gray-600 font-medium">Rénovation Appartement</div>
-        <div class="bg-gray-300 h-80 rounded-lg flex items-center justify-center text-gray-600 font-medium">Restructuration Complète</div>
+    <div *ngIf="!loading()" class="mb-16">
+      <h2 class="text-4xl font-bold mb-8" style="color: #C09453;">Rénovations de bâtiments</h2>
+      <div *ngIf="(realisationsByCategory()['Rénovations de bâtiments'] || []).length > 0; else noRenovations" class="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <div
+          *ngFor="let realisation of realisationsByCategory()['Rénovations de bâtiments']"
+          class="bg-gray-300 h-80 rounded-lg flex items-center justify-center text-gray-600 font-medium overflow-hidden cursor-pointer hover:opacity-80 transition group relative"
+        >
+          <img
+            *ngIf="realisation.photos && realisation.photos.length > 0"
+            [src]="getPhotoUrl(realisation.photos[0].filepath)"
+            [alt]="realisation.title"
+            class="w-full h-full object-cover"
+          />
+          <div *ngIf="!realisation.photos || realisation.photos.length === 0" class="text-center p-4">
+            <p class="text-lg font-semibold">{{ realisation.title }}</p>
+            <p class="text-sm text-gray-500 mt-2">Pas de photos disponibles</p>
+          </div>
+          <div class="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-50 transition flex items-center justify-center opacity-0 group-hover:opacity-100">
+            <p class="text-white font-semibold text-center px-4">{{ realisation.title }}</p>
+          </div>
+        </div>
       </div>
+      <ng-template #noRenovations>
+        <p class="text-gray-600 text-center py-8">Aucune réalisation dans cette catégorie pour le moment.</p>
+      </ng-template>
     </div>
 
     <!-- Peintures Section -->
-    <div class="mb-16">
-      <h2 class="text-3xl font-bold mb-8" style="color: #C09453;">Peinture et finitions</h2>
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-        <div class="bg-gray-300 h-80 rounded-lg flex items-center justify-center text-gray-600 font-medium">Peinture Intérieure</div>
-        <div class="bg-gray-300 h-80 rounded-lg flex items-center justify-center text-gray-600 font-medium">Peinture Extérieure</div>
-        <div class="bg-gray-300 h-80 rounded-lg flex items-center justify-center text-gray-600 font-medium">Revêtement Décoratif</div>
-        <div class="bg-gray-300 h-80 rounded-lg flex items-center justify-center text-gray-600 font-medium">Finitions Premium</div>
-        <div class="bg-gray-300 h-80 rounded-lg flex items-center justify-center text-gray-600 font-medium">Revêtement Sol</div>
-        <div class="bg-gray-300 h-80 rounded-lg flex items-center justify-center text-gray-600 font-medium">Travaux de finition</div>
+    <div *ngIf="!loading()" class="mb-16">
+      <h2 class="text-4xl font-bold mb-8" style="color: #C09453;">Peinture et finitions</h2>
+      <div *ngIf="(realisationsByCategory()['Peinture et finitions'] || []).length > 0; else noPeinture" class="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <div
+          *ngFor="let realisation of realisationsByCategory()['Peinture et finitions']"
+          class="bg-gray-300 h-80 rounded-lg flex items-center justify-center text-gray-600 font-medium overflow-hidden cursor-pointer hover:opacity-80 transition group relative"
+        >
+          <img
+            *ngIf="realisation.photos && realisation.photos.length > 0"
+            [src]="getPhotoUrl(realisation.photos[0].filepath)"
+            [alt]="realisation.title"
+            class="w-full h-full object-cover"
+          />
+          <div *ngIf="!realisation.photos || realisation.photos.length === 0" class="text-center p-4">
+            <p class="text-lg font-semibold">{{ realisation.title }}</p>
+            <p class="text-sm text-gray-500 mt-2">Pas de photos disponibles</p>
+          </div>
+          <div class="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-50 transition flex items-center justify-center opacity-0 group-hover:opacity-100">
+            <p class="text-white font-semibold text-center px-4">{{ realisation.title }}</p>
+          </div>
+        </div>
       </div>
+      <ng-template #noPeinture>
+        <p class="text-gray-600 text-center py-8">Aucune réalisation dans cette catégorie pour le moment.</p>
+      </ng-template>
     </div>
 
     <!-- Stats Section -->

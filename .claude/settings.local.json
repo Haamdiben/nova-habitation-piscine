@@ -2,7 +2,12 @@
   "permissions": {
     "allow": [
       "Bash(npm start *)",
-      "Bash(curl -s http://localhost:4200)"
+      "Bash(curl -s http://localhost:4200)",
+      "Bash(npm install *)",
+      "Read(//home/install/**)",
+      "Bash(nest new *)",
+      "Bash(npx @nestjs/cli@latest new nova-habitation-backend --package-manager npm --skip-git)",
+      "Bash(npm run *)"
     ]
   }
 }
