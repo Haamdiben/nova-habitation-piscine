@@ -2,6 +2,7 @@ import { Component, OnInit, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { AdminSidenavComponent } from './admin-sidenav.component';
+import { FieldVisibilityBadgeComponent } from '../../components/field-visibility-badge/field-visibility-badge.component';
 import { AuthService } from '../../services/auth.service';
 import { ApiService } from '../../services/api.service';
 import { Router } from '@angular/router';
@@ -9,7 +10,7 @@ import { Router } from '@angular/router';
 @Component({
   selector: 'app-admin-slides',
   standalone: true,
-  imports: [CommonModule, FormsModule, AdminSidenavComponent],
+  imports: [CommonModule, FormsModule, AdminSidenavComponent, FieldVisibilityBadgeComponent],
   template: `
     <div class="flex">
       <!-- Sidenav -->
@@ -39,7 +40,10 @@ import { Router } from '@angular/router';
 
             <form *ngIf="showAddForm()" (ngSubmit)="addSlide()" class="space-y-4 mt-4">
               <div>
-                <label class="block text-sm font-medium text-gray-900 mb-2">Photo</label>
+                <label class="flex items-center gap-2 text-sm font-medium text-gray-900 mb-2">
+                  Photo
+                  <app-field-visibility-badge></app-field-visibility-badge>
+                </label>
                 <input
                   type="file"
                   #fileInput
@@ -53,7 +57,10 @@ import { Router } from '@angular/router';
 
               <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
-                  <label class="block text-sm font-medium text-gray-900 mb-2">Titre</label>
+                  <label class="flex items-center gap-2 text-sm font-medium text-gray-900 mb-2">
+                    Titre
+                    <app-field-visibility-badge></app-field-visibility-badge>
+                  </label>
                   <input
                     type="text"
                     [(ngModel)]="newSlide.title"
@@ -64,7 +71,10 @@ import { Router } from '@angular/router';
                   />
                 </div>
                 <div>
-                  <label class="block text-sm font-medium text-gray-900 mb-2">Description</label>
+                  <label class="flex items-center gap-2 text-sm font-medium text-gray-900 mb-2">
+                    Description
+                    <app-field-visibility-badge></app-field-visibility-badge>
+                  </label>
                   <input
                     type="text"
                     [(ngModel)]="newSlide.description"

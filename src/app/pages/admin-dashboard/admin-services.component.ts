@@ -2,6 +2,7 @@ import { Component, OnInit, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { AdminSidenavComponent } from './admin-sidenav.component';
+import { FieldVisibilityBadgeComponent } from '../../components/field-visibility-badge/field-visibility-badge.component';
 import { AuthService } from '../../services/auth.service';
 import { ApiService } from '../../services/api.service';
 import { Router } from '@angular/router';
@@ -9,7 +10,7 @@ import { Router } from '@angular/router';
 @Component({
   selector: 'app-admin-services',
   standalone: true,
-  imports: [CommonModule, FormsModule, AdminSidenavComponent],
+  imports: [CommonModule, FormsModule, AdminSidenavComponent, FieldVisibilityBadgeComponent],
   template: `
     <div class="flex">
       <!-- Sidenav -->
@@ -41,7 +42,10 @@ import { Router } from '@angular/router';
 
             <form *ngIf="showAddForm()" (ngSubmit)="addService()" class="space-y-4 mt-4">
               <div>
-                <label class="block text-sm font-medium text-gray-900 mb-2">Titre</label>
+                <label class="flex items-center gap-2 text-sm font-medium text-gray-900 mb-2">
+                  Titre
+                  <app-field-visibility-badge></app-field-visibility-badge>
+                </label>
                 <input
                   type="text"
                   [(ngModel)]="newService.title"
@@ -53,7 +57,10 @@ import { Router } from '@angular/router';
               </div>
 
               <div>
-                <label class="block text-sm font-medium text-gray-900 mb-2">Description</label>
+                <label class="flex items-center gap-2 text-sm font-medium text-gray-900 mb-2">
+                  Description
+                  <app-field-visibility-badge></app-field-visibility-badge>
+                </label>
                 <textarea
                   [(ngModel)]="newService.description"
                   name="description"
@@ -106,14 +113,26 @@ import { Router } from '@angular/router';
                 <div class="flex flex-col sm:flex-row gap-4">
                   <div class="flex-1 min-w-0">
                     <div *ngIf="editingId() !== service.id">
-                      <h3 class="font-bold text-gray-900 text-lg">{{ service.title }}</h3>
+                      <div class="flex flex-wrap items-center gap-2">
+                        <h3 class="font-bold text-gray-900 text-lg">{{ service.title }}</h3>
+                        <app-field-visibility-badge text="titre + description visibles sur l'accueil"></app-field-visibility-badge>
+                      </div>
                       <p class="text-sm text-gray-600 mt-1">{{ service.description }}</p>
                       <ul *ngIf="service.features" class="text-sm text-gray-500 mt-2 space-y-1">
                         <li *ngFor="let feature of splitFeatures(service.features)">✓ {{ feature }}</li>
                       </ul>
+                      <app-field-visibility-badge
+                        *ngIf="service.features"
+                        variant="other"
+                        text='points clés visibles uniquement sur "À propos"'
+                        class="block mt-2"
+                      ></app-field-visibility-badge>
                     </div>
 
                     <div *ngIf="editingId() === service.id" class="space-y-2">
+                      <label class="flex items-center gap-2 text-xs font-semibold text-gray-500">
+                        Titre <app-field-visibility-badge></app-field-visibility-badge>
+                      </label>
                       <input
                         type="text"
                         [(ngModel)]="editData.title"
@@ -122,6 +141,9 @@ import { Router } from '@angular/router';
                         class="w-full px-3 py-1.5 border-2 rounded text-sm"
                         style="border-color: #C09453;"
                       />
+                      <label class="flex items-center gap-2 text-xs font-semibold text-gray-500">
+                        Description <app-field-visibility-badge></app-field-visibility-badge>
+                      </label>
                       <textarea
                         [(ngModel)]="editData.description"
                         name="editDescription"
@@ -130,6 +152,9 @@ import { Router } from '@angular/router';
                         class="w-full px-3 py-1.5 border-2 rounded text-sm"
                         style="border-color: #C09453;"
                       ></textarea>
+                      <label class="flex items-center gap-2 text-xs font-semibold text-gray-500">
+                        Points clés <app-field-visibility-badge variant="other" text='visible uniquement sur "À propos"'></app-field-visibility-badge>
+                      </label>
                       <textarea
                         [(ngModel)]="editData.features"
                         name="editFeatures"

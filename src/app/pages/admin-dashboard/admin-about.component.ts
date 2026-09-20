@@ -2,6 +2,7 @@ import { Component, OnInit, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { AdminSidenavComponent } from './admin-sidenav.component';
+import { FieldVisibilityBadgeComponent } from '../../components/field-visibility-badge/field-visibility-badge.component';
 import { AuthService } from '../../services/auth.service';
 import { ApiService } from '../../services/api.service';
 import { Router } from '@angular/router';
@@ -9,7 +10,7 @@ import { Router } from '@angular/router';
 @Component({
   selector: 'app-admin-about',
   standalone: true,
-  imports: [CommonModule, FormsModule, AdminSidenavComponent],
+  imports: [CommonModule, FormsModule, AdminSidenavComponent, FieldVisibilityBadgeComponent],
   template: `
     <div class="flex">
       <!-- Sidenav -->
@@ -34,7 +35,10 @@ import { Router } from '@angular/router';
           <div *ngIf="!loading()" class="bg-white rounded-lg shadow p-4 sm:p-8">
             <!-- Photo -->
             <div class="mb-8 pb-8 border-b border-gray-200">
-              <h2 class="text-lg font-bold mb-4" style="color: #C09453;">Photo (colonne "À propos" — accueil et page dédiée)</h2>
+              <h2 class="flex items-center gap-2 text-lg font-bold mb-4" style="color: #C09453;">
+                Photo
+                <app-field-visibility-badge></app-field-visibility-badge>
+              </h2>
               <div class="flex flex-col sm:flex-row gap-6 items-start">
                 <img
                   [src]="getPhotoUrl()"
@@ -69,7 +73,10 @@ import { Router } from '@angular/router';
                 <h2 class="text-lg font-bold mb-4" style="color: #C09453;">Présentation</h2>
                 <div class="space-y-4">
                   <div>
-                    <label class="block text-sm font-medium text-gray-900 mb-2">Citation (en italique, en haut de page)</label>
+                    <label class="flex items-center gap-2 text-sm font-medium text-gray-900 mb-2">
+                      Citation (en italique, en haut de page)
+                      <app-field-visibility-badge></app-field-visibility-badge>
+                    </label>
                     <textarea
                       [(ngModel)]="aboutData.quote"
                       name="quote"
@@ -79,7 +86,10 @@ import { Router } from '@angular/router';
                     ></textarea>
                   </div>
                   <div>
-                    <label class="block text-sm font-medium text-gray-900 mb-2">Premier paragraphe</label>
+                    <label class="flex items-center gap-2 text-sm font-medium text-gray-900 mb-2">
+                      Premier paragraphe
+                      <app-field-visibility-badge></app-field-visibility-badge>
+                    </label>
                     <textarea
                       [(ngModel)]="aboutData.paragraph1"
                       name="paragraph1"
@@ -89,7 +99,10 @@ import { Router } from '@angular/router';
                     ></textarea>
                   </div>
                   <div>
-                    <label class="block text-sm font-medium text-gray-900 mb-2">Deuxième paragraphe</label>
+                    <label class="flex items-center gap-2 text-sm font-medium text-gray-900 mb-2">
+                      Deuxième paragraphe
+                      <app-field-visibility-badge></app-field-visibility-badge>
+                    </label>
                     <textarea
                       [(ngModel)]="aboutData.paragraph2"
                       name="paragraph2"
@@ -103,7 +116,10 @@ import { Router } from '@angular/router';
 
               <!-- Philosophy -->
               <div class="border-t border-gray-200 pt-8">
-                <h2 class="text-lg font-bold mb-4" style="color: #C09453;">Notre philosophie</h2>
+                <h2 class="flex items-center gap-2 text-lg font-bold mb-4" style="color: #C09453;">
+                  Notre philosophie
+                  <app-field-visibility-badge variant="other" text='visible uniquement sur la page "À propos"'></app-field-visibility-badge>
+                </h2>
                 <div class="space-y-4">
                   <div>
                     <label class="block text-sm font-medium text-gray-900 mb-2">Premier texte</label>
@@ -130,7 +146,10 @@ import { Router } from '@angular/router';
 
               <!-- Stats -->
               <div class="border-t border-gray-200 pt-8">
-                <h2 class="text-lg font-bold mb-4" style="color: #C09453;">Statistiques</h2>
+                <h2 class="flex items-center gap-2 text-lg font-bold mb-4" style="color: #C09453;">
+                  Statistiques
+                  <app-field-visibility-badge variant="other" text='visible uniquement sur la page "À propos"'></app-field-visibility-badge>
+                </h2>
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
                   <div>
                     <label class="block text-sm font-medium text-gray-900 mb-2">Statistique 1</label>

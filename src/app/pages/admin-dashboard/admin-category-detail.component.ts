@@ -5,11 +5,12 @@ import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { ApiService } from '../../services/api.service';
 import { AuthService } from '../../services/auth.service';
 import { AdminSidenavComponent } from './admin-sidenav.component';
+import { FieldVisibilityBadgeComponent } from '../../components/field-visibility-badge/field-visibility-badge.component';
 
 @Component({
   selector: 'app-admin-category-detail',
   standalone: true,
-  imports: [CommonModule, FormsModule, RouterLink, AdminSidenavComponent],
+  imports: [CommonModule, FormsModule, RouterLink, AdminSidenavComponent, FieldVisibilityBadgeComponent],
   template: `
     <div class="flex">
       <!-- Sidenav -->
@@ -57,7 +58,10 @@ import { AdminSidenavComponent } from './admin-sidenav.component';
 
               <form (ngSubmit)="saveChantier()" class="space-y-6">
                 <div>
-                  <label class="block text-sm font-medium text-gray-900 mb-2">Titre</label>
+                  <label class="flex items-center gap-2 text-sm font-medium text-gray-900 mb-2">
+                    Titre
+                    <app-field-visibility-badge text="peut apparaître sur l'accueil (chantiers récents)"></app-field-visibility-badge>
+                  </label>
                   <input
                     type="text"
                     [(ngModel)]="formData.title"
@@ -69,7 +73,10 @@ import { AdminSidenavComponent } from './admin-sidenav.component';
                 </div>
 
                 <div>
-                  <label class="block text-sm font-medium text-gray-900 mb-2">Description</label>
+                  <label class="flex items-center gap-2 text-sm font-medium text-gray-900 mb-2">
+                    Description
+                    <app-field-visibility-badge variant="other" text="visible uniquement sur la page du chantier"></app-field-visibility-badge>
+                  </label>
                   <textarea
                     [(ngModel)]="formData.description"
                     name="description"
@@ -151,7 +158,10 @@ import { AdminSidenavComponent } from './admin-sidenav.component';
 
                   <!-- Photos -->
                   <div class="bg-gray-50 p-4 rounded">
-                    <h4 class="font-bold mb-4">Photos ({{ chantier.photos?.length || 0 }})</h4>
+                    <h4 class="flex items-center gap-2 font-bold mb-4">
+                      Photos ({{ chantier.photos?.length || 0 }})
+                      <app-field-visibility-badge text="la 1ère peut apparaître sur l'accueil"></app-field-visibility-badge>
+                    </h4>
 
                     <div class="mb-4">
                       <input

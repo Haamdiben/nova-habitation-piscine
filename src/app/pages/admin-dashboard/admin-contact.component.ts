@@ -2,6 +2,7 @@ import { Component, OnInit, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { AdminSidenavComponent } from './admin-sidenav.component';
+import { FieldVisibilityBadgeComponent } from '../../components/field-visibility-badge/field-visibility-badge.component';
 import { AuthService } from '../../services/auth.service';
 import { ApiService } from '../../services/api.service';
 import { Router } from '@angular/router';
@@ -9,7 +10,7 @@ import { Router } from '@angular/router';
 @Component({
   selector: 'app-admin-contact',
   standalone: true,
-  imports: [CommonModule, FormsModule, AdminSidenavComponent],
+  imports: [CommonModule, FormsModule, AdminSidenavComponent, FieldVisibilityBadgeComponent],
   template: `
     <div class="flex">
       <!-- Sidenav -->
@@ -35,7 +36,10 @@ import { Router } from '@angular/router';
             <form (ngSubmit)="saveContact()" class="space-y-6">
               <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div>
-                  <label class="block text-sm font-medium text-gray-900 mb-2">Téléphone</label>
+                  <label class="flex items-center gap-2 text-sm font-medium text-gray-900 mb-2">
+                    Téléphone
+                    <app-field-visibility-badge></app-field-visibility-badge>
+                  </label>
                   <input
                     type="tel"
                     [(ngModel)]="contactData.phone"
@@ -46,7 +50,10 @@ import { Router } from '@angular/router';
                 </div>
 
                 <div>
-                  <label class="block text-sm font-medium text-gray-900 mb-2">Email</label>
+                  <label class="flex items-center gap-2 text-sm font-medium text-gray-900 mb-2">
+                    Email
+                    <app-field-visibility-badge></app-field-visibility-badge>
+                  </label>
                   <input
                     type="email"
                     [(ngModel)]="contactData.email"
@@ -58,7 +65,10 @@ import { Router } from '@angular/router';
               </div>
 
               <div>
-                <label class="block text-sm font-medium text-gray-900 mb-2">Adresse</label>
+                <label class="flex items-center gap-2 text-sm font-medium text-gray-900 mb-2">
+                  Adresse
+                  <app-field-visibility-badge></app-field-visibility-badge>
+                </label>
                 <input
                   type="text"
                   [(ngModel)]="contactData.address"
@@ -70,7 +80,10 @@ import { Router } from '@angular/router';
 
               <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div>
-                  <label class="block text-sm font-medium text-gray-900 mb-2">Ville</label>
+                  <label class="flex items-center gap-2 text-sm font-medium text-gray-900 mb-2">
+                    Ville
+                    <app-field-visibility-badge variant="other" text='visible uniquement sur "Mentions légales"'></app-field-visibility-badge>
+                  </label>
                   <input
                     type="text"
                     [(ngModel)]="contactData.city"
@@ -81,7 +94,10 @@ import { Router } from '@angular/router';
                 </div>
 
                 <div>
-                  <label class="block text-sm font-medium text-gray-900 mb-2">Code Postal</label>
+                  <label class="flex items-center gap-2 text-sm font-medium text-gray-900 mb-2">
+                    Code Postal
+                    <app-field-visibility-badge variant="other" text='visible uniquement sur "Mentions légales"'></app-field-visibility-badge>
+                  </label>
                   <input
                     type="text"
                     [(ngModel)]="contactData.postalCode"
@@ -94,7 +110,10 @@ import { Router } from '@angular/router';
 
               <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div>
-                  <label class="block text-sm font-medium text-gray-900 mb-2">SIREN</label>
+                  <label class="flex items-center gap-2 text-sm font-medium text-gray-900 mb-2">
+                    SIREN
+                    <app-field-visibility-badge></app-field-visibility-badge>
+                  </label>
                   <input
                     type="text"
                     [(ngModel)]="contactData.siren"
@@ -105,7 +124,10 @@ import { Router } from '@angular/router';
                 </div>
 
                 <div>
-                  <label class="block text-sm font-medium text-gray-900 mb-2">SIRET</label>
+                  <label class="flex items-center gap-2 text-sm font-medium text-gray-900 mb-2">
+                    SIRET
+                    <app-field-visibility-badge></app-field-visibility-badge>
+                  </label>
                   <input
                     type="text"
                     [(ngModel)]="contactData.siret"
@@ -117,7 +139,10 @@ import { Router } from '@angular/router';
               </div>
 
               <div>
-                <label class="block text-sm font-medium text-gray-900 mb-2">Horaires d'ouverture</label>
+                <label class="flex items-center gap-2 text-sm font-medium text-gray-900 mb-2">
+                  Horaires d'ouverture
+                  <app-field-visibility-badge></app-field-visibility-badge>
+                </label>
                 <textarea
                   [(ngModel)]="contactData.hours"
                   name="hours"
@@ -129,7 +154,10 @@ import { Router } from '@angular/router';
               </div>
 
               <div class="border-t border-gray-200 pt-6">
-                <h2 class="text-lg font-bold mb-4" style="color: #C09453;">Footer</h2>
+                <h2 class="flex items-center gap-2 text-lg font-bold mb-4" style="color: #C09453;">
+                  Footer
+                  <app-field-visibility-badge></app-field-visibility-badge>
+                </h2>
 
                 <div class="mb-4">
                   <label class="block text-sm font-medium text-gray-900 mb-2">Phrase d'accroche (colonne "À propos" du footer)</label>
