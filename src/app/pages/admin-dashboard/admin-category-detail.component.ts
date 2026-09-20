@@ -12,7 +12,7 @@ import { FieldVisibilityBadgeComponent } from '../../components/field-visibility
   template: `
     <!-- Header -->
     <div class="bg-white shadow">
-      <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
         <a
           routerLink="/admin/dashboard/realisations"
           class="inline-flex items-center gap-2 px-4 py-2 rounded-lg text-base font-semibold transition mb-4"
@@ -25,7 +25,7 @@ import { FieldVisibilityBadgeComponent } from '../../components/field-visibility
       </div>
     </div>
 
-    <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
           <div *ngIf="loading()" class="text-center py-8">
             <p class="text-gray-600">Chargement...</p>
           </div>

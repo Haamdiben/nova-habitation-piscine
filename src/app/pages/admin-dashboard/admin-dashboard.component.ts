@@ -11,13 +11,13 @@ import { ApiService } from '../../services/api.service';
   template: `
     <!-- Header -->
     <div class="bg-white shadow">
-      <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
         <h1 class="text-2xl sm:text-3xl font-bold" style="color: #C09453;">Réalisations</h1>
         <p class="text-gray-600 mt-2 text-sm sm:text-base">Choisissez une catégorie pour gérer ses chantiers</p>
       </div>
     </div>
 
-    <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
       <!-- Add Category Form -->
       <div class="bg-white rounded-lg shadow p-4 sm:p-6 mb-8">
         <button
@@ -58,30 +58,50 @@ import { ApiService } from '../../services/api.service';
       </div>
 
       <!-- Category Cards -->
-      <div *ngIf="!loading()" class="grid grid-cols-1 gap-4">
+      <div *ngIf="!loading()" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
         <div
           *ngFor="let category of categories()"
-          class="bg-white rounded-lg shadow p-5 flex items-center justify-between gap-3"
+          class="bg-white rounded-xl shadow-md hover:shadow-lg transition overflow-hidden flex flex-col"
         >
-          <a [routerLink]="['/admin/dashboard/realisations', category.id]" class="flex-1 min-w-0">
-            <h3 class="text-lg font-bold text-gray-900 truncate">{{ category.name }}</h3>
-            <p class="text-sm text-gray-500">{{ category.chantiers?.length || 0 }} chantier(s)</p>
+          <a [routerLink]="['/admin/dashboard/realisations', category.id]" class="block">
+            <div class="h-32 flex items-center justify-center" [style.background]="getCoverPhoto(category) ? 'none' : '#f3e9db'">
+              <img
+                *ngIf="getCoverPhoto(category) as cover"
+                [src]="getPhotoUrl(cover)"
+                [alt]="category.name"
+                class="w-full h-32 object-cover"
+              />
+              <span *ngIf="!getCoverPhoto(category)" class="text-4xl">📁</span>
+            </div>
           </a>
-          <div class="flex items-center gap-2 flex-shrink-0">
-            <a
-              [routerLink]="['/admin/dashboard/realisations', category.id]"
-              class="px-4 py-2 rounded-lg text-sm font-semibold transition"
-              style="border: 2px solid #C09453; color: #C09453;"
-            >
-              Gérer →
+
+          <div class="p-5 flex flex-col flex-1">
+            <a [routerLink]="['/admin/dashboard/realisations', category.id]">
+              <h3 class="text-lg font-bold text-gray-900 truncate">{{ category.name }}</h3>
             </a>
-            <button
-              (click)="deleteCategory(category)"
-              class="w-9 h-9 rounded-full flex items-center justify-center text-red-500 hover:bg-red-50 transition"
-              title="Supprimer la catégorie"
+            <span
+              class="inline-block mt-1 mb-4 text-xs font-semibold px-2.5 py-1 rounded-full self-start"
+              style="background: #f3e9db; color: #7a5a30;"
             >
-              🗑️
-            </button>
+              {{ category.chantiers?.length || 0 }} chantier(s)
+            </span>
+
+            <div class="mt-auto flex items-center gap-2">
+              <a
+                [routerLink]="['/admin/dashboard/realisations', category.id]"
+                class="flex-1 text-center px-4 py-2 rounded-lg text-sm font-semibold transition"
+                style="border: 2px solid #C09453; color: #C09453;"
+              >
+                Gérer →
+              </a>
+              <button
+                (click)="deleteCategory(category)"
+                class="w-9 h-9 rounded-full flex items-center justify-center text-red-500 hover:bg-red-50 transition flex-shrink-0"
+                title="Supprimer la catégorie"
+              >
+                🗑️
+              </button>
+            </div>
           </div>
         </div>
       </div>
@@ -137,6 +157,20 @@ export class AdminDashboardComponent implements OnInit {
         alert('Impossible de créer cette catégorie (nom déjà utilisé ?)');
       },
     });
+  }
+
+  getCoverPhoto(category: any): string | null {
+    const chantiers = category.chantiers || [];
+    for (const chantier of chantiers) {
+      if (chantier.photos && chantier.photos.length > 0) {
+        return chantier.photos[0].filepath;
+      }
+    }
+    return null;
+  }
+
+  getPhotoUrl(filepath: string): string {
+    return `http://localhost:3000/${filepath}`;
   }
 
   deleteCategory(category: any) {

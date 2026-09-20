@@ -27,3 +27,32 @@
   animation: contentEnter 0.4s ease-out 0.1s forwards;
   opacity: 0;
 }
+
+// Desktop nav links: bigger text + animated underline on hover
+.nav-link {
+  position: relative;
+  color: #1f2937;
+  transition: color 0.25s ease;
+
+  &::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: -6px;
+    width: 100%;
+    height: 2px;
+    background-color: #C09453;
+    transform: scaleX(0);
+    transform-origin: right;
+    transition: transform 0.25s ease;
+  }
+
+  &:hover {
+    color: #C09453;
+  }
+
+  &:hover::after {
+    transform: scaleX(1);
+    transform-origin: left;
+  }
+}
