@@ -1,33 +1,24 @@
 import { Component, OnInit, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { AdminSidenavComponent } from './admin-sidenav.component';
 import { FieldVisibilityBadgeComponent } from '../../components/field-visibility-badge/field-visibility-badge.component';
-import { AuthService } from '../../services/auth.service';
 import { ApiService } from '../../services/api.service';
-import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-admin-about',
   standalone: true,
-  imports: [CommonModule, FormsModule, AdminSidenavComponent, FieldVisibilityBadgeComponent],
+  imports: [CommonModule, FormsModule, FieldVisibilityBadgeComponent],
   template: `
-    <div class="flex">
-      <!-- Sidenav -->
-      <app-admin-sidenav (onLogout)="logout()"></app-admin-sidenav>
+    <!-- Header -->
+    <div class="bg-white shadow">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+        <h1 class="text-2xl sm:text-3xl font-bold" style="color: #C09453;">À propos de nous</h1>
+        <p class="text-gray-600 mt-2 text-sm sm:text-base">Modifiez le contenu affiché sur la page "À propos de nous"</p>
+      </div>
+    </div>
 
-      <!-- Main Content -->
-      <div class="flex-1 md:ml-64 pt-16 md:pt-0 min-h-screen bg-gray-50">
-        <!-- Header -->
-        <div class="bg-white shadow">
-          <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
-            <h1 class="text-2xl sm:text-3xl font-bold" style="color: #C09453;">À propos de nous</h1>
-            <p class="text-gray-600 mt-2 text-sm sm:text-base">Modifiez le contenu affiché sur la page "À propos de nous"</p>
-          </div>
-        </div>
-
-        <!-- Content -->
-        <div class="max-w-4xl mx-auto px-4 py-8">
+    <!-- Content -->
+    <div class="max-w-4xl mx-auto px-4 py-8">
           <div *ngIf="loading()" class="text-center py-8">
             <p class="text-gray-600">Chargement...</p>
           </div>
@@ -230,8 +221,6 @@ import { Router } from '@angular/router';
               </div>
             </form>
           </div>
-        </div>
-      </div>
     </div>
   `,
 })
@@ -257,11 +246,7 @@ export class AdminAboutComponent implements OnInit {
     stat3Label: '',
   };
 
-  constructor(
-    private apiService: ApiService,
-    private authService: AuthService,
-    private router: Router,
-  ) {}
+  constructor(private apiService: ApiService) {}
 
   ngOnInit() {
     this.apiService.getAboutInfo().subscribe({
@@ -329,9 +314,5 @@ export class AdminAboutComponent implements OnInit {
         this.errorMessage.set("❌ Erreur lors de l'enregistrement. Vérifiez que vous êtes bien connecté.");
       },
     });
-  }
-
-  logout() {
-    this.authService.logout();
   }
 }

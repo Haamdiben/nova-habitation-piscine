@@ -1,39 +1,31 @@
 import { Component, OnInit, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { ActivatedRoute, Router, RouterLink } from '@angular/router';
+import { ActivatedRoute, RouterLink } from '@angular/router';
 import { ApiService } from '../../services/api.service';
-import { AuthService } from '../../services/auth.service';
-import { AdminSidenavComponent } from './admin-sidenav.component';
 import { FieldVisibilityBadgeComponent } from '../../components/field-visibility-badge/field-visibility-badge.component';
 
 @Component({
   selector: 'app-admin-category-detail',
   standalone: true,
-  imports: [CommonModule, FormsModule, RouterLink, AdminSidenavComponent, FieldVisibilityBadgeComponent],
+  imports: [CommonModule, FormsModule, RouterLink, FieldVisibilityBadgeComponent],
   template: `
-    <div class="flex">
-      <!-- Sidenav -->
-      <app-admin-sidenav (onLogout)="logout()"></app-admin-sidenav>
+    <!-- Header -->
+    <div class="bg-white shadow">
+      <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+        <a
+          routerLink="/admin/dashboard/realisations"
+          class="inline-flex items-center gap-2 px-4 py-2 rounded-lg text-base font-semibold transition mb-4"
+          style="border: 2px solid #C09453; color: #C09453;"
+        >
+          ← Toutes les catégories
+        </a>
+        <h1 class="text-2xl sm:text-3xl font-bold" style="color: #C09453;">{{ category()?.name || '...' }}</h1>
+        <p class="text-gray-600 mt-2 text-sm sm:text-base">Gérez les chantiers de cette catégorie</p>
+      </div>
+    </div>
 
-      <!-- Main Content -->
-      <div class="flex-1 md:ml-64 pt-16 md:pt-0 min-h-screen bg-gray-50">
-        <!-- Header -->
-        <div class="bg-white shadow">
-          <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
-            <a
-              routerLink="/admin/dashboard/realisations"
-              class="inline-flex items-center gap-2 px-4 py-2 rounded-lg text-base font-semibold transition mb-4"
-              style="border: 2px solid #C09453; color: #C09453;"
-            >
-              ← Toutes les catégories
-            </a>
-            <h1 class="text-2xl sm:text-3xl font-bold" style="color: #C09453;">{{ category()?.name || '...' }}</h1>
-            <p class="text-gray-600 mt-2 text-sm sm:text-base">Gérez les chantiers de cette catégorie</p>
-          </div>
-        </div>
-
-        <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
           <div *ngIf="loading()" class="text-center py-8">
             <p class="text-gray-600">Chargement...</p>
           </div>
@@ -204,8 +196,6 @@ import { FieldVisibilityBadgeComponent } from '../../components/field-visibility
             </div>
           </ng-container>
         </div>
-      </div>
-    </div>
   `,
 })
 export class AdminCategoryDetailComponent implements OnInit {
@@ -223,15 +213,9 @@ export class AdminCategoryDetailComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private apiService: ApiService,
-    private authService: AuthService,
-    private router: Router,
   ) {}
 
   ngOnInit() {
-    if (!this.authService.isAuthenticated()) {
-      this.router.navigate(['/admin/login']);
-      return;
-    }
     this.route.paramMap.subscribe((params) => {
       const id = Number(params.get('id'));
       if (id) {
@@ -365,9 +349,5 @@ export class AdminCategoryDetailComponent implements OnInit {
 
   getPhotoUrl(filepath: string): string {
     return `http://localhost:3000/${filepath}`;
-  }
-
-  logout() {
-    this.authService.logout();
   }
 }

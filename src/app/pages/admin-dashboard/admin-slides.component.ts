@@ -1,32 +1,23 @@
 import { Component, OnInit, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { AdminSidenavComponent } from './admin-sidenav.component';
 import { FieldVisibilityBadgeComponent } from '../../components/field-visibility-badge/field-visibility-badge.component';
-import { AuthService } from '../../services/auth.service';
 import { ApiService } from '../../services/api.service';
-import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-admin-slides',
   standalone: true,
-  imports: [CommonModule, FormsModule, AdminSidenavComponent, FieldVisibilityBadgeComponent],
+  imports: [CommonModule, FormsModule, FieldVisibilityBadgeComponent],
   template: `
-    <div class="flex">
-      <!-- Sidenav -->
-      <app-admin-sidenav (onLogout)="logout()"></app-admin-sidenav>
+    <!-- Header -->
+    <div class="bg-white shadow">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+        <h1 class="text-2xl sm:text-3xl font-bold" style="color: #C09453;">Slider Accueil</h1>
+        <p class="text-gray-600 mt-2 text-sm sm:text-base">Gérez les photos affichées dans le slider de la page d'accueil</p>
+      </div>
+    </div>
 
-      <!-- Main Content -->
-      <div class="flex-1 md:ml-64 pt-16 md:pt-0 min-h-screen bg-gray-50">
-        <!-- Header -->
-        <div class="bg-white shadow">
-          <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
-            <h1 class="text-2xl sm:text-3xl font-bold" style="color: #C09453;">Slider Accueil</h1>
-            <p class="text-gray-600 mt-2 text-sm sm:text-base">Gérez les photos affichées dans le slider de la page d'accueil</p>
-          </div>
-        </div>
-
-        <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
           <!-- Add Slide Form -->
           <div class="bg-white rounded-lg shadow p-4 sm:p-6 mb-8">
             <button
@@ -199,8 +190,6 @@ import { Router } from '@angular/router';
               </div>
             </div>
           </div>
-        </div>
-      </div>
     </div>
   `,
 })
@@ -218,11 +207,7 @@ export class AdminSlidesComponent implements OnInit {
 
   newSlide = { title: '', description: '' };
 
-  constructor(
-    private apiService: ApiService,
-    private authService: AuthService,
-    private router: Router,
-  ) {}
+  constructor(private apiService: ApiService) {}
 
   ngOnInit() {
     this.loadSlides();
@@ -333,9 +318,5 @@ export class AdminSlidesComponent implements OnInit {
 
   getPhotoUrl(filepath: string): string {
     return `http://localhost:3000/${filepath}`;
-  }
-
-  logout() {
-    this.authService.logout();
   }
 }
