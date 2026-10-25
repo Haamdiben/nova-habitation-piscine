@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { ApiService } from '../../services/api.service';
 import { FieldVisibilityBadgeComponent } from '../../components/field-visibility-badge/field-visibility-badge.component';
+import { uploadUrl } from '../../utils/upload-url';
 
 @Component({
   selector: 'app-admin-category-detail',
@@ -348,6 +349,6 @@ export class AdminCategoryDetailComponent implements OnInit {
   }
 
   getPhotoUrl(filepath: string): string {
-    return `http://localhost:3000/${filepath}`;
+    return uploadUrl(filepath);
   }
 }

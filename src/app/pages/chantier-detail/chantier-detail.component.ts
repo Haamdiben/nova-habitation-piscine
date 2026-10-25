@@ -6,6 +6,7 @@ import { FooterComponent } from '../../components/footer/footer.component';
 import { PhotoLightboxComponent, LightboxPhoto } from '../../components/photo-lightbox/photo-lightbox.component';
 import { ScrollRevealDirective } from '../../directives/scroll-reveal.directive';
 import { ApiService } from '../../services/api.service';
+import { uploadUrl } from '../../utils/upload-url';
 
 @Component({
   selector: 'app-chantier-detail',
@@ -159,6 +160,6 @@ export class ChantierDetailComponent implements OnInit {
   }
 
   getPhotoUrl(filepath: string): string {
-    return `http://localhost:3000/${filepath}`;
+    return uploadUrl(filepath);
   }
 }

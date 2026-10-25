@@ -4,6 +4,7 @@ import { NavbarComponent } from '../../components/navbar/navbar.component';
 import { FooterComponent } from '../../components/footer/footer.component';
 import { ScrollRevealDirective } from '../../directives/scroll-reveal.directive';
 import { ApiService } from '../../services/api.service';
+import { uploadUrl } from '../../utils/upload-url';
 
 @Component({
   selector: 'app-about',
@@ -36,6 +37,6 @@ export class AboutComponent implements OnInit {
 
   getAboutPhotoUrl(): string {
     const path = this.info()?.photoFilepath;
-    return path ? `http://localhost:3000/${path}` : '/logo-nova-600.png';
+    return path ? uploadUrl(path) : '/logo-nova-600.png';
   }
 }

@@ -1,6 +1,7 @@
 import { Component, OnInit, OnDestroy, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ApiService } from '../../services/api.service';
+import { uploadUrl } from '../../utils/upload-url';
 
 @Component({
   selector: 'app-image-slider',
@@ -65,7 +66,7 @@ export class ImageSliderComponent implements OnInit, OnDestroy {
   }
 
   getPhotoUrl(filepath: string): string {
-    return `http://localhost:3000/${filepath}`;
+    return uploadUrl(filepath);
   }
 
   ngOnDestroy() {

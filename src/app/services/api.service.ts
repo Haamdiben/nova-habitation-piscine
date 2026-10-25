@@ -1,3 +1,4 @@
+import { environment } from '../../environments/environment';
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, forkJoin, of } from 'rxjs';
@@ -6,7 +7,7 @@ import { Observable, forkJoin, of } from 'rxjs';
   providedIn: 'root',
 })
 export class ApiService {
-  private apiUrl = 'http://localhost:3000/api';
+  private apiUrl = `${environment.backendUrl}/api`;
 
   constructor(private http: HttpClient) {}
 
@@ -15,9 +16,6 @@ export class ApiService {
     return this.http.post(`${this.apiUrl}/auth/login`, { username, password });
   }
 
-  register(username: string, password: string, email?: string): Observable<any> {
-    return this.http.post(`${this.apiUrl}/auth/register`, { username, password, email });
-  }
 
   // Realisations (categories: Piscines, Rénovations de bâtiments, ...)
   getRealisations(): Observable<any[]> {
@@ -185,6 +183,39 @@ export class ApiService {
       { ids },
       { headers: this.getAuthHeaders() },
     );
+  }
+
+  // Contact messages (public form + admin inbox)
+  sendContactMessage(data: {
+    name: string;
+    email: string;
+    phone: string;
+    projectType: string;
+    message: string;
+    consent: boolean;
+    website: string;
+  }): Observable<any> {
+    return this.http.post(`${this.apiUrl}/contact-messages`, data);
+  }
+
+  getContactMessages(): Observable<any[]> {
+    return this.http.get<any[]>(`${this.apiUrl}/contact-messages`, {
+      headers: this.getAuthHeaders(),
+    });
+  }
+
+  setContactMessageRead(id: number, isRead: boolean): Observable<any> {
+    return this.http.put(
+      `${this.apiUrl}/contact-messages/${id}/read`,
+      { isRead },
+      { headers: this.getAuthHeaders() },
+    );
+  }
+
+  deleteContactMessage(id: number): Observable<any> {
+    return this.http.delete(`${this.apiUrl}/contact-messages/${id}`, {
+      headers: this.getAuthHeaders(),
+    });
   }
 
   private getAuthHeaders(): HttpHeaders {

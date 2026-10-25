@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { FieldVisibilityBadgeComponent } from '../../components/field-visibility-badge/field-visibility-badge.component';
 import { ApiService } from '../../services/api.service';
+import { uploadUrl } from '../../utils/upload-url';
 
 @Component({
   selector: 'app-admin-about',
@@ -295,7 +296,7 @@ export class AdminAboutComponent implements OnInit {
 
   getPhotoUrl(): string {
     const path = this.photoFilepath();
-    return path ? `http://localhost:3000/${path}` : '/logo-nova-600.png';
+    return path ? uploadUrl(path) : '/logo-nova-600.png';
   }
 
   saveAbout() {

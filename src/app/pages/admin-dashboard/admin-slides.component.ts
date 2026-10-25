@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { FieldVisibilityBadgeComponent } from '../../components/field-visibility-badge/field-visibility-badge.component';
 import { ApiService } from '../../services/api.service';
+import { uploadUrl } from '../../utils/upload-url';
 
 @Component({
   selector: 'app-admin-slides',
@@ -317,6 +318,6 @@ export class AdminSlidesComponent implements OnInit {
   }
 
   getPhotoUrl(filepath: string): string {
-    return `http://localhost:3000/${filepath}`;
+    return uploadUrl(filepath);
   }
 }

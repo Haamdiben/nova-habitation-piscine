@@ -19,7 +19,24 @@ export class AuthService {
   }
 
   private hasToken(): boolean {
-    return !!localStorage.getItem('token');
+    const token = localStorage.getItem('token');
+    if (!token) return false;
+    if (this.isExpired(token)) {
+      localStorage.removeItem('token');
+      localStorage.removeItem('adminId');
+      return false;
+    }
+    return true;
+  }
+
+  /** Reads the JWT's `exp` claim; the server still verifies the signature. */
+  private isExpired(token: string): boolean {
+    try {
+      const payload = JSON.parse(atob(token.split('.')[1].replace(/-/g, '+').replace(/_/g, '/')));
+      return typeof payload.exp === 'number' && payload.exp * 1000 <= Date.now();
+    } catch {
+      return true;
+    }
   }
 
   private getAdminId(): number | null {

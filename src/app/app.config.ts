@@ -1,6 +1,7 @@
 import { ApplicationConfig, provideBrowserGlobalErrorListeners } from '@angular/core';
 import { provideRouter, withViewTransitions, withInMemoryScrolling, ActivatedRouteSnapshot } from '@angular/router';
-import { provideHttpClient } from '@angular/common/http';
+import { provideHttpClient, withInterceptors } from '@angular/common/http';
+import { authExpiredInterceptor } from './interceptors/auth-expired.interceptor';
 import { routes } from './app.routes';
 
 function snapshotPath(snapshot: ActivatedRouteSnapshot): string {
@@ -34,6 +35,6 @@ export const appConfig: ApplicationConfig = {
       }),
       withInMemoryScrolling({ scrollPositionRestoration: 'top' }),
     ),
-    provideHttpClient(),
+    provideHttpClient(withInterceptors([authExpiredInterceptor])),
   ]
 };

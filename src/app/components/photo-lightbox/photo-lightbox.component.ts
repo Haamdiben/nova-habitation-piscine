@@ -1,5 +1,6 @@
 import { Component, HostListener, input, output, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { uploadUrl } from '../../utils/upload-url';
 
 export interface LightboxPhoto {
   filepath: string;
@@ -161,7 +162,7 @@ export class PhotoLightboxComponent {
 
   photoUrl(photo: LightboxPhoto | undefined): string {
     if (!photo) return '';
-    return `http://localhost:3000/${photo.filepath}`;
+    return uploadUrl(photo.filepath);
   }
 
   next() {

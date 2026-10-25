@@ -22,28 +22,30 @@ import { ApiService } from '../../services/api.service';
           <div appScrollReveal="up">
             <h2 class="text-2xl font-bold text-gray-900 mb-4">1. Éditeur du site</h2>
             <p class="text-gray-600 leading-relaxed">
-              Le présent site est édité par <strong>ipswim</strong>, entreprise spécialisée dans la construction,
+              Le présent site est édité par <strong>Nova Habitation et Piscine</strong>, entreprise spécialisée dans la construction,
               la rénovation de piscines et de bâtiments, ainsi que la peinture et les finitions.
             </p>
             <ul class="text-gray-600 leading-relaxed mt-4 space-y-1">
-              <li><strong>Nom commercial :</strong> ipswim</li>
+              <li><strong>Nom commercial :</strong> Nova Habitation et Piscine</li>
               <li *ngIf="info()?.siren"><strong>SIREN :</strong> {{ info()?.siren }}</li>
               <li *ngIf="info()?.siret"><strong>SIRET :</strong> {{ info()?.siret }}</li>
               <li *ngIf="info()?.address"><strong>Adresse :</strong> {{ info()?.address }}<span *ngIf="info()?.postalCode || info()?.city">, {{ info()?.postalCode }} {{ info()?.city }}</span></li>
               <li *ngIf="info()?.email"><strong>Email :</strong> <a [href]="'mailto:' + info()?.email" class="underline hover:no-underline">{{ info()?.email }}</a></li>
               <li *ngIf="info()?.phone"><strong>Téléphone :</strong> {{ info()?.phone }}</li>
-              <li><strong>Directeur de la publication :</strong> le représentant légal d'ipswim</li>
+              <li><strong>Directeur de la publication :</strong> le représentant légal de Nova Habitation et Piscine</li>
             </ul>
           </div>
 
           <!-- 2. Hébergement -->
           <div appScrollReveal="up">
             <h2 class="text-2xl font-bold text-gray-900 mb-4">2. Hébergement</h2>
-            <p class="text-gray-600 leading-relaxed">
-              Le site est hébergé par un prestataire tiers. Les coordonnées complètes de l'hébergeur
-              (raison sociale, adresse, contact) sont disponibles sur simple demande auprès de l'éditeur
-              aux coordonnées mentionnées ci-dessus.
-            </p>
+            <p class="text-gray-600 leading-relaxed">Le site est hébergé par :</p>
+            <ul class="text-gray-600 leading-relaxed mt-4 space-y-1">
+              <li><strong>IONOS SARL</strong></li>
+              <li>7 place de la Gare, BP 70109, 57200 Sarreguemines Cedex, France</li>
+              <li>Téléphone : 09 70 80 89 11</li>
+              <li>Site web : <a href="https://www.ionos.fr" target="_blank" rel="noopener" class="underline hover:no-underline">www.ionos.fr</a></li>
+            </ul>
           </div>
 
           <!-- 3. Propriété intellectuelle -->
@@ -51,10 +53,10 @@ import { ApiService } from '../../services/api.service';
             <h2 class="text-2xl font-bold text-gray-900 mb-4">3. Propriété intellectuelle</h2>
             <p class="text-gray-600 leading-relaxed">
               L'ensemble des contenus présents sur ce site (textes, images, photographies, logos, graphismes,
-              vidéos, icônes) est la propriété exclusive d'ipswim, sauf mention contraire, et est protégé par le
+              vidéos, icônes) est la propriété exclusive de Nova Habitation et Piscine, sauf mention contraire, et est protégé par le
               Code de la propriété intellectuelle. Toute reproduction, représentation, modification, publication
               ou adaptation de tout ou partie des éléments du site, quel que soit le moyen ou le procédé utilisé,
-              est interdite sans l'autorisation écrite préalable d'ipswim.
+              est interdite sans l'autorisation écrite préalable de Nova Habitation et Piscine.
             </p>
           </div>
 
@@ -62,7 +64,7 @@ import { ApiService } from '../../services/api.service';
           <div appScrollReveal="up">
             <h2 class="text-2xl font-bold text-gray-900 mb-4">4. Liens hypertextes</h2>
             <p class="text-gray-600 leading-relaxed">
-              Le site peut contenir des liens hypertextes vers d'autres sites. ipswim n'exerce aucun contrôle sur
+              Le site peut contenir des liens hypertextes vers d'autres sites. Nova Habitation et Piscine n'exerce aucun contrôle sur
               ces sites tiers et décline toute responsabilité quant à leur contenu, leur disponibilité ou leurs
               pratiques en matière de protection des données.
             </p>
@@ -72,8 +74,8 @@ import { ApiService } from '../../services/api.service';
           <div appScrollReveal="up">
             <h2 class="text-2xl font-bold text-gray-900 mb-4">5. Limitation de responsabilité</h2>
             <p class="text-gray-600 leading-relaxed">
-              ipswim s'efforce d'assurer l'exactitude et la mise à jour des informations diffusées sur ce site,
-              mais ne peut garantir l'exhaustivité ou l'absence de modification des contenus. ipswim ne saurait
+              Nova Habitation et Piscine s'efforce d'assurer l'exactitude et la mise à jour des informations diffusées sur ce site,
+              mais ne peut garantir l'exhaustivité ou l'absence de modification des contenus. Nova Habitation et Piscine ne saurait
               être tenue responsable des erreurs, d'une absence de disponibilité des fonctionnalités, ou de tout
               dommage résultant d'une intrusion frauduleuse d'un tiers ayant entraîné une modification des
               informations mises à disposition sur le site.
@@ -88,7 +90,7 @@ import { ApiService } from '../../services/api.service';
               <div>
                 <h3 class="text-xl font-bold text-gray-900 mb-3">6.1 Responsable du traitement</h3>
                 <p class="text-gray-600 leading-relaxed">
-                  Le responsable du traitement des données personnelles collectées sur ce site est <strong>ipswim</strong>,
+                  Le responsable du traitement des données personnelles collectées sur ce site est <strong>Nova Habitation et Piscine</strong>,
                   joignable à l'adresse <a [href]="'mailto:' + info()?.email" class="underline hover:no-underline">{{ info()?.email }}</a>
                   ou par téléphone au {{ info()?.phone }}.
                 </p>
@@ -122,7 +124,7 @@ import { ApiService } from '../../services/api.service';
                 <h3 class="text-xl font-bold text-gray-900 mb-3">6.4 Base légale</h3>
                 <p class="text-gray-600 leading-relaxed">
                   Le traitement de vos données repose sur votre consentement, exprimé librement lors de la
-                  soumission du formulaire de contact, ainsi que sur l'intérêt légitime d'ipswim à répondre aux
+                  soumission du formulaire de contact, ainsi que sur l'intérêt légitime de Nova Habitation et Piscine à répondre aux
                   demandes qui lui sont adressées.
                 </p>
               </div>
@@ -139,7 +141,7 @@ import { ApiService } from '../../services/api.service';
               <div>
                 <h3 class="text-xl font-bold text-gray-900 mb-3">6.6 Destinataires des données</h3>
                 <p class="text-gray-600 leading-relaxed">
-                  Les données collectées sont destinées exclusivement au personnel d'ipswim habilité à traiter les
+                  Les données collectées sont destinées exclusivement au personnel de Nova Habitation et Piscine habilité à traiter les
                   demandes de contact. Elles peuvent également être transmises à nos prestataires techniques
                   (hébergement, maintenance) strictement dans la mesure nécessaire au bon fonctionnement du site,
                   dans le respect de la réglementation applicable.
@@ -188,7 +190,7 @@ import { ApiService } from '../../services/api.service';
               <div>
                 <h3 class="text-xl font-bold text-gray-900 mb-3">6.10 Sécurité</h3>
                 <p class="text-gray-600 leading-relaxed">
-                  ipswim met en œuvre les mesures techniques et organisationnelles appropriées afin de garantir un
+                  Nova Habitation et Piscine met en œuvre les mesures techniques et organisationnelles appropriées afin de garantir un
                   niveau de sécurité adapté au risque, et de protéger vos données contre toute perte, altération,
                   divulgation ou accès non autorisé.
                 </p>

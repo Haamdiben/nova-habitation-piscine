@@ -5,6 +5,7 @@ import { NavbarComponent } from '../../components/navbar/navbar.component';
 import { FooterComponent } from '../../components/footer/footer.component';
 import { ScrollRevealDirective } from '../../directives/scroll-reveal.directive';
 import { ApiService } from '../../services/api.service';
+import { uploadUrl } from '../../utils/upload-url';
 
 @Component({
   selector: 'app-projects',
@@ -37,6 +38,6 @@ export class ProjectsComponent implements OnInit {
   }
 
   getPhotoUrl(filepath: string): string {
-    return `http://localhost:3000/${filepath}`;
+    return uploadUrl(filepath);
   }
 }

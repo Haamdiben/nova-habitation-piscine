@@ -4,3 +4,9 @@
     color: white !important;
   }
 }
+
+input.ng-touched.ng-invalid,
+select.ng-touched.ng-invalid,
+textarea.ng-touched.ng-invalid {
+  border-color: #dc2626 !important;
+}

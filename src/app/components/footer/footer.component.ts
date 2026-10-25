@@ -13,7 +13,7 @@ import { ApiService } from '../../services/api.service';
         <div class="grid grid-cols-1 md:grid-cols-4 gap-12 mb-12 text-center md:text-left">
           <!-- About -->
           <div>
-            <h3 class="text-xl font-bold mb-4">ipswim</h3>
+            <h3 class="text-xl font-bold mb-4">Nova Habitation et Piscine</h3>
             <p class="text-gray-300 text-sm mb-4">{{ info()?.tagline }}</p>
             <div class="text-sm text-gray-400">
               <p><strong>SIREN:</strong> {{ info()?.siren }}</p>
@@ -62,7 +62,7 @@ import { ApiService } from '../../services/api.service';
             <a [href]="info()?.instagramUrl || '#'" class="text-gray-300 hover:text-white transition">Instagram</a>
             <a [href]="info()?.linkedinUrl || '#'" class="text-gray-300 hover:text-white transition">LinkedIn</a>
           </div>
-          <p class="text-gray-400 text-sm">© 2026 ipswim. Tous droits réservés. | <a [href]="info()?.legalUrl || '#'" class="hover:text-white transition">Mentions légales</a></p>
+          <p class="text-gray-400 text-sm">© 2026 Nova Habitation et Piscine. Tous droits réservés. | <a [href]="info()?.legalUrl || '#'" class="hover:text-white transition">Mentions légales</a></p>
         </div>
       </div>
     </section>

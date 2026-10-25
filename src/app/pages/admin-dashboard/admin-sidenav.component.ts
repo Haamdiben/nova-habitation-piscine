@@ -91,6 +91,15 @@ import { RouterLink, RouterLinkActive } from '@angular/router';
         >
           <span class="text-lg">📋</span> Nos coordonnées
         </a>
+
+        <a
+          routerLink="/admin/dashboard/messages"
+          routerLinkActive="bg-gray-800"
+          (click)="closeMenu()"
+          class="block px-4 py-3 rounded-lg transition hover:bg-gray-800"
+        >
+          <span class="text-lg">✉️</span> Messages
+        </a>
       </nav>
 
       <div class="absolute bottom-6 left-4 right-4 border-t border-gray-700 pt-4 flex flex-col gap-2">
