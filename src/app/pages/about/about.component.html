@@ -2,60 +2,60 @@
 <app-navbar></app-navbar>
 
 <!-- About Section -->
-<section class="bg-white py-20 px-4 sm:px-6 lg:px-8">
-  <div class="max-w-4xl mx-auto">
-    <h1 class="text-6xl font-bold mb-12" style="color: #C09453;">À propos de nous</h1>
+<section class="section">
+  <div class="max-w-6xl mx-auto">
+    <div class="text-center mb-12">
+      <span class="eyebrow">Notre histoire</span>
+      <h1 class="font-display font-medium text-6xl md:text-8xl leading-[1] tracking-tight text-sheen">À propos de nous</h1>
+    </div>
 
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-center mb-16">
-      <img appScrollReveal="left" [src]="getAboutPhotoUrl()" alt="Fondateur" class="rounded-lg">
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-16 items-center mb-16">
+      <img appScrollReveal="left" [src]="getAboutPhotoUrl()" alt="Fondateur" class="w-full aspect-[4/5] object-cover rounded-3xl shadow-[0_14px_40px_-18px_rgba(20,40,70,0.35)]">
       <div appScrollReveal="right">
-        <p class="text-lg text-gray-600 italic mb-6">"{{ info()?.quote }}"</p>
-        <p class="text-gray-600 mb-4">{{ info()?.paragraph1 }}</p>
-        <p class="text-gray-600 mb-4">{{ info()?.paragraph2 }}</p>
+        <p class="font-display italic text-3xl md:text-4xl leading-snug text-sea-200 mb-10">« {{ info()?.quote }} »</p>
+        <span class="divider-accent mb-10"></span>
+        <p class="text-sea-100/70 leading-relaxed mb-6">{{ info()?.paragraph1 }}</p>
+        <p class="text-sea-100/70 leading-relaxed">{{ info()?.paragraph2 }}</p>
       </div>
     </div>
 
-    <div appScrollReveal="up" class="bg-gray-50 p-8 rounded-lg mb-16">
-      <h2 class="text-2xl font-bold text-gray-900 mb-6">Notre philosophie</h2>
-      <p class="text-gray-600 mb-4">{{ info()?.philosophyText1 }}</p>
-      <p class="text-gray-600">{{ info()?.philosophyText2 }}</p>
+    <div appScrollReveal="up" class="card relative overflow-hidden p-10 md:p-16 mb-16 text-center">
+      <!-- Soft pool-blue glows -->
+      <span class="pointer-events-none absolute -left-20 -top-20 h-56 w-56 rounded-full bg-sea-400/10 blur-3xl"></span>
+      <span class="pointer-events-none absolute -right-20 -bottom-20 h-56 w-56 rounded-full bg-sea-400/10 blur-3xl"></span>
+      <span class="eyebrow relative">Nos valeurs</span>
+      <h2 class="relative text-4xl md:text-5xl text-sea-200 mb-8">Notre philosophie</h2>
+      <div class="relative max-w-3xl mx-auto">
+        <p class="text-sea-100/70 leading-relaxed mb-4">{{ info()?.philosophyText1 }}</p>
+        <p class="text-sea-100/70 leading-relaxed">{{ info()?.philosophyText2 }}</p>
+      </div>
     </div>
 
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-12 md:divide-x md:divide-sea-500/15">
       <div appScrollReveal="up" class="text-center">
-        <h3 class="text-4xl font-bold mb-2" style="color: #C09453;">{{ info()?.stat1Value }}</h3>
-        <p class="text-gray-600">{{ info()?.stat1Label }}</p>
+        <p class="stat-value">{{ info()?.stat1Value }}</p>
+        <p class="stat-label">{{ info()?.stat1Label }}</p>
       </div>
       <div appScrollReveal="up" [revealDelay]="100" class="text-center">
-        <h3 class="text-4xl font-bold mb-2" style="color: #C09453;">{{ info()?.stat2Value }}</h3>
-        <p class="text-gray-600">{{ info()?.stat2Label }}</p>
+        <p class="stat-value">{{ info()?.stat2Value }}</p>
+        <p class="stat-label">{{ info()?.stat2Label }}</p>
       </div>
       <div appScrollReveal="up" [revealDelay]="200" class="text-center">
-        <h3 class="text-4xl font-bold mb-2" style="color: #C09453;">{{ info()?.stat3Value }}</h3>
-        <p class="text-gray-600">{{ info()?.stat3Label }}</p>
+        <p class="stat-value">{{ info()?.stat3Value }}</p>
+        <p class="stat-label">{{ info()?.stat3Label }}</p>
       </div>
     </div>
   </div>
 </section>
 
 <!-- Services Section -->
-<section id="domaines-expertise" class="bg-gray-50 py-20 px-4 sm:px-6 lg:px-8 scroll-mt-24">
+<section id="domaines-expertise" class="section section-alt scroll-mt-24">
   <div class="max-w-6xl mx-auto">
-    <h2 appScrollReveal="up" class="text-5xl font-bold mb-12 text-center" style="color: #C09453;">Nos domaines d'expertise</h2>
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-      <div
-        *ngFor="let service of services(); let i = index"
-        appScrollReveal="up"
-        [revealDelay]="(i % 2) * 100"
-        class="bg-white p-8 rounded-lg border border-gray-200"
-      >
-        <h3 class="text-2xl font-bold text-gray-900 mb-4">{{ service.title }}</h3>
-        <p class="text-gray-600 mb-4">{{ service.description }}</p>
-        <ul *ngIf="service.features" class="text-gray-600 space-y-2">
-          <li *ngFor="let feature of splitFeatures(service.features)">✓ {{ feature }}</li>
-        </ul>
-      </div>
+    <div class="text-center mb-12">
+      <span appScrollReveal="up" class="eyebrow">Savoir-faire</span>
+      <h2 appScrollReveal="up" [revealDelay]="80" class="section-title">Nos domaines d'expertise</h2>
     </div>
+    <app-service-list [services]="services()" [showFeatures]="true"></app-service-list>
   </div>
 </section>
 

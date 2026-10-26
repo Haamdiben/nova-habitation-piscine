@@ -14,12 +14,12 @@
 
       <!-- Desktop Menu -->
       <div class="hidden md:flex space-x-10 items-center">
-        <a routerLink="/" class="nav-link text-lg font-medium">Accueil</a>
-        <a routerLink="/apropos" class="nav-link text-lg font-medium">À propos de nous</a>
-        <a routerLink="/realisations" class="nav-link text-lg font-medium">Réalisations</a>
-        <a routerLink="/contact" class="nav-link text-lg font-medium">Nous contacter</a>
+        <a routerLink="/" class="nav-link">Accueil</a>
+        <a routerLink="/apropos" class="nav-link">À propos de nous</a>
+        <a routerLink="/realisations" class="nav-link">Réalisations</a>
+        <a routerLink="/contact" class="nav-link">Nous contacter</a>
         <div class="nav-divider border-l pl-8">
-          <a routerLink="/admin/login" class="nav-admin text-xs transition">Admin</a>
+          <a routerLink="/admin/login" class="nav-admin text-[0.65rem] uppercase tracking-[0.25em]">Admin</a>
         </div>
       </div>
 
@@ -46,33 +46,33 @@
 
   <!-- Full-Screen Mobile Menu -->
   @if (isMenuOpen()) {
-    <div class="md:hidden fixed inset-0 top-32 z-50 bg-white flex flex-col items-center justify-start pt-24 h-screen menu-enter">
+    <div class="md:hidden fixed inset-0 top-24 z-50 bg-ink flex flex-col items-center justify-start pt-24 h-screen menu-enter">
       <div class="space-y-8 text-center menu-content-enter">
         <a
           routerLink="/"
           (click)="closeMenu()"
-          class="block text-3xl text-gray-900 hover:text-blue-600 font-bold transition"
+          class="block font-display text-4xl text-sea-100 hover:text-sea-300 transition"
         >
           Accueil
         </a>
         <a
           routerLink="/apropos"
           (click)="closeMenu()"
-          class="block text-3xl text-gray-900 hover:text-blue-600 font-bold transition"
+          class="block font-display text-4xl text-sea-100 hover:text-sea-300 transition"
         >
           À propos de nous
         </a>
         <a
           routerLink="/realisations"
           (click)="closeMenu()"
-          class="block text-3xl text-gray-900 hover:text-blue-600 font-bold transition"
+          class="block font-display text-4xl text-sea-100 hover:text-sea-300 transition"
         >
           Réalisations
         </a>
         <a
           routerLink="/contact"
           (click)="closeMenu()"
-          class="block text-3xl text-gray-900 hover:text-blue-600 font-bold transition"
+          class="block font-display text-4xl text-sea-100 hover:text-sea-300 transition"
         >
           Nous contacter
         </a>

@@ -1,4 +1,4 @@
-<section class="hero-slider relative w-full h-screen h-[100svh] min-h-[560px] bg-neutral-950 overflow-hidden">
+<section class="hero-slider on-dark relative w-full h-screen h-[100svh] min-h-[560px] bg-neutral-950 overflow-hidden">
   <!-- Loading skeleton -->
   @if (loading()) {
     <div class="hero-slider__skeleton absolute inset-0"></div>
@@ -6,7 +6,7 @@
 
   <!-- Empty state -->
   @if (!loading() && totalSlides() === 0) {
-    <div class="absolute inset-0 flex items-center justify-center text-white/70">
+    <div class="absolute inset-0 flex items-center justify-center text-sea-100/70">
       <p>Aucune photo dans le slider pour le moment.</p>
     </div>
   }
@@ -27,7 +27,7 @@
           <div class="swiper-slide relative overflow-hidden" data-swiper-autoplay="3600000">
             <div
               class="hero-slider__video absolute inset-0 bg-cover bg-center"
-              [class.hero-slider__video--playing]="videoPlaying()"
+              [class.hero-slider__video--playing]="videoRevealed()"
               [style.background-image]="'url(' + videoPoster() + ')'"
             >
               <div #videoEl></div>
@@ -49,15 +49,15 @@
             <!-- Text content -->
             <div class="relative z-10 h-full flex items-end">
               <div class="w-full max-w-7xl mx-auto px-6 sm:px-10 lg:px-16 pb-28 md:pb-36">
-                <div class="max-w-2xl text-white">
-                  <span class="hero-slider__eyebrow inline-block mb-5 h-[2px] w-16 bg-[#C09453]"></span>
+                <div class="max-w-3xl text-sea-50">
+                  <span class="hero-slider__eyebrow inline-block mb-5 h-[2px] w-16 bg-sea-500"></span>
                   @if (slide.title) {
-                    <h2 class="hero-slider__title text-4xl sm:text-5xl md:text-6xl lg:text-7xl leading-[1.05] mb-5 drop-shadow-lg">
+                    <h2 class="hero-slider__title font-display font-medium text-5xl sm:text-6xl md:text-7xl lg:text-8xl leading-[1] tracking-tight mb-6 drop-shadow-lg">
                       {{ slide.title }}
                     </h2>
                   }
                   @if (slide.description) {
-                    <p class="hero-slider__text text-lg md:text-xl text-white/85 max-w-xl leading-relaxed">
+                    <p class="hero-slider__text text-lg md:text-xl font-light text-sea-100/85 max-w-xl leading-relaxed">
                       {{ slide.description }}
                     </p>
                   }
@@ -76,9 +76,9 @@
     >
       <div class="max-w-7xl mx-auto px-6 sm:px-10 lg:px-16 pb-8 md:pb-10 flex items-center gap-6">
         <!-- Counter -->
-        <div class="hidden sm:flex items-baseline gap-2 text-white font-garamond tabular-nums">
+        <div class="hidden sm:flex items-baseline gap-2 text-sea-100 font-display tabular-nums">
           <span class="text-3xl">{{ pad(currentSlide() + 1) }}</span>
-          <span class="text-white/50 text-sm">/ {{ pad(totalSlides()) }}</span>
+          <span class="text-sea-100/50 text-sm">/ {{ pad(totalSlides()) }}</span>
         </div>
 
         <!-- Progress bullets -->

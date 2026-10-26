@@ -4,6 +4,9 @@ import { RouterLink } from '@angular/router';
 import { ImageSliderComponent } from '../../components/image-slider/image-slider.component';
 import { NavbarComponent } from '../../components/navbar/navbar.component';
 import { FooterComponent } from '../../components/footer/footer.component';
+import { ChantierCardComponent } from '../../components/chantier-card/chantier-card.component';
+import { ServiceListComponent } from '../../components/service-list/service-list.component';
+import { ReviewsComponent } from '../../components/reviews/reviews.component';
 import { ScrollRevealDirective } from '../../directives/scroll-reveal.directive';
 import { ApiService } from '../../services/api.service';
 import { uploadUrl } from '../../utils/upload-url';
@@ -11,7 +14,17 @@ import { uploadUrl } from '../../utils/upload-url';
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [CommonModule, RouterLink, ImageSliderComponent, NavbarComponent, FooterComponent, ScrollRevealDirective],
+  imports: [
+    CommonModule,
+    RouterLink,
+    ImageSliderComponent,
+    NavbarComponent,
+    FooterComponent,
+    ChantierCardComponent,
+    ServiceListComponent,
+    ReviewsComponent,
+    ScrollRevealDirective,
+  ],
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss',
 })

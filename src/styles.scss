@@ -5,27 +5,178 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Premium Typography */
+/* Design tokens ("Riviera": warm white and pool-mist backgrounds, every text and accent in Riviera blues).
+   Colours are space-separated RGB so Tailwind opacity modifiers like text-sea-100/70 work.
+   `ink-*` = backgrounds, `sea-*` = text and accents: 50-200 navy (text), 300-400 pool blue (links, details),
+   500 = accent blue (labels, lines, buttons).
+   `.on-dark` swaps in light blues for dark areas: content over photos and the footer. */
 @layer base {
-  body {
-    @apply font-lato;
+  :root {
+    /* Gradient used by .text-sheen: navy into pool blue */
+    --sheen-edge: 20 52 92;
+    --sheen-mid: 41 130 175;
+
+    /* Backgrounds: warm white, then pool-mist blues */
+    --ink: 252 251 248;
+    --ink-800: 246 248 249;
+    --ink-700: 232 240 243;
+    --ink-600: 214 227 233;
+
+    /* Text: navy levels */
+    --sea-50: 14 36 64;
+    --sea-100: 30 58 92;
+    --sea-200: 20 52 92;
+    /* Pool blues */
+    --sea-300: 35 95 140;
+    --sea-400: 52 130 170;
+    /* Accent */
+    --sea-500: 41 112 156;
+    --sea-600: 86 158 196;
+    --sea-700: 130 186 214;
+    --sea-800: 178 214 232;
+    --sea-900: 214 234 244;
+
+    /* Gold for small labels and key figures: deep enough to stay readable on white */
+    --gold: 168 126 58;
+    --gold-light: 208 168 100;
   }
 
-  h1, h2, h3, h4, h5, h6 {
-    @apply font-garamond font-bold;
+  .on-dark {
+    --sheen-edge: 140 196 226;
+    --sheen-mid: 255 255 255;
+
+    /* Deep navy backgrounds */
+    --ink: 8 18 32;
+    --ink-800: 12 25 43;
+    --ink-700: 17 33 56;
+    --ink-600: 24 44 72;
+
+    /* Text: white to ice blue; accent: sky blue */
+    --sea-50: 255 255 255;
+    --sea-100: 236 244 250;
+    --sea-200: 214 232 244;
+    --sea-300: 180 214 234;
+    --sea-400: 140 196 226;
+    --sea-500: 124 188 222;
+    --sea-600: 90 160 200;
+    --sea-700: 60 125 165;
+    --sea-800: 40 90 125;
+    --sea-900: 25 60 90;
+
+    --gold: 222 190 128;
+    --gold-light: 240 218 170;
   }
 }
 
-/* Custom font definitions */
+/* Typography */
 @layer base {
-  @font-face {
-    font-family: 'EB Garamond';
-    font-display: swap;
+  body {
+    @apply font-body;
   }
 
-  @font-face {
-    font-family: 'Lato';
-    font-display: swap;
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-display font-medium;
+  }
+
+  /* Public site theme (toggled on <html> by the App component; the admin keeps its own styles) */
+  html.site-theme,
+  html.site-theme body {
+    @apply bg-ink;
+  }
+
+  html.site-theme body {
+    @apply text-sea-100/80 antialiased;
+    font-size: 1.0625rem;
+    font-weight: 300;
+  }
+
+  html.site-theme ::selection {
+    @apply bg-sea-500 text-ink;
+  }
+}
+
+/* Shared building blocks for the public site */
+@layer components {
+  .section {
+    @apply py-16 md:py-20 px-6 sm:px-10 lg:px-16;
+  }
+
+  /* Alternate pool-mist section */
+  .section-alt {
+    @apply bg-ink-700 border-y border-sea-500/10;
+  }
+
+  /* Small uppercase label above a title */
+  .eyebrow {
+    @apply block font-body font-normal uppercase tracking-[0.35em] text-xs text-gold mb-5;
+  }
+
+  .section-title {
+    @apply font-display font-medium text-5xl md:text-6xl lg:text-7xl leading-[1.05] tracking-tight text-sea-200;
+  }
+
+  /* Polished gold gradient for the key figures */
+  .text-gold-sheen {
+    background: linear-gradient(100deg, rgb(var(--gold)) 0%, rgb(var(--gold-light)) 50%, rgb(var(--gold)) 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+
+  /* Polished-metal gradient for the biggest headings */
+  .text-sheen {
+    background: linear-gradient(100deg, rgb(var(--sheen-edge)) 0%, rgb(var(--sheen-mid)) 50%, rgb(var(--sheen-edge)) 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+
+  .divider-accent {
+    @apply block h-px w-16 bg-sea-500;
+  }
+
+  /* Rounded white card with a soft navy shadow (services, philosophy, contact) */
+  .card {
+    @apply rounded-3xl bg-white ring-1 ring-sea-500/10 shadow-[0_10px_40px_-18px_rgba(20,40,70,0.25)];
+  }
+
+  .btn-outline {
+    @apply inline-flex items-center justify-center gap-3 rounded-full px-10 py-4 border border-sea-500 text-sea-200
+      font-body font-normal uppercase tracking-[0.25em] text-xs transition-all duration-500;
+
+    &:hover:not(:disabled) {
+      @apply bg-sea-500 text-white;
+    }
+
+    &:disabled {
+      @apply opacity-50 cursor-not-allowed;
+    }
+  }
+
+  .link-accent {
+    @apply text-sea-300 underline decoration-sea-500/40 underline-offset-4 transition-colors;
+
+    &:hover {
+      @apply text-sea-100 decoration-sea-300;
+    }
+  }
+
+  .field-dark {
+    @apply w-full rounded-xl bg-ink-800 border border-sea-500/25 px-4 py-3 text-sea-50 placeholder-sea-100/30
+      transition-colors focus:outline-none focus:border-sea-400 focus:bg-white;
+  }
+
+  .stat-value {
+    @apply font-display text-6xl md:text-7xl font-medium text-gold-sheen leading-none mb-3;
+  }
+
+  .stat-label {
+    @apply font-body font-normal uppercase tracking-[0.25em] text-xs text-gold;
+  }
+
+  /* Small uppercase label for contact details and form fields */
+  .field-label {
+    @apply block font-body font-normal uppercase tracking-[0.25em] text-xs text-sea-100/60;
   }
 }
 

@@ -2,6 +2,7 @@ import { Component, OnInit, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { NavbarComponent } from '../../components/navbar/navbar.component';
 import { FooterComponent } from '../../components/footer/footer.component';
+import { ServiceListComponent } from '../../components/service-list/service-list.component';
 import { ScrollRevealDirective } from '../../directives/scroll-reveal.directive';
 import { ApiService } from '../../services/api.service';
 import { uploadUrl } from '../../utils/upload-url';
@@ -9,7 +10,7 @@ import { uploadUrl } from '../../utils/upload-url';
 @Component({
   selector: 'app-about',
   standalone: true,
-  imports: [CommonModule, NavbarComponent, FooterComponent, ScrollRevealDirective],
+  imports: [CommonModule, NavbarComponent, FooterComponent, ServiceListComponent, ScrollRevealDirective],
   templateUrl: './about.component.html',
   styleUrl: './about.component.scss',
 })
@@ -29,10 +30,6 @@ export class AboutComponent implements OnInit {
       next: (data) => this.services.set(data),
       error: (err) => console.error('Error loading services:', err),
     });
-  }
-
-  splitFeatures(features: string): string[] {
-    return (features || '').split('\n').map((f) => f.trim()).filter((f) => f.length > 0);
   }
 
   getAboutPhotoUrl(): string {

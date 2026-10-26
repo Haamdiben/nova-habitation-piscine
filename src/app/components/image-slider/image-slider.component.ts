@@ -20,6 +20,8 @@ import { loadYouTubeApi, youTubeThumbnail } from '../../utils/youtube-api';
 const AUTOPLAY_DELAY = 6000;
 /** Move on if the video hasn't started playing after this long (blocked, offline…) */
 const VIDEO_START_TIMEOUT = 10000;
+/** YouTube shows its title/logo/"more videos" overlay for ~3.5s after playback starts; keep the poster on top meanwhile */
+const VIDEO_REVEAL_DELAY = 4500;
 
 @Component({
   selector: 'app-image-slider',
@@ -42,6 +44,8 @@ export class ImageSliderComponent implements OnInit, OnDestroy {
   totalSlides = computed(() => this.slides().length + (this.videoId() ? 1 : 0));
 
   videoPlaying = signal(false);
+  /** True once YouTube's start-up overlay has gone, so the iframe can be shown */
+  videoRevealed = signal(false);
   videoDuration = signal(0);
 
   private swiperEl = viewChild<ElementRef<HTMLElement>>('swiperEl');
@@ -51,6 +55,7 @@ export class ImageSliderComponent implements OnInit, OnDestroy {
   private swiper?: Swiper;
   private player?: any;
   private videoTimeout?: ReturnType<typeof setTimeout>;
+  private revealTimeout?: ReturnType<typeof setTimeout>;
 
   constructor(private apiService: ApiService) {
     // Init Swiper once the slides are in the DOM
@@ -141,9 +146,18 @@ export class ImageSliderComponent implements OnInit, OnDestroy {
             if (e.data === YT.PlayerState.PLAYING) {
               clearTimeout(this.videoTimeout);
               this.videoDuration.set(e.target.getDuration());
-              this.videoPlaying.set(true);
+              this.setVideoPlaying(true);
+            } else if (e.data === YT.PlayerState.PAUSED) {
+              // Paused by the browser (power saving, tab switch…): hide YouTube's pause UI behind
+              // the poster and resume, moving on to the photos if it can't
+              this.setVideoPlaying(false);
+              if (this.isOnVideo()) {
+                clearTimeout(this.videoTimeout);
+                this.armVideoTimeout();
+                e.target.playVideo();
+              }
             } else if (e.data === YT.PlayerState.ENDED) {
-              this.videoPlaying.set(false);
+              this.setVideoPlaying(false);
               if (this.totalSlides() > 1) {
                 this.swiper?.slideNext();
               } else {
@@ -162,7 +176,7 @@ export class ImageSliderComponent implements OnInit, OnDestroy {
   private onVideoSlideChange() {
     if (!this.videoId()) return;
     clearTimeout(this.videoTimeout);
-    this.videoPlaying.set(false);
+    this.setVideoPlaying(false);
 
     if (this.isOnVideo()) {
       this.armVideoTimeout();
@@ -170,6 +184,16 @@ export class ImageSliderComponent implements OnInit, OnDestroy {
       this.player?.playVideo?.();
     } else {
       this.player?.pauseVideo?.();
+    }
+  }
+
+  private setVideoPlaying(playing: boolean) {
+    this.videoPlaying.set(playing);
+    clearTimeout(this.revealTimeout);
+    if (playing) {
+      this.revealTimeout = setTimeout(() => this.videoRevealed.set(true), VIDEO_REVEAL_DELAY);
+    } else {
+      this.videoRevealed.set(false);
     }
   }
 
@@ -205,6 +229,7 @@ export class ImageSliderComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     clearTimeout(this.videoTimeout);
+    clearTimeout(this.revealTimeout);
     this.player?.destroy?.();
     this.swiper?.destroy(true, true);
   }

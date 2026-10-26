@@ -13,7 +13,7 @@ export interface LightboxPhoto {
   imports: [CommonModule],
   template: `
     <div
-      class="fixed inset-0 z-[100] flex items-center justify-center overflow-hidden"
+      class="on-dark fixed inset-0 z-[100] flex items-center justify-center overflow-hidden"
       (click)="close.emit()"
     >
       <!-- Blurred artistic backdrop using the current photo -->
@@ -27,7 +27,7 @@ export interface LightboxPhoto {
       <!-- Close button -->
       <button
         (click)="close.emit(); $event.stopPropagation()"
-        class="absolute top-4 right-4 sm:top-6 sm:right-6 z-20 w-11 h-11 rounded-full bg-black bg-opacity-40 text-white flex items-center justify-center hover:bg-opacity-70 transition"
+        class="absolute top-4 right-4 sm:top-6 sm:right-6 z-20 w-11 h-11 rounded-full bg-black bg-opacity-40 text-sea-50 flex items-center justify-center hover:bg-opacity-70 transition"
         aria-label="Fermer"
       >
         <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -37,10 +37,10 @@ export interface LightboxPhoto {
 
       <!-- Title / caption -->
       <div class="absolute top-0 left-0 right-0 z-20 px-6 pt-6 sm:pt-8 text-center pointer-events-none">
-        <h3 class="text-white text-xl sm:text-2xl font-bold tracking-wide" style="text-shadow: 0 2px 12px rgba(0,0,0,0.6);">
+        <h3 class="text-sea-50 text-xl sm:text-2xl tracking-wide" style="text-shadow: 0 2px 12px rgba(0,0,0,0.6);">
           {{ title() }}
         </h3>
-        <p class="text-sm mt-1" style="color: #E9C98C; text-shadow: 0 1px 6px rgba(0,0,0,0.6);">
+        <p class="text-sm mt-1 text-sea-300" style="text-shadow: 0 1px 6px rgba(0,0,0,0.6);">
           {{ index() + 1 }} / {{ photos().length }}
         </p>
       </div>
@@ -49,7 +49,7 @@ export interface LightboxPhoto {
       <button
         *ngIf="photos().length > 1"
         (click)="prev(); $event.stopPropagation()"
-        class="hidden sm:flex absolute left-4 lg:left-8 top-1/2 -translate-y-1/2 z-20 w-12 h-12 rounded-full bg-black bg-opacity-30 text-white items-center justify-center hover:bg-opacity-60 transition"
+        class="hidden sm:flex absolute left-4 lg:left-8 top-1/2 -translate-y-1/2 z-20 w-12 h-12 rounded-full bg-black bg-opacity-30 text-sea-50 items-center justify-center hover:bg-opacity-60 transition"
         aria-label="Photo précédente"
       >
         <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -61,7 +61,7 @@ export interface LightboxPhoto {
       <button
         *ngIf="photos().length > 1"
         (click)="next(); $event.stopPropagation()"
-        class="hidden sm:flex absolute right-4 lg:right-8 top-1/2 -translate-y-1/2 z-20 w-12 h-12 rounded-full bg-black bg-opacity-30 text-white items-center justify-center hover:bg-opacity-60 transition"
+        class="hidden sm:flex absolute right-4 lg:right-8 top-1/2 -translate-y-1/2 z-20 w-12 h-12 rounded-full bg-black bg-opacity-30 text-sea-50 items-center justify-center hover:bg-opacity-60 transition"
         aria-label="Photo suivante"
       >
         <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -82,7 +82,7 @@ export interface LightboxPhoto {
       <div *ngIf="photos().length > 1" class="sm:hidden absolute bottom-24 left-0 right-0 z-20 flex justify-center gap-6">
         <button
           (click)="prev(); $event.stopPropagation()"
-          class="w-11 h-11 rounded-full bg-black bg-opacity-40 text-white flex items-center justify-center"
+          class="w-11 h-11 rounded-full bg-black bg-opacity-40 text-sea-50 flex items-center justify-center"
           aria-label="Photo précédente"
         >
           <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -91,7 +91,7 @@ export interface LightboxPhoto {
         </button>
         <button
           (click)="next(); $event.stopPropagation()"
-          class="w-11 h-11 rounded-full bg-black bg-opacity-40 text-white flex items-center justify-center"
+          class="w-11 h-11 rounded-full bg-black bg-opacity-40 text-sea-50 flex items-center justify-center"
           aria-label="Photo suivante"
         >
           <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -111,7 +111,7 @@ export interface LightboxPhoto {
             *ngFor="let photo of photos(); let i = index"
             (click)="goTo(i)"
             class="flex-shrink-0 w-14 h-14 sm:w-16 sm:h-16 rounded overflow-hidden border-2 transition"
-            [style.borderColor]="i === index() ? '#C09453' : 'transparent'"
+            [style.borderColor]="i === index() ? '#7cbcde' : 'transparent'"
             [style.opacity]="i === index() ? '1' : '0.55'"
           >
             <img [src]="photoUrl(photo)" [alt]="title()" class="w-full h-full object-cover" />

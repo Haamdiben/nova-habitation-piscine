@@ -1,16 +1,15 @@
 import { Component, OnInit, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterLink } from '@angular/router';
 import { NavbarComponent } from '../../components/navbar/navbar.component';
 import { FooterComponent } from '../../components/footer/footer.component';
+import { ChantierSliderComponent } from '../../components/chantier-slider/chantier-slider.component';
 import { ScrollRevealDirective } from '../../directives/scroll-reveal.directive';
 import { ApiService } from '../../services/api.service';
-import { uploadUrl } from '../../utils/upload-url';
 
 @Component({
   selector: 'app-projects',
   standalone: true,
-  imports: [CommonModule, RouterLink, NavbarComponent, FooterComponent, ScrollRevealDirective],
+  imports: [CommonModule, NavbarComponent, FooterComponent, ChantierSliderComponent, ScrollRevealDirective],
   templateUrl: './projects.component.html',
   styleUrl: './projects.component.scss',
 })
@@ -35,9 +34,5 @@ export class ProjectsComponent implements OnInit {
         this.loading.set(false);
       },
     });
-  }
-
-  getPhotoUrl(filepath: string): string {
-    return uploadUrl(filepath);
   }
 }

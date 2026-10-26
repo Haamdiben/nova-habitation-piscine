@@ -1,6 +1,6 @@
 // Styles are unencapsulated (Swiper classes are added at runtime), so everything is scoped under .hero-slider
 .hero-slider {
-  --hero-gold: #c09453;
+  --hero-accent: #7cbcde;
 
   // Gentle Ken Burns zoom on the active slide
   .hero-slider__image {
@@ -14,7 +14,7 @@
   }
 
   // Background video: an oversized YouTube iframe cropped to cover the slide like object-fit: cover.
-  // It stays hidden (poster image shows) until playback starts, which also hides YouTube's loading UI.
+  // It stays hidden (poster image shows) until YouTube's loading and start-up overlays are gone.
   .hero-slider__video iframe {
     position: absolute;
     top: 50%;
@@ -87,7 +87,7 @@
 
     span {
       width: 0;
-      background: var(--hero-gold);
+      background: var(--hero-accent);
     }
 
     &:hover::before {
@@ -112,15 +112,16 @@
     width: 3rem;
     height: 3rem;
     border-radius: 9999px;
-    color: #fff;
-    border: 1px solid rgba(255, 255, 255, 0.35);
+    color: #ecf4fa;
+    border: 1px solid rgba(236, 244, 250, 0.5);
     background: rgba(255, 255, 255, 0.06);
     backdrop-filter: blur(6px);
     transition: all 0.3s ease;
 
     &:hover {
-      background: var(--hero-gold);
-      border-color: var(--hero-gold);
+      background: var(--hero-accent);
+      border-color: var(--hero-accent);
+      color: #08121f;
       transform: scale(1.06);
     }
   }
