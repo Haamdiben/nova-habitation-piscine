@@ -1,82 +1,123 @@
-<div class="relative w-full h-[600px] bg-black overflow-hidden">
-  <!-- Loading -->
+<section class="hero-slider relative w-full h-screen h-[100svh] min-h-[560px] bg-neutral-950 overflow-hidden">
+  <!-- Loading skeleton -->
   @if (loading()) {
-    <div class="absolute inset-0 flex items-center justify-center text-white">
-      <p>Chargement...</p>
-    </div>
+    <div class="hero-slider__skeleton absolute inset-0"></div>
   }
 
   <!-- Empty state -->
-  @if (!loading() && slides().length === 0) {
-    <div class="absolute inset-0 flex items-center justify-center text-white">
+  @if (!loading() && totalSlides() === 0) {
+    <div class="absolute inset-0 flex items-center justify-center text-white/70">
       <p>Aucune photo dans le slider pour le moment.</p>
     </div>
   }
 
-  @if (!loading() && slides().length > 0) {
-    <!-- Slides -->
-    <div class="relative w-full h-full">
-      @for (slide of slides(); let i = $index; track slide.id) {
-        <div
-          class="absolute inset-0 transition-opacity duration-1000 ease-in-out"
-          [class.opacity-100]="currentSlide() === i"
-          [class.opacity-0]="currentSlide() !== i"
-          [class.pointer-events-none]="currentSlide() !== i"
-        >
-          <img
-            [src]="getPhotoUrl(slide.filepath)"
-            [alt]="slide.title"
-            class="w-full h-full object-cover"
-          >
-          <!-- Overlay Gradient -->
-          <div class="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-50"></div>
-        </div>
-      }
-    </div>
+  <ng-template #overlays>
+    <!-- Overlays for legibility -->
+    <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-black/30"></div>
+    <div class="absolute inset-0 bg-gradient-to-r from-black/50 via-transparent to-transparent"></div>
+    <!-- Keeps the transparent navbar readable -->
+    <div class="absolute inset-x-0 top-0 h-40 bg-gradient-to-b from-black/60 to-transparent"></div>
+  </ng-template>
 
-    <!-- Slide Content (Text Overlay) -->
-    <div class="absolute inset-0 flex flex-col items-center justify-center text-white z-10">
-      <div class="text-center px-4 max-w-2xl">
-        <h2 class="text-5xl md:text-6xl font-bold mb-4">{{ slides()[currentSlide()].title }}</h2>
-        <p class="text-xl md:text-2xl text-gray-200">{{ slides()[currentSlide()].description }}</p>
-      </div>
-    </div>
+  @if (!loading() && totalSlides() > 0) {
+    <div #swiperEl class="swiper h-full w-full" [style.--hero-autoplay-delay.ms]="autoplayDelay">
+      <div class="swiper-wrapper">
+        <!-- Video slide: advances when the video ends, not on the autoplay timer -->
+        @if (videoId()) {
+          <div class="swiper-slide relative overflow-hidden" data-swiper-autoplay="3600000">
+            <div
+              class="hero-slider__video absolute inset-0 bg-cover bg-center"
+              [class.hero-slider__video--playing]="videoPlaying()"
+              [style.background-image]="'url(' + videoPoster() + ')'"
+            >
+              <div #videoEl></div>
+            </div>
+            <ng-container [ngTemplateOutlet]="overlays"></ng-container>
+          </div>
+        }
 
-    <!-- Previous Button -->
-    @if (slides().length > 1) {
-      <button
-        (click)="prevSlide()"
-        class="absolute left-8 top-1/2 transform -translate-y-1/2 z-20 bg-white bg-opacity-30 hover:bg-opacity-50 text-white p-3 rounded-full transition-all"
-        aria-label="Previous slide"
-      >
-        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
-        </svg>
-      </button>
+        @for (slide of slides(); track slide.id) {
+          <div class="swiper-slide relative overflow-hidden">
+            <img
+              [src]="getPhotoUrl(slide.filepath)"
+              [alt]="slide.title"
+              class="hero-slider__image absolute inset-0 w-full h-full object-cover"
+            >
 
-      <!-- Next Button -->
-      <button
-        (click)="nextSlide()"
-        class="absolute right-8 top-1/2 transform -translate-y-1/2 z-20 bg-white bg-opacity-30 hover:bg-opacity-50 text-white p-3 rounded-full transition-all"
-        aria-label="Next slide"
-      >
-        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
-        </svg>
-      </button>
+            <ng-container [ngTemplateOutlet]="overlays"></ng-container>
 
-      <!-- Dot Indicators -->
-      <div class="absolute bottom-8 left-1/2 transform -translate-x-1/2 z-20 flex gap-3">
-        @for (slide of slides(); let i = $index; track slide.id) {
-          <button
-            (click)="goToSlide(i)"
-            [class.bg-white]="currentSlide() === i"
-            [class.bg-white/50]="currentSlide() !== i"
-            class="w-3 h-3 rounded-full transition-all hover:bg-white"
-            [attr.aria-label]="'Go to slide ' + (i + 1)"
-          ></button>
+            <!-- Text content -->
+            <div class="relative z-10 h-full flex items-end">
+              <div class="w-full max-w-7xl mx-auto px-6 sm:px-10 lg:px-16 pb-28 md:pb-36">
+                <div class="max-w-2xl text-white">
+                  <span class="hero-slider__eyebrow inline-block mb-5 h-[2px] w-16 bg-[#C09453]"></span>
+                  @if (slide.title) {
+                    <h2 class="hero-slider__title text-4xl sm:text-5xl md:text-6xl lg:text-7xl leading-[1.05] mb-5 drop-shadow-lg">
+                      {{ slide.title }}
+                    </h2>
+                  }
+                  @if (slide.description) {
+                    <p class="hero-slider__text text-lg md:text-xl text-white/85 max-w-xl leading-relaxed">
+                      {{ slide.description }}
+                    </p>
+                  }
+                </div>
+              </div>
+            </div>
+          </div>
         }
       </div>
-    }
+    </div>
+
+    <!-- Bottom controls bar -->
+    <div
+      class="absolute inset-x-0 bottom-0 z-20 pointer-events-none"
+      [class.hidden]="totalSlides() < 2"
+    >
+      <div class="max-w-7xl mx-auto px-6 sm:px-10 lg:px-16 pb-8 md:pb-10 flex items-center gap-6">
+        <!-- Counter -->
+        <div class="hidden sm:flex items-baseline gap-2 text-white font-garamond tabular-nums">
+          <span class="text-3xl">{{ pad(currentSlide() + 1) }}</span>
+          <span class="text-white/50 text-sm">/ {{ pad(totalSlides()) }}</span>
+        </div>
+
+        <!-- Progress bullets -->
+        <div class="flex-1 flex gap-2 pointer-events-auto">
+          @if (videoId()) {
+            <button
+              type="button"
+              class="hero-slider__bullet hero-slider__bullet--video"
+              [class.hero-slider__bullet--active]="isBulletActive(0)"
+              [style.--bullet-duration.s]="videoDuration()"
+              (click)="goToSlide(0)"
+              aria-label="Aller à la vidéo"
+            ><span></span></button>
+          }
+          @for (slide of slides(); let i = $index; track slide.id) {
+            <button
+              type="button"
+              class="hero-slider__bullet"
+              [class.hero-slider__bullet--active]="isBulletActive(i + (videoId() ? 1 : 0))"
+              (click)="goToSlide(i + (videoId() ? 1 : 0))"
+              [attr.aria-label]="'Aller à la photo ' + (i + 1)"
+            ><span></span></button>
+          }
+        </div>
+
+        <!-- Arrows -->
+        <div class="flex gap-3 pointer-events-auto">
+          <button #prevEl class="hero-slider__arrow" type="button">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.75" d="M15 19l-7-7 7-7"></path>
+            </svg>
+          </button>
+          <button #nextEl class="hero-slider__arrow" type="button">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.75" d="M9 5l7 7-7 7"></path>
+            </svg>
+          </button>
+        </div>
+      </div>
+    </div>
   }
-</div>
+</section>

@@ -146,6 +146,18 @@ export class ApiService {
     });
   }
 
+  getSliderSettings(): Observable<{ videoId: string }> {
+    return this.http.get<{ videoId: string }>(`${this.apiUrl}/slides/settings`);
+  }
+
+  updateSliderSettings(videoId: string): Observable<{ videoId: string }> {
+    return this.http.put<{ videoId: string }>(
+      `${this.apiUrl}/slides/settings`,
+      { videoId },
+      { headers: this.getAuthHeaders() },
+    );
+  }
+
   reorderSlides(ids: number[]): Observable<any[]> {
     return this.http.put<any[]>(
       `${this.apiUrl}/slides/reorder`,

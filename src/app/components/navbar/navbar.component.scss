@@ -56,3 +56,39 @@
     transform-origin: left;
   }
 }
+
+// Solid (default) vs transparent-over-hero states
+.nav--solid {
+  background-color: #fff;
+  border-bottom-color: #C09453;
+  box-shadow: 0 4px 20px -12px rgba(0, 0, 0, 0.25);
+
+  .nav-divider { border-color: #d1d5db; }
+  .nav-admin { color: #6b7280; }
+  .nav-admin:hover { color: #111827; }
+  .nav-burger { color: #111827; }
+  .nav-burger:hover { background-color: #f3f4f6; }
+}
+
+.nav--transparent {
+  background-color: transparent;
+  border-bottom-color: rgba(255, 255, 255, 0.2);
+  box-shadow: none;
+
+  .nav-link { color: #fff; }
+  .nav-link:hover { color: #C09453; }
+  .nav-logo { filter: drop-shadow(0 2px 6px rgba(0, 0, 0, 0.35)); }
+  .nav-divider { border-color: rgba(255, 255, 255, 0.35); }
+  .nav-admin { color: rgba(255, 255, 255, 0.75); }
+  .nav-admin:hover { color: #fff; }
+  .nav-burger { color: #fff; }
+  .nav-burger:hover { background-color: rgba(255, 255, 255, 0.15); }
+}
+
+.nav-link,
+.nav-logo,
+.nav-divider,
+.nav-admin,
+.nav-burger {
+  transition: color 0.4s ease, border-color 0.4s ease, background-color 0.3s ease, filter 0.4s ease;
+}
