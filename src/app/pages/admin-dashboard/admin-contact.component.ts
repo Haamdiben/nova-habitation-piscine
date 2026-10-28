@@ -143,6 +143,68 @@ import { ApiService } from '../../services/api.service';
                 </div>
               </div>
 
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div>
+                  <label class="flex items-center gap-2 text-sm font-medium text-gray-900 mb-2">
+                    Forme juridique et capital
+                    <app-field-visibility-badge variant="other" text='visible uniquement sur "Mentions légales"'></app-field-visibility-badge>
+                  </label>
+                  <input
+                    type="text"
+                    [(ngModel)]="contactData.legalForm"
+                    name="legalForm"
+                    class="w-full px-4 py-2 border-2 rounded-lg"
+                    style="border-color: #C09453;"
+                    placeholder="SAS au capital de 10 000 €"
+                  />
+                </div>
+                <div>
+                  <label class="flex items-center gap-2 text-sm font-medium text-gray-900 mb-2">
+                    Siège social
+                    <app-field-visibility-badge variant="other" text='visible uniquement sur "Mentions légales"'></app-field-visibility-badge>
+                  </label>
+                  <input
+                    type="text"
+                    [(ngModel)]="contactData.headOffice"
+                    name="headOffice"
+                    class="w-full px-4 py-2 border-2 rounded-lg"
+                    style="border-color: #C09453;"
+                    placeholder="321 Avenue Jules Grec, 06600 Antibes"
+                  />
+                </div>
+              </div>
+
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div>
+                  <label class="flex items-center gap-2 text-sm font-medium text-gray-900 mb-2">
+                    Immatriculation RCS
+                    <app-field-visibility-badge variant="other" text='visible uniquement sur "Mentions légales"'></app-field-visibility-badge>
+                  </label>
+                  <input
+                    type="text"
+                    [(ngModel)]="contactData.rcs"
+                    name="rcs"
+                    class="w-full px-4 py-2 border-2 rounded-lg"
+                    style="border-color: #C09453;"
+                    placeholder="RCS Antibes 108 931 528"
+                  />
+                </div>
+                <div>
+                  <label class="flex items-center gap-2 text-sm font-medium text-gray-900 mb-2">
+                    N° de TVA intracommunautaire
+                    <app-field-visibility-badge variant="other" text='visible uniquement sur "Mentions légales"'></app-field-visibility-badge>
+                  </label>
+                  <input
+                    type="text"
+                    [(ngModel)]="contactData.vatNumber"
+                    name="vatNumber"
+                    class="w-full px-4 py-2 border-2 rounded-lg"
+                    style="border-color: #C09453;"
+                    placeholder="FR44108931528"
+                  />
+                </div>
+              </div>
+
               <div>
                 <label class="flex items-center gap-2 text-sm font-medium text-gray-900 mb-2">
                   Horaires d'ouverture
@@ -262,6 +324,10 @@ export class AdminContactComponent implements OnInit {
     postalCode: '',
     siren: '',
     siret: '',
+    legalForm: '',
+    headOffice: '',
+    rcs: '',
+    vatNumber: '',
     hours: '',
     tagline: '',
     facebookUrl: '',
@@ -284,6 +350,10 @@ export class AdminContactComponent implements OnInit {
           postalCode: data.postalCode || '',
           siren: data.siren || '',
           siret: data.siret || '',
+          legalForm: data.legalForm || '',
+          headOffice: data.headOffice || '',
+          rcs: data.rcs || '',
+          vatNumber: data.vatNumber || '',
           hours: data.hours || '',
           tagline: data.tagline || '',
           facebookUrl: data.facebookUrl || '',

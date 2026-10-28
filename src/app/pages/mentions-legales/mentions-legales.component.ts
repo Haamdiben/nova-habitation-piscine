@@ -28,12 +28,18 @@ import { ApiService } from '../../services/api.service';
             </p>
             <ul class="text-sea-100/75 leading-relaxed mt-4 space-y-1">
               <li><strong>Nom commercial :</strong> Nova Habitat - Piscine</li>
+              <li *ngIf="info()?.legalForm"><strong>Forme juridique :</strong> {{ info()?.legalForm }}</li>
+              <li *ngIf="info()?.headOffice; else visitorAddress"><strong>Siège social :</strong> {{ info()?.headOffice }}</li>
+              <ng-template #visitorAddress>
+                <li *ngIf="info()?.address"><strong>Adresse :</strong> {{ info()?.address }}<span *ngIf="info()?.postalCode || info()?.city">, {{ info()?.postalCode }} {{ info()?.city }}</span></li>
+              </ng-template>
               <li *ngIf="info()?.siren"><strong>SIREN :</strong> {{ info()?.siren }}</li>
               <li *ngIf="info()?.siret"><strong>SIRET :</strong> {{ info()?.siret }}</li>
-              <li *ngIf="info()?.address"><strong>Adresse :</strong> {{ info()?.address }}<span *ngIf="info()?.postalCode || info()?.city">, {{ info()?.postalCode }} {{ info()?.city }}</span></li>
+              <li *ngIf="info()?.rcs"><strong>Immatriculation :</strong> {{ info()?.rcs }}</li>
+              <li *ngIf="info()?.vatNumber"><strong>TVA intracommunautaire :</strong> {{ info()?.vatNumber }}</li>
               <li *ngIf="info()?.email"><strong>Email :</strong> <a [href]="'mailto:' + info()?.email" class="link-accent">{{ info()?.email }}</a></li>
               <li *ngIf="info()?.phone"><strong>Téléphone :</strong> {{ info()?.phone }}</li>
-              <li><strong>Directeur de la publication :</strong> {{ info()?.managerName ? info()?.managerName + ', gérant' : 'le représentant légal de Nova Habitat - Piscine' }}</li>
+              <li><strong>Directeur de la publication :</strong> {{ info()?.managerName ? info()?.managerName + ', président' : 'le représentant légal de Nova Habitat - Piscine' }}</li>
             </ul>
           </div>
 
