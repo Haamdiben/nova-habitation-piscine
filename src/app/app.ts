@@ -1,6 +1,8 @@
 import { Component, DOCUMENT, inject } from '@angular/core';
 import { NavigationEnd, Router, RouterOutlet } from '@angular/router';
 import { filter } from 'rxjs';
+import { ApiService } from './services/api.service';
+import { SeoService } from './services/seo.service';
 
 @Component({
   selector: 'app-root',
@@ -17,5 +19,11 @@ export class App {
       .subscribe((e) => {
         html.classList.toggle('site-theme', !e.urlAfterRedirects.startsWith('/admin'));
       });
+
+    const seo = inject(SeoService);
+    seo.init();
+    inject(ApiService)
+      .getContactInfo()
+      .subscribe({ next: (info) => seo.setBusinessInfo(info), error: () => {} });
   }
 }

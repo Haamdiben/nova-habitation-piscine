@@ -20,7 +20,7 @@ import { ScrollRevealDirective } from '../../directives/scroll-reveal.directive'
             <span class="pointer-events-none absolute -right-16 -top-16 h-40 w-40 rounded-full bg-sea-400/10 blur-2xl transition-opacity duration-500 group-hover:opacity-100 opacity-60"></span>
 
             <h3 class="relative text-2xl lg:text-3xl leading-tight text-sea-200 mb-4">{{ service.title }}</h3>
-            <p class="relative leading-relaxed text-sea-100/70">{{ service.description }}</p>
+            <p class="relative leading-relaxed text-sea-100/75">{{ service.description }}</p>
 
             @if (showFeatures() && features(service).length) {
               <ul class="relative mt-6 space-y-3 border-t border-sea-200/10 pt-6">

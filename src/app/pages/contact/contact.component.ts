@@ -1,11 +1,13 @@
-import { Component, OnInit, signal } from '@angular/core';
+import { Component, OnInit, computed, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, NgForm } from '@angular/forms';
 import { RouterLink } from '@angular/router';
 import { NavbarComponent } from '../../components/navbar/navbar.component';
 import { FooterComponent } from '../../components/footer/footer.component';
 import { ScrollRevealDirective } from '../../directives/scroll-reveal.directive';
+import { SelectFieldComponent } from '../../components/select-field/select-field.component';
 import { ApiService } from '../../services/api.service';
+import { socialLinks } from '../../utils/social-links';
 
 const EMPTY_FORM = {
   name: '',
@@ -20,12 +22,13 @@ const EMPTY_FORM = {
 @Component({
   selector: 'app-contact',
   standalone: true,
-  imports: [CommonModule, FormsModule, RouterLink, NavbarComponent, FooterComponent, ScrollRevealDirective],
+  imports: [CommonModule, FormsModule, RouterLink, NavbarComponent, FooterComponent, SelectFieldComponent, ScrollRevealDirective],
   templateUrl: './contact.component.html',
   styleUrl: './contact.component.scss',
 })
 export class ContactComponent implements OnInit {
   info = signal<any>(null);
+  socials = computed(() => socialLinks(this.info()));
   form = { ...EMPTY_FORM };
   projectTypes = [
     'Construction de piscine',

@@ -31,9 +31,15 @@
 // Desktop nav links: small uppercase labels + animated gold underline on hover
 .nav-link {
   position: relative;
-  font-size: 0.75rem;
-  font-weight: 400;
-  letter-spacing: 0.25em;
+  font-size: 0.8125rem;
+  font-weight: 500;
+  letter-spacing: 0.18em;
+  white-space: nowrap;
+
+  @media (min-width: 1024px) {
+    font-size: 0.9375rem;
+    letter-spacing: 0.2em;
+  }
   text-transform: uppercase;
 
   &::after {
@@ -64,9 +70,6 @@
 
   .nav-link { color: rgb(var(--sea-200)); }
   .nav-link:hover { color: rgb(var(--sea-500)); }
-  .nav-divider { border-color: rgb(var(--sea-500) / 0.3); }
-  .nav-admin { color: rgb(var(--sea-200) / 0.55); }
-  .nav-admin:hover { color: rgb(var(--sea-200)); }
   .nav-burger { color: rgb(var(--sea-200)); }
   .nav-burger:hover { background-color: rgb(var(--sea-500) / 0.1); }
 }
@@ -80,17 +83,31 @@
   .nav-link { color: #ecf4fa; }
   .nav-link:hover { color: #ffffff; }
   .nav-logo { filter: drop-shadow(0 2px 6px rgba(0, 0, 0, 0.35)); }
-  .nav-divider { border-color: rgba(236, 244, 250, 0.35); }
-  .nav-admin { color: rgba(236, 244, 250, 0.6); }
-  .nav-admin:hover { color: #ecf4fa; }
   .nav-burger { color: #ecf4fa; }
   .nav-burger:hover { background-color: rgba(236, 244, 250, 0.15); }
 }
 
 .nav-link,
 .nav-logo,
-.nav-divider,
-.nav-admin,
 .nav-burger {
   transition: color 0.4s ease, border-color 0.4s ease, background-color 0.3s ease, filter 0.4s ease;
+}
+
+.skip-link {
+  position: fixed;
+  top: 0.75rem;
+  left: 0.75rem;
+  z-index: 60;
+  padding: 0.75rem 1.25rem;
+  border-radius: 9999px;
+  background: #fff;
+  color: rgb(var(--sea-200));
+  font-size: 0.875rem;
+  box-shadow: 0 8px 24px -8px rgba(8, 18, 32, 0.4);
+  transform: translateY(-200%);
+  transition: transform 0.2s ease;
+
+  &:focus {
+    transform: none;
+  }
 }

@@ -1,5 +1,9 @@
+<!-- Keyboard users can jump straight past the menu (hidden until focused) -->
+<a href="#contenu" (click)="skipToContent($event)" class="skip-link">Aller au contenu</a>
+
 <!-- Navigation Bar -->
 <nav
+  aria-label="Navigation principale"
   class="top-0 z-40 border-b transition-all duration-500 ease-out"
   [class]="transparent() ? 'fixed inset-x-0' : 'sticky'"
   [class.nav--solid]="solid()"
@@ -8,35 +12,35 @@
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
     <div class="flex justify-between items-center h-24 py-2">
       <!-- Logo -->
-      <a routerLink="/" class="flex-shrink-0">
-        <img src="/icon-only.png" alt="Nova Habitation et Piscine" class="nav-logo h-20 w-40">
+      <a routerLink="/" class="flex-shrink-0" aria-label="Accueil — Nova Habitat Piscine">
+        <img src="/icon-only-320.webp" alt="" width="320" height="201" class="nav-logo h-20 w-auto">
       </a>
 
       <!-- Desktop Menu -->
-      <div class="hidden md:flex space-x-10 items-center">
+      <div class="hidden md:flex md:gap-7 lg:gap-12 items-center">
         <a routerLink="/" class="nav-link">Accueil</a>
         <a routerLink="/apropos" class="nav-link">À propos de nous</a>
         <a routerLink="/realisations" class="nav-link">Réalisations</a>
         <a routerLink="/contact" class="nav-link">Nous contacter</a>
-        <div class="nav-divider border-l pl-8">
-          <a routerLink="/admin/login" class="nav-admin text-[0.65rem] uppercase tracking-[0.25em]">Admin</a>
-        </div>
       </div>
 
       <!-- Mobile Menu Button -->
       <button
         (click)="toggleMenu()"
+        type="button"
         class="nav-burger md:hidden p-2 rounded-lg transition"
-        aria-label="Toggle menu"
+        [attr.aria-label]="isMenuOpen() ? 'Fermer le menu' : 'Ouvrir le menu'"
+        [attr.aria-expanded]="isMenuOpen()"
+        aria-controls="mobile-menu"
       >
         @if (!isMenuOpen()) {
           <!-- Hamburger Icon -->
-          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
           </svg>
         } @else {
           <!-- Close Icon -->
-          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
           </svg>
         }
@@ -46,7 +50,7 @@
 
   <!-- Full-Screen Mobile Menu -->
   @if (isMenuOpen()) {
-    <div class="md:hidden fixed inset-0 top-24 z-50 bg-ink flex flex-col items-center justify-start pt-24 h-screen menu-enter">
+    <div id="mobile-menu" class="md:hidden fixed inset-0 top-24 z-50 bg-ink flex flex-col items-center justify-start pt-24 h-screen menu-enter">
       <div class="space-y-8 text-center menu-content-enter">
         <a
           routerLink="/"

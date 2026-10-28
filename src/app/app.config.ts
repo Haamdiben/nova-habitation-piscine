@@ -1,8 +1,14 @@
 import { ApplicationConfig, provideBrowserGlobalErrorListeners } from '@angular/core';
-import { provideRouter, withViewTransitions, withInMemoryScrolling, ActivatedRouteSnapshot } from '@angular/router';
-import { provideHttpClient, withInterceptors } from '@angular/common/http';
+import {
+  provideRouter,
+  withViewTransitions,
+  withInMemoryScrolling,
+  ActivatedRouteSnapshot,
+} from '@angular/router';
+import { provideHttpClient, withFetch, withInterceptors } from '@angular/common/http';
 import { authExpiredInterceptor } from './interceptors/auth-expired.interceptor';
 import { routes } from './app.routes';
+import { provideClientHydration, withEventReplay } from '@angular/platform-browser';
 
 function snapshotPath(snapshot: ActivatedRouteSnapshot): string {
   // `onViewTransitionCreated` is given the *root* snapshot (not the leaf), whose
@@ -35,6 +41,7 @@ export const appConfig: ApplicationConfig = {
       }),
       withInMemoryScrolling({ scrollPositionRestoration: 'top' }),
     ),
-    provideHttpClient(withInterceptors([authExpiredInterceptor])),
-  ]
+    provideHttpClient(withFetch(), withInterceptors([authExpiredInterceptor])),
+    provideClientHydration(withEventReplay()),
+  ],
 };

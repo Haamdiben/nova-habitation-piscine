@@ -1,5 +1,6 @@
 <!-- Navbar -->
 <app-navbar></app-navbar>
+<main id="contenu" tabindex="-1" class="outline-none">
 
 <!-- About Section -->
 <section class="section">
@@ -14,8 +15,8 @@
       <div appScrollReveal="right">
         <p class="font-display italic text-3xl md:text-4xl leading-snug text-sea-200 mb-10">« {{ info()?.quote }} »</p>
         <span class="divider-accent mb-10"></span>
-        <p class="text-sea-100/70 leading-relaxed mb-6">{{ info()?.paragraph1 }}</p>
-        <p class="text-sea-100/70 leading-relaxed">{{ info()?.paragraph2 }}</p>
+        <p class="text-sea-100/75 leading-relaxed mb-6">{{ info()?.paragraph1 }}</p>
+        <p class="text-sea-100/75 leading-relaxed">{{ info()?.paragraph2 }}</p>
       </div>
     </div>
 
@@ -26,8 +27,8 @@
       <span class="eyebrow relative">Nos valeurs</span>
       <h2 class="relative text-4xl md:text-5xl text-sea-200 mb-8">Notre philosophie</h2>
       <div class="relative max-w-3xl mx-auto">
-        <p class="text-sea-100/70 leading-relaxed mb-4">{{ info()?.philosophyText1 }}</p>
-        <p class="text-sea-100/70 leading-relaxed">{{ info()?.philosophyText2 }}</p>
+        <p class="text-sea-100/75 leading-relaxed mb-4">{{ info()?.philosophyText1 }}</p>
+        <p class="text-sea-100/75 leading-relaxed">{{ info()?.philosophyText2 }}</p>
       </div>
     </div>
 
@@ -60,4 +61,6 @@
 </section>
 
 <!-- Footer Section -->
+</main>
+
 <app-footer></app-footer>

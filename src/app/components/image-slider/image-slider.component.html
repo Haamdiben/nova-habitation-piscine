@@ -4,9 +4,25 @@
     <div class="hero-slider__skeleton absolute inset-0"></div>
   }
 
+  <!-- Logo loader: the colour logo fills the white outline while the slides and video load -->
+  <div
+    class="hero-slider__loader absolute inset-0 z-10 flex items-center justify-center pointer-events-none"
+    [class.hero-slider__loader--visible]="showLoader()"
+    [style.--loader-fill.%]="videoProgress()"
+    [style.--loader-duration.ms]="videoProgressDuration()"
+    role="status"
+    [attr.aria-hidden]="!showLoader()"
+  >
+    <div class="hero-slider__loader-logo">
+      <img src="/icon-only-700.webp" alt="" class="hero-slider__loader-ghost" fetchpriority="high">
+      <img src="/icon-only-700.webp" alt="" class="hero-slider__loader-fill" fetchpriority="high">
+    </div>
+    <span class="sr-only">Chargement de la vidéo…</span>
+  </div>
+
   <!-- Empty state -->
   @if (!loading() && totalSlides() === 0) {
-    <div class="absolute inset-0 flex items-center justify-center text-sea-100/70">
+    <div class="absolute inset-0 flex items-center justify-center text-sea-100/75">
       <p>Aucune photo dans le slider pour le moment.</p>
     </div>
   }
@@ -45,25 +61,6 @@
             >
 
             <ng-container [ngTemplateOutlet]="overlays"></ng-container>
-
-            <!-- Text content -->
-            <div class="relative z-10 h-full flex items-end">
-              <div class="w-full max-w-7xl mx-auto px-6 sm:px-10 lg:px-16 pb-28 md:pb-36">
-                <div class="max-w-3xl text-sea-50">
-                  <span class="hero-slider__eyebrow inline-block mb-5 h-[2px] w-16 bg-sea-500"></span>
-                  @if (slide.title) {
-                    <h2 class="hero-slider__title font-display font-medium text-5xl sm:text-6xl md:text-7xl lg:text-8xl leading-[1] tracking-tight mb-6 drop-shadow-lg">
-                      {{ slide.title }}
-                    </h2>
-                  }
-                  @if (slide.description) {
-                    <p class="hero-slider__text text-lg md:text-xl font-light text-sea-100/85 max-w-xl leading-relaxed">
-                      {{ slide.description }}
-                    </p>
-                  }
-                </div>
-              </div>
-            </div>
           </div>
         }
       </div>
@@ -74,15 +71,9 @@
       class="absolute inset-x-0 bottom-0 z-20 pointer-events-none"
       [class.hidden]="totalSlides() < 2"
     >
-      <div class="max-w-7xl mx-auto px-6 sm:px-10 lg:px-16 pb-8 md:pb-10 flex items-center gap-6">
-        <!-- Counter -->
-        <div class="hidden sm:flex items-baseline gap-2 text-sea-100 font-display tabular-nums">
-          <span class="text-3xl">{{ pad(currentSlide() + 1) }}</span>
-          <span class="text-sea-100/50 text-sm">/ {{ pad(totalSlides()) }}</span>
-        </div>
-
-        <!-- Progress bullets -->
-        <div class="flex-1 flex gap-2 pointer-events-auto">
+      <div class="px-6 sm:px-10 lg:px-16 pb-8 md:pb-10 flex items-center justify-between gap-6">
+        <!-- Progress bars: bottom-left corner -->
+        <div class="flex gap-2 pointer-events-auto">
           @if (videoId()) {
             <button
               type="button"
@@ -104,7 +95,7 @@
           }
         </div>
 
-        <!-- Arrows -->
+        <!-- Arrows: bottom-right corner -->
         <div class="flex gap-3 pointer-events-auto">
           <button #prevEl class="hero-slider__arrow" type="button">
             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">

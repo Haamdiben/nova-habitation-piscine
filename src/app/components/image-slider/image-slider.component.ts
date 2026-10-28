@@ -18,10 +18,12 @@ import { uploadUrl } from '../../utils/upload-url';
 import { loadYouTubeApi, youTubeThumbnail } from '../../utils/youtube-api';
 
 const AUTOPLAY_DELAY = 6000;
-/** Move on if the video hasn't started playing after this long (blocked, offline…) */
-const VIDEO_START_TIMEOUT = 10000;
-/** YouTube shows its title/logo/"more videos" overlay for ~3.5s after playback starts; keep the poster on top meanwhile */
-const VIDEO_REVEAL_DELAY = 4500;
+/** Move on if the video still isn't showing after this long (blocked, offline, endless buffering…) */
+const VIDEO_START_TIMEOUT = 15000;
+/** YouTube shows its title/logo/"more videos" overlay for the first ~3.5s of playback; keep the poster on top meanwhile */
+const VIDEO_REVEAL_TIME = 4.5; // seconds of actual playback, so buffering doesn't count
+/** Loader fill (%) reached once the player is ready; the rest follows the video's playback */
+const LOADER_READY_FILL = 35;
 
 @Component({
   selector: 'app-image-slider',
@@ -48,6 +50,14 @@ export class ImageSliderComponent implements OnInit, OnDestroy {
   videoRevealed = signal(false);
   videoDuration = signal(0);
 
+  /** How much of the logo loader is filled (%), and how long the fill takes to get there */
+  videoProgress = signal(0);
+  videoProgressDuration = signal(0);
+  /** Logo loader stays up while the slides load and until the opening video is actually visible */
+  showLoader = computed(
+    () => this.loading() || (!!this.videoId() && this.currentSlide() === 0 && !this.videoRevealed()),
+  );
+
   private swiperEl = viewChild<ElementRef<HTMLElement>>('swiperEl');
   private prevEl = viewChild<ElementRef<HTMLElement>>('prevEl');
   private nextEl = viewChild<ElementRef<HTMLElement>>('nextEl');
@@ -55,7 +65,10 @@ export class ImageSliderComponent implements OnInit, OnDestroy {
   private swiper?: Swiper;
   private player?: any;
   private videoTimeout?: ReturnType<typeof setTimeout>;
-  private revealTimeout?: ReturnType<typeof setTimeout>;
+  private revealPoll?: ReturnType<typeof setInterval>;
+  /** Seconds the video has really played since it last started, and the position at the last check */
+  private playedTime = 0;
+  private lastPlayerTime = 0;
 
   constructor(private apiService: ApiService) {
     // Init Swiper once the slides are in the DOM
@@ -68,6 +81,8 @@ export class ImageSliderComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
+    // Start filling just after the empty logo has been painted
+    setTimeout(() => this.setVideoProgress(15, 1500), 50);
     forkJoin({
       slides: this.apiService.getSlides(),
       // The slider still works with photos only if the settings can't be loaded
@@ -123,6 +138,7 @@ export class ImageSliderComponent implements OnInit, OnDestroy {
     if (!el) return;
 
     this.armVideoTimeout();
+    this.setVideoProgress(LOADER_READY_FILL - 5, 3000);
     loadYouTubeApi().then((YT) => {
       this.player = new YT.Player(el, {
         videoId: this.videoId(),
@@ -140,11 +156,11 @@ export class ImageSliderComponent implements OnInit, OnDestroy {
         events: {
           onReady: (e: any) => {
             e.target.mute();
+            this.setVideoProgress(LOADER_READY_FILL, 800);
             if (this.isOnVideo()) e.target.playVideo();
           },
           onStateChange: (e: any) => {
             if (e.data === YT.PlayerState.PLAYING) {
-              clearTimeout(this.videoTimeout);
               this.videoDuration.set(e.target.getDuration());
               this.setVideoPlaying(true);
             } else if (e.data === YT.PlayerState.PAUSED) {
@@ -180,6 +196,7 @@ export class ImageSliderComponent implements OnInit, OnDestroy {
 
     if (this.isOnVideo()) {
       this.armVideoTimeout();
+      this.setVideoProgress(LOADER_READY_FILL, 0);
       this.player?.seekTo?.(0);
       this.player?.playVideo?.();
     } else {
@@ -188,13 +205,38 @@ export class ImageSliderComponent implements OnInit, OnDestroy {
   }
 
   private setVideoPlaying(playing: boolean) {
+    // PLAYING fires again after each buffering pause: keep measuring from the original start
+    if (playing === this.videoPlaying()) return;
     this.videoPlaying.set(playing);
-    clearTimeout(this.revealTimeout);
+    clearInterval(this.revealPoll);
     if (playing) {
-      this.revealTimeout = setTimeout(() => this.videoRevealed.set(true), VIDEO_REVEAL_DELAY);
+      this.playedTime = 0;
+      this.lastPlayerTime = this.player?.getCurrentTime?.() ?? 0;
+      this.revealPoll = setInterval(() => this.trackVideoStart(), 200);
     } else {
       this.videoRevealed.set(false);
     }
+  }
+
+  /** Fill the logo with the video's real playback time and show the video once YouTube's overlay is gone */
+  private trackVideoStart() {
+    const time = this.player?.getCurrentTime?.() ?? 0;
+    const step = time - this.lastPlayerTime;
+    this.lastPlayerTime = time;
+    // Only count small forward steps: seeks (back to 0, or skipping ahead) aren't playback
+    if (step > 0 && step < 2) this.playedTime += step;
+    const ratio = Math.min(this.playedTime / VIDEO_REVEAL_TIME, 1);
+    this.setVideoProgress(LOADER_READY_FILL + (100 - LOADER_READY_FILL) * ratio, 250);
+    if (ratio === 1) {
+      clearInterval(this.revealPoll);
+      clearTimeout(this.videoTimeout);
+      this.videoRevealed.set(true);
+    }
+  }
+
+  private setVideoProgress(value: number, durationMs: number) {
+    this.videoProgressDuration.set(durationMs);
+    this.videoProgress.set(value);
   }
 
   private armVideoTimeout() {
@@ -219,17 +261,13 @@ export class ImageSliderComponent implements OnInit, OnDestroy {
     this.swiper?.slideTo(index);
   }
 
-  pad(n: number): string {
-    return String(n).padStart(2, '0');
-  }
-
   getPhotoUrl(filepath: string): string {
     return uploadUrl(filepath);
   }
 
   ngOnDestroy() {
     clearTimeout(this.videoTimeout);
-    clearTimeout(this.revealTimeout);
+    clearInterval(this.revealPoll);
     this.player?.destroy?.();
     this.swiper?.destroy(true, true);
   }

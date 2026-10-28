@@ -1,0 +1,22 @@
+# /etc/systemd/system/nova-frontend.service
+# Renders the public pages on the server (Angular SSR) so search engines and link
+# previews get complete HTML. Starts at boot and restarts if it crashes.
+[Unit]
+Description=Nova Habitation et Piscine - site Angular (rendu serveur)
+After=network.target nova-backend.service
+Wants=nova-backend.service
+
+[Service]
+Type=simple
+User=nova
+WorkingDirectory=/var/www/nova-habitation-piscine
+Environment=NODE_ENV=production
+Environment=PORT=4000
+# The page renderer calls the backend directly, without going through nginx
+Environment=API_INTERNAL_URL=http://127.0.0.1:3000
+ExecStart=/usr/bin/node server/server.mjs
+Restart=always
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target

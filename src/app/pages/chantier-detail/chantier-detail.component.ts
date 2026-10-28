@@ -1,4 +1,4 @@
-import { Component, OnInit, signal } from '@angular/core';
+import { Component, OnInit, RESPONSE_INIT, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { NavbarComponent } from '../../components/navbar/navbar.component';
@@ -6,6 +6,7 @@ import { FooterComponent } from '../../components/footer/footer.component';
 import { PhotoLightboxComponent, LightboxPhoto } from '../../components/photo-lightbox/photo-lightbox.component';
 import { ScrollRevealDirective } from '../../directives/scroll-reveal.directive';
 import { ApiService } from '../../services/api.service';
+import { SITE_URL, SeoService } from '../../services/seo.service';
 import { uploadUrl } from '../../utils/upload-url';
 
 @Component({
@@ -14,16 +15,17 @@ import { uploadUrl } from '../../utils/upload-url';
   imports: [CommonModule, RouterLink, NavbarComponent, FooterComponent, PhotoLightboxComponent, ScrollRevealDirective],
   template: `
     <app-navbar></app-navbar>
+    <main id="contenu" tabindex="-1" class="outline-none">
 
     <section class="min-h-screen">
       <!-- Loading -->
       <div *ngIf="loading()" class="py-32 text-center">
-        <p class="text-sea-100/70">Chargement...</p>
+        <p class="text-sea-100/75">Chargement...</p>
       </div>
 
       <!-- Not found -->
       <div *ngIf="!loading() && !chantier()" class="py-32 text-center px-4">
-        <p class="text-sea-100/70 text-lg mb-6">Ce chantier est introuvable.</p>
+        <p class="text-sea-100/75 text-lg mb-6">Ce chantier est introuvable.</p>
         <a routerLink="/realisations" class="btn-outline">
           ← Retour aux réalisations
         </a>
@@ -106,6 +108,8 @@ import { uploadUrl } from '../../utils/upload-url';
     </section>
 
     <!-- Footer -->
+    </main>
+
     <app-footer></app-footer>
 
     <!-- Lightbox -->
@@ -124,9 +128,13 @@ export class ChantierDetailComponent implements OnInit {
   lightboxOpen = signal(false);
   lightboxIndex = signal(0);
 
+  /** Set during server rendering only: lets a missing chantier answer with a real 404 */
+  private responseInit = inject(RESPONSE_INIT, { optional: true });
+
   constructor(
     private route: ActivatedRoute,
     private apiService: ApiService,
+    private seo: SeoService,
   ) {}
 
   ngOnInit() {
@@ -144,12 +152,27 @@ export class ChantierDetailComponent implements OnInit {
       next: (data) => {
         this.chantier.set(data);
         this.loading.set(false);
+        this.updateSeo(data);
       },
       error: (err) => {
-        console.error('Error loading chantier:', err);
+        if (err?.status !== 404) console.error('Error loading chantier:', err);
         this.chantier.set(null);
         this.loading.set(false);
+        // A deleted or unknown chantier must not be indexed as an empty page
+        if (this.responseInit && err?.status === 404) this.responseInit.status = 404;
       },
+    });
+  }
+
+  /** Title, description and share image taken from the chantier itself */
+  private updateSeo(chantier: any) {
+    const description = (chantier.description || '').replace(/\s+/g, ' ').trim();
+    const photo = chantier.photos?.[0]?.filepath;
+    const photoUrl = photo ? this.getPhotoUrl(photo) : '';
+    this.seo.update({
+      title: `${chantier.title} | Nova Habitation et Piscine`,
+      description: description.length > 160 ? description.slice(0, 157).trimEnd() + '…' : description || undefined,
+      image: photoUrl && !photoUrl.startsWith('http') ? SITE_URL + photoUrl : photoUrl || undefined,
     });
   }
 

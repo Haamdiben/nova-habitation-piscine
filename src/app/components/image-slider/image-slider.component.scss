@@ -32,36 +32,11 @@
     opacity: 1;
   }
 
-  // Staggered text entrance on the active slide
-  .hero-slider__eyebrow,
-  .hero-slider__title,
-  .hero-slider__text {
-    opacity: 0;
-    transform: translateY(28px);
-  }
-
-  .hero-slider__eyebrow {
-    transform: scaleX(0);
-    transform-origin: left;
-  }
-
-  .swiper-slide-active {
-    .hero-slider__eyebrow {
-      animation: hero-line-in 0.9s cubic-bezier(0.22, 1, 0.36, 1) 0.4s forwards;
-    }
-    .hero-slider__title {
-      animation: hero-text-in 1s cubic-bezier(0.22, 1, 0.36, 1) 0.55s forwards;
-    }
-    .hero-slider__text {
-      animation: hero-text-in 1s cubic-bezier(0.22, 1, 0.36, 1) 0.75s forwards;
-    }
-  }
-
   // Progress-bar pagination
   .hero-slider__bullet {
     position: relative;
-    flex: 1;
-    max-width: 120px;
+    flex: none;
+    width: 2.75rem;
     height: 20px; // generous hit area
     padding: 0;
     background: none;
@@ -126,6 +101,47 @@
     }
   }
 
+  // Logo loader shown while the slides and the opening video load
+  .hero-slider__loader {
+    background: radial-gradient(circle at center, rgba(5, 12, 22, 0.55) 0%, rgba(5, 12, 22, 0.25) 45%, transparent 75%);
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.8s ease, visibility 0s linear 0.8s;
+  }
+
+  .hero-slider__loader--visible {
+    opacity: 1;
+    visibility: visible;
+    transition: opacity 0.4s ease;
+  }
+
+  .hero-slider__loader-logo {
+    position: relative;
+    width: clamp(13rem, 32vw, 21rem);
+    aspect-ratio: 1204 / 758;
+    animation: hero-loader-breathe 2.4s ease-in-out infinite;
+
+    img {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+    }
+  }
+
+  // White silhouette of the logo, the "empty" state
+  .hero-slider__loader-ghost {
+    filter: brightness(0) invert(1);
+    opacity: 0.22;
+  }
+
+  // Colour logo revealed from the bottom up as loading progresses
+  .hero-slider__loader-fill {
+    clip-path: inset(calc(100% - var(--loader-fill, 0%)) 0 0 0);
+    transition: clip-path var(--loader-duration, 600ms) cubic-bezier(0.22, 0.61, 0.36, 1);
+    filter: drop-shadow(0 4px 18px rgba(0, 0, 0, 0.35));
+  }
+
   // Loading shimmer
   .hero-slider__skeleton {
     background: linear-gradient(110deg, #171717 30%, #262626 50%, #171717 70%);
@@ -134,19 +150,7 @@
   }
 }
 
-@keyframes hero-text-in {
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
 
-@keyframes hero-line-in {
-  to {
-    opacity: 1;
-    transform: scaleX(1);
-  }
-}
 
 @keyframes hero-progress {
   from { width: 0; }
@@ -157,19 +161,21 @@
   to { background-position: -200% 0; }
 }
 
+@keyframes hero-loader-breathe {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.03); }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .hero-slider {
+    .hero-slider__loader-logo {
+      animation: none;
+    }
+
     .hero-slider__image,
     .swiper-slide-active .hero-slider__image {
       transform: none;
       transition: none;
-    }
-    .hero-slider__eyebrow,
-    .hero-slider__title,
-    .hero-slider__text {
-      opacity: 1;
-      transform: none;
-      animation: none !important;
     }
   }
 }

@@ -27,7 +27,7 @@ import { ChantierCardComponent } from '../chantier-card/chantier-card.component'
         <div class="swiper-wrapper">
           @for (chantier of chantiers(); track chantier.id) {
             <div class="swiper-slide !h-auto">
-              <app-chantier-card [chantier]="chantier" [photoSwipe]="false"></app-chantier-card>
+              <app-chantier-card [chantier]="chantier" [photoSwipe]="false" [eagerPhoto]="eager() && $index < 5"></app-chantier-card>
             </div>
           }
         </div>
@@ -77,6 +77,8 @@ import { ChantierCardComponent } from '../chantier-card/chantier-card.component'
 })
 export class ChantierSliderComponent implements OnDestroy {
   chantiers = input.required<any[]>();
+  /** Row shown as soon as the page opens: load its first photos right away */
+  eager = input(false);
 
   private swiperEl = viewChild.required<ElementRef<HTMLElement>>('swiperEl');
   private prevEl = viewChild.required<ElementRef<HTMLElement>>('prevEl');
@@ -93,9 +95,13 @@ export class ChantierSliderComponent implements OnDestroy {
         // Mobile shows a peek of the next card so it's clear the row scrolls
         slidesPerView: 1.15,
         spaceBetween: 16,
+        // Cards per row follow the row's own width (not the screen), keeping each card at least ~270px wide: up to 5
+        breakpointsBase: 'container',
         breakpoints: {
-          768: { slidesPerView: 2, spaceBetween: 24 },
-          1024: { slidesPerView: 3, spaceBetween: 32 },
+          560: { slidesPerView: 2, spaceBetween: 24 },
+          880: { slidesPerView: 3, spaceBetween: 28 },
+          1100: { slidesPerView: 4, spaceBetween: 24 },
+          1440: { slidesPerView: 5, spaceBetween: 24 },
         },
         // A category with fewer projects than fit on screen stays centred, without arrows or dots
         centerInsufficientSlides: true,

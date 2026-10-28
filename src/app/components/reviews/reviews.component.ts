@@ -8,10 +8,10 @@ interface Review {
 }
 
 /**
- * Link to the company's Google reviews page. While empty, the cards keep a Google-like look
- * but don't show the Google badge or link, so the reviews aren't presented as coming from Google.
+ * Where the "Voir nos avis sur Google" button leads. Until the direct link to the Google Business
+ * reviews is set here, it opens a Google search for the company's reviews.
  */
-const GOOGLE_REVIEWS_URL = '';
+const GOOGLE_REVIEWS_URL = 'https://www.google.com/search?q=Nova+Habitation+et+Piscine+avis';
 
 /** Client reviews in a Google-reviews style: summary bar + review cards. */
 @Component({
@@ -33,20 +33,18 @@ const GOOGLE_REVIEWS_URL = '';
               <svg class="h-5 w-5 text-[#fbbc04]" viewBox="0 0 24 24" fill="currentColor"><path [attr.d]="starPath"></path></svg>
             }
           </div>
-          <p class="mt-1 text-sm text-sea-100/70">Basé sur {{ reviewCount }} avis</p>
+          <p class="mt-1 text-sm text-sea-100/75">Basé sur {{ reviewCount }} avis</p>
         </div>
       </div>
-      @if (googleUrl) {
-        <a
-          [href]="googleUrl"
-          target="_blank"
-          rel="noopener"
-          class="inline-flex items-center gap-2 rounded-full border border-sea-500/30 px-5 py-2.5 text-sm text-sea-200 transition hover:border-sea-500 hover:bg-sea-500 hover:text-white"
-        >
-          <ng-container *ngTemplateOutlet="googleLogo"></ng-container>
-          Voir tous les avis sur Google
-        </a>
-      }
+      <a
+        [href]="googleUrl"
+        target="_blank"
+        rel="noopener"
+        class="inline-flex items-center gap-2.5 rounded-full bg-white px-5 py-2.5 text-sm font-medium text-sea-200 ring-1 ring-sea-500/30 transition hover:ring-sea-500 hover:shadow-md"
+      >
+        <ng-container *ngTemplateOutlet="googleLogo"></ng-container>
+        Voir nos avis sur Google
+      </a>
     </div>
 
     <!-- Review cards -->
@@ -67,9 +65,6 @@ const GOOGLE_REVIEWS_URL = '';
             <div class="min-w-0 flex-1">
               <p class="truncate font-medium text-sea-200">{{ review.author }}</p>
             </div>
-            @if (googleUrl) {
-              <ng-container *ngTemplateOutlet="googleLogo"></ng-container>
-            }
           </figcaption>
 
           <div class="mt-4 flex gap-0.5">

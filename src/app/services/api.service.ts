@@ -231,7 +231,8 @@ export class ApiService {
   }
 
   private getAuthHeaders(): HttpHeaders {
-    const token = localStorage.getItem('token');
+    // Only admin requests use this, and the admin is rendered in the browser only
+    const token = typeof localStorage === 'undefined' ? null : localStorage.getItem('token');
     return new HttpHeaders({
       Authorization: `Bearer ${token}`,
     });

@@ -22,6 +22,17 @@ export class NavbarComponent {
     this.scrolled.set(window.scrollY > 40);
   }
 
+  @HostListener('document:keydown.escape')
+  onEscape() {
+    this.closeMenu();
+  }
+
+  skipToContent(event: Event) {
+    // A plain #contenu link would be handled by the router; move the focus ourselves
+    event.preventDefault();
+    document.getElementById('contenu')?.focus();
+  }
+
   toggleMenu() {
     this.isMenuOpen.set(!this.isMenuOpen());
   }

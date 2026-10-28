@@ -1,29 +1,33 @@
-import { Injectable, signal } from '@angular/core';
+import { Injectable, PLATFORM_ID, inject, signal } from '@angular/core';
+import { isPlatformBrowser } from '@angular/common';
 import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
+  /** The admin session lives in the browser; pages rendered on the server are never logged in */
+  private storage: Storage | null = isPlatformBrowser(inject(PLATFORM_ID)) ? localStorage : null;
+
   isAuthenticated = signal(this.hasToken());
   adminId = signal<number | null>(this.getAdminId());
 
   constructor(private router: Router) {}
 
   logout() {
-    localStorage.removeItem('token');
-    localStorage.removeItem('adminId');
+    this.storage?.removeItem('token');
+    this.storage?.removeItem('adminId');
     this.isAuthenticated.set(false);
     this.adminId.set(null);
     this.router.navigate(['/admin/login']);
   }
 
   private hasToken(): boolean {
-    const token = localStorage.getItem('token');
+    const token = this.storage?.getItem('token');
     if (!token) return false;
     if (this.isExpired(token)) {
-      localStorage.removeItem('token');
-      localStorage.removeItem('adminId');
+      this.storage?.removeItem('token');
+      this.storage?.removeItem('adminId');
       return false;
     }
     return true;
@@ -40,7 +44,7 @@ export class AuthService {
   }
 
   private getAdminId(): number | null {
-    const id = localStorage.getItem('adminId');
+    const id = this.storage?.getItem('adminId');
     return id ? parseInt(id, 10) : null;
   }
 }

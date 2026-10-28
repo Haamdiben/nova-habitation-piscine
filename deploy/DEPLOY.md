@@ -1,10 +1,10 @@
-# Putting nova-habitation-piscine.fr online (IONOS VPS)
+# Putting nova-habitat-piscine.fr online (IONOS VPS)
 
 Target setup, everything on one IONOS **VPS Linux** running **Ubuntu 24.04**:
 
 | Part | Where on the server |
 |---|---|
-| Website (Angular build) | `/var/www/nova-habitation-piscine` — served by nginx |
+| Website (Angular build) | `/var/www/nova-habitation-piscine` — files served by nginx, pages rendered by the `nova-frontend` service (port 4000) |
 | Backend (NestJS) | `/opt/nova-habitation-backend` — runs as a systemd service on port 3000 |
 | Database | PostgreSQL on the same VPS |
 | Photos | `/opt/nova-habitation-backend/uploads` — served by nginx |
@@ -17,7 +17,7 @@ Replace `VPS_IP` with your server's IP address (IONOS panel → Serveurs & Cloud
 
 ## 1. Point the domain to the VPS
 
-IONOS panel → Domaines → `nova-habitation-piscine.fr` → DNS. Set:
+IONOS panel → Domaines → `nova-habitat-piscine.fr` → DNS. Set:
 
 | Type | Nom d'hôte | Valeur |
 |---|---|---|
@@ -36,8 +36,9 @@ ssh root@VPS_IP
 **[VPS]** Update, install everything, open the firewall:
 ```bash
 apt update && apt upgrade -y
-curl -fsSL https://deb.nodesource.com/setup_22.x | bash -
+curl -fsSL https://deb.nodesource.com/setup_24.x | bash -
 apt install -y nodejs postgresql nginx certbot python3-certbot-nginx rsync
+node -v   # must be v24.22.1 or newer (fix for CVE-2026-111497, Brotli decoder)
 npm install -g npm@11
 
 ufw allow OpenSSH && ufw allow 'Nginx Full' && ufw --force enable
@@ -81,16 +82,16 @@ DB_USERNAME=nova
 DB_PASSWORD=STRONG_DB_PASSWORD
 DB_NAME=nova_habitation
 JWT_SECRET=<output of openssl rand -hex 32>
-CORS_ORIGINS=https://nova-habitation-piscine.fr,https://www.nova-habitation-piscine.fr
+CORS_ORIGINS=https://nova-habitat-piscine.fr,https://www.nova-habitat-piscine.fr
 NODE_ENV=production
 ```
 (Optional) email notifications for the contact form — with an IONOS mailbox:
 ```
 SMTP_HOST=smtp.ionos.fr
 SMTP_PORT=587
-SMTP_USER=contact@nova-habitation-piscine.fr
+SMTP_USER=contact@nova-habitat-piscine.fr
 SMTP_PASSWORD=<mailbox password>
-SMTP_FROM=contact@nova-habitation-piscine.fr
+SMTP_FROM=contact@nova-habitat-piscine.fr
 ```
 Without SMTP, messages are still saved and visible in the admin **Messages** page.
 
@@ -98,7 +99,7 @@ Then install, build and create your admin account:
 ```bash
 npm ci
 npm run build
-npm run create-admin -- --username admin --email contact@nova-habitation-piscine.fr
+npm run create-admin -- --username admin --email contact@nova-habitat-piscine.fr
 exit
 ```
 The tables are created automatically at the first start (step 5).
@@ -140,29 +141,35 @@ journalctl -u nova-backend -n 50   # logs, if something is wrong
 ```bash
 cd ~/nova-habitation-piscine
 npm run build
-rsync -av --delete dist/nova-habitation-piscine/browser/ nova@VPS_IP:/var/www/nova-habitation-piscine/
+rsync -av --delete dist/nova-habitation-piscine/ nova@VPS_IP:/var/www/nova-habitation-piscine/
 scp deploy/nginx.conf root@VPS_IP:/etc/nginx/sites-available/nova-habitation-piscine
+scp deploy/nova-frontend.service root@VPS_IP:/etc/systemd/system/
 ```
 
 **[VPS]** (as root)
 ```bash
+# Page renderer (Angular SSR): search engines and link previews get complete pages
+systemctl daemon-reload
+systemctl enable --now nova-frontend
+systemctl status nova-frontend     # should say "active (running)"
+
 ln -s /etc/nginx/sites-available/nova-habitation-piscine /etc/nginx/sites-enabled/
 rm -f /etc/nginx/sites-enabled/default
 nginx -t && systemctl reload nginx
 
 # HTTPS certificate (the DNS from step 1 must already point to the VPS)
-certbot --nginx -d nova-habitation-piscine.fr -d www.nova-habitation-piscine.fr --redirect
+certbot --nginx -d nova-habitat-piscine.fr -d www.nova-habitat-piscine.fr --redirect
 ```
 Certbot renews the certificate automatically.
 
-Open https://nova-habitation-piscine.fr and https://nova-habitation-piscine.fr/admin/login 🎉
+Open https://nova-habitat-piscine.fr and https://nova-habitat-piscine.fr/admin/login 🎉
 
 ## 7. Check list after going online
 
 - [ ] Log in to the admin and fill **Nos coordonnées** with the real phone, email, address, **SIREN/SIRET** and social links (the defaults are placeholders).
 - [ ] Send yourself a message from the Contact page and check it appears in **Messages** (and by email if SMTP is set).
 - [ ] Upload a photo from the admin and check it shows on the site.
-- [ ] Submit the site to Google: https://search.google.com/search-console (add the domain, then the sitemap `https://nova-habitation-piscine.fr/sitemap.xml`).
+- [ ] Submit the site to Google: https://search.google.com/search-console (add the domain, then the sitemap `https://nova-habitat-piscine.fr/sitemap.xml`).
 
 ## 8. Nightly backups
 
@@ -186,7 +193,8 @@ Restore the database from a backup: `pg_restore --clean -d nova_habitation db_XX
 **Website change** — **[PC]**
 ```bash
 cd ~/nova-habitation-piscine && npm run build
-rsync -av --delete dist/nova-habitation-piscine/browser/ nova@VPS_IP:/var/www/nova-habitation-piscine/
+rsync -av --delete dist/nova-habitation-piscine/ nova@VPS_IP:/var/www/nova-habitation-piscine/
+ssh root@VPS_IP "systemctl restart nova-frontend"
 ```
 
 **Backend change** — **[PC]**

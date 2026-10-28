@@ -1,5 +1,6 @@
 <!-- Navbar -->
 <app-navbar></app-navbar>
+<main id="contenu" tabindex="-1" class="outline-none">
 
 <!-- Contact Section -->
 <section class="section">
@@ -35,14 +36,16 @@
             <p class="text-sea-100/75 whitespace-pre-line">{{ info()?.hours }}</p>
           </div>
 
-          <div>
-            <h3 class="field-label mb-3">Suivez-nous</h3>
-            <div class="flex gap-6">
-              <a [href]="info()?.facebookUrl || '#'" target="_blank" rel="noopener" class="link-accent">Facebook</a>
-              <a [href]="info()?.instagramUrl || '#'" target="_blank" rel="noopener" class="link-accent">Instagram</a>
-              <a [href]="info()?.linkedinUrl || '#'" target="_blank" rel="noopener" class="link-accent">LinkedIn</a>
+          @if (socials().length) {
+            <div>
+              <h3 class="field-label mb-3">Suivez-nous</h3>
+              <div class="flex gap-6">
+                @for (social of socials(); track social.label) {
+                  <a [href]="social.url" target="_blank" rel="noopener" class="link-accent">{{ social.label }}</a>
+                }
+              </div>
             </div>
-          </div>
+          }
         </div>
       </div>
 
@@ -52,7 +55,7 @@
 
         <div *ngIf="sent()" class="p-8 border border-sea-500/40 bg-sea-500/5" role="status">
           <p class="font-display text-2xl text-sea-200 mb-2">Merci, votre message a bien été envoyé !</p>
-          <p class="text-sea-100/70">Nous vous répondrons dans les plus brefs délais.</p>
+          <p class="text-sea-100/75">Nous vous répondrons dans les plus brefs délais.</p>
           <button type="button" (click)="sent.set(false)" class="mt-6 link-accent text-sm">Envoyer un autre message</button>
         </div>
 
@@ -74,10 +77,14 @@
 
           <div>
             <label for="contact-project" class="block field-label mb-3">Type de projet *</label>
-            <select id="contact-project" name="projectType" [(ngModel)]="form.projectType" required class="field-dark">
-              <option value="" disabled>Sélectionnez un type</option>
-              <option *ngFor="let type of projectTypes" [value]="type">{{ type }}</option>
-            </select>
+            <app-select-field
+              inputId="contact-project"
+              name="projectType"
+              [(ngModel)]="form.projectType"
+              required
+              [options]="projectTypes"
+              placeholder="Sélectionnez un type"
+            ></app-select-field>
           </div>
 
           <div>
@@ -91,7 +98,7 @@
             <input id="contact-website" type="text" name="website" [(ngModel)]="form.website" tabindex="-1" autocomplete="off">
           </div>
 
-          <label class="flex items-start gap-3 text-sm text-sea-100/65">
+          <label class="flex items-start gap-3 text-sm text-sea-100/75">
             <input type="checkbox" name="consent" [(ngModel)]="form.consent" required class="mt-1 accent-sea-500">
             <span>
               J'accepte que mes données soient utilisées pour répondre à ma demande, conformément à la
@@ -112,10 +119,12 @@
     <div appScrollReveal="up" class="border-t border-sea-500/15 pt-14 text-center max-w-2xl mx-auto">
       <span class="eyebrow">Sous 48 heures</span>
       <h3 class="text-4xl text-sea-200 mb-6">Réponse rapide garantie</h3>
-      <p class="text-sea-100/70 leading-relaxed">Nous répondons à toutes les demandes dans les 48 heures. N'hésitez pas à nous contacter pour discuter de votre projet!</p>
+      <p class="text-sea-100/75 leading-relaxed">Nous répondons à toutes les demandes dans les 48 heures. N'hésitez pas à nous contacter pour discuter de votre projet!</p>
     </div>
   </div>
 </section>
 
 <!-- Footer Section -->
+</main>
+
 <app-footer></app-footer>

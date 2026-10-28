@@ -4,7 +4,7 @@ import { RouterLink } from '@angular/router';
 import { ImageSliderComponent } from '../../components/image-slider/image-slider.component';
 import { NavbarComponent } from '../../components/navbar/navbar.component';
 import { FooterComponent } from '../../components/footer/footer.component';
-import { ChantierCardComponent } from '../../components/chantier-card/chantier-card.component';
+import { ChantierSliderComponent } from '../../components/chantier-slider/chantier-slider.component';
 import { ServiceListComponent } from '../../components/service-list/service-list.component';
 import { ReviewsComponent } from '../../components/reviews/reviews.component';
 import { ScrollRevealDirective } from '../../directives/scroll-reveal.directive';
@@ -20,7 +20,7 @@ import { uploadUrl } from '../../utils/upload-url';
     ImageSliderComponent,
     NavbarComponent,
     FooterComponent,
-    ChantierCardComponent,
+    ChantierSliderComponent,
     ServiceListComponent,
     ReviewsComponent,
     ScrollRevealDirective,
@@ -39,7 +39,8 @@ export class HomeComponent implements OnInit {
   ngOnInit() {
     this.apiService.getChantiers().subscribe({
       next: (data) => {
-        this.recentChantiers.set(data.slice(0, 3));
+        // Home page showcase: the 5 most recent projects that have photos
+        this.recentChantiers.set(data.filter((c) => c.photos?.length > 0).slice(0, 5));
         this.loadingChantiers.set(false);
       },
       error: (err) => {

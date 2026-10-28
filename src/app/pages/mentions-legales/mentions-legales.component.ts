@@ -11,21 +11,22 @@ import { ApiService } from '../../services/api.service';
   imports: [CommonModule, NavbarComponent, FooterComponent, ScrollRevealDirective],
   template: `
     <app-navbar></app-navbar>
+    <main id="contenu" tabindex="-1" class="outline-none">
 
     <section class="section">
       <div class="max-w-4xl mx-auto">
         <h1 class="text-6xl sm:text-8xl leading-[1] tracking-tight mb-6 text-center text-sheen">Mentions légales</h1>
-        <p class="text-sea-100/50 text-sm text-center mb-12">Dernière mise à jour : {{ today }}</p>
+        <p class="text-sea-100/75 text-sm text-center mb-12">Dernière mise à jour : {{ today }}</p>
 
         <div class="prose-legal space-y-12">
           <!-- 1. Éditeur -->
           <div appScrollReveal="up">
             <h2 class="text-3xl text-sea-200 mb-4">1. Éditeur du site</h2>
-            <p class="text-sea-100/70 leading-relaxed">
+            <p class="text-sea-100/75 leading-relaxed">
               Le présent site est édité par <strong>Nova Habitation et Piscine</strong>, entreprise spécialisée dans la construction,
               la rénovation de piscines et de bâtiments, ainsi que la peinture et les finitions.
             </p>
-            <ul class="text-sea-100/70 leading-relaxed mt-4 space-y-1">
+            <ul class="text-sea-100/75 leading-relaxed mt-4 space-y-1">
               <li><strong>Nom commercial :</strong> Nova Habitation et Piscine</li>
               <li *ngIf="info()?.siren"><strong>SIREN :</strong> {{ info()?.siren }}</li>
               <li *ngIf="info()?.siret"><strong>SIRET :</strong> {{ info()?.siret }}</li>
@@ -39,8 +40,8 @@ import { ApiService } from '../../services/api.service';
           <!-- 2. Hébergement -->
           <div appScrollReveal="up">
             <h2 class="text-3xl text-sea-200 mb-4">2. Hébergement</h2>
-            <p class="text-sea-100/70 leading-relaxed">Le site est hébergé par :</p>
-            <ul class="text-sea-100/70 leading-relaxed mt-4 space-y-1">
+            <p class="text-sea-100/75 leading-relaxed">Le site est hébergé par :</p>
+            <ul class="text-sea-100/75 leading-relaxed mt-4 space-y-1">
               <li><strong>IONOS SARL</strong></li>
               <li>7 place de la Gare, BP 70109, 57200 Sarreguemines Cedex, France</li>
               <li>Téléphone : 09 70 80 89 11</li>
@@ -51,7 +52,7 @@ import { ApiService } from '../../services/api.service';
           <!-- 3. Propriété intellectuelle -->
           <div appScrollReveal="up">
             <h2 class="text-3xl text-sea-200 mb-4">3. Propriété intellectuelle</h2>
-            <p class="text-sea-100/70 leading-relaxed">
+            <p class="text-sea-100/75 leading-relaxed">
               L'ensemble des contenus présents sur ce site (textes, images, photographies, logos, graphismes,
               vidéos, icônes) est la propriété exclusive de Nova Habitation et Piscine, sauf mention contraire, et est protégé par le
               Code de la propriété intellectuelle. Toute reproduction, représentation, modification, publication
@@ -63,7 +64,7 @@ import { ApiService } from '../../services/api.service';
           <!-- 4. Liens hypertextes -->
           <div appScrollReveal="up">
             <h2 class="text-3xl text-sea-200 mb-4">4. Liens hypertextes</h2>
-            <p class="text-sea-100/70 leading-relaxed">
+            <p class="text-sea-100/75 leading-relaxed">
               Le site peut contenir des liens hypertextes vers d'autres sites. Nova Habitation et Piscine n'exerce aucun contrôle sur
               ces sites tiers et décline toute responsabilité quant à leur contenu, leur disponibilité ou leurs
               pratiques en matière de protection des données.
@@ -73,7 +74,7 @@ import { ApiService } from '../../services/api.service';
           <!-- 5. Responsabilité -->
           <div appScrollReveal="up">
             <h2 class="text-3xl text-sea-200 mb-4">5. Limitation de responsabilité</h2>
-            <p class="text-sea-100/70 leading-relaxed">
+            <p class="text-sea-100/75 leading-relaxed">
               Nova Habitation et Piscine s'efforce d'assurer l'exactitude et la mise à jour des informations diffusées sur ce site,
               mais ne peut garantir l'exhaustivité ou l'absence de modification des contenus. Nova Habitation et Piscine ne saurait
               être tenue responsable des erreurs, d'une absence de disponibilité des fonctionnalités, ou de tout
@@ -89,7 +90,7 @@ import { ApiService } from '../../services/api.service';
             <div class="space-y-8">
               <div>
                 <h3 class="text-2xl text-sea-200 mb-3">6.1 Responsable du traitement</h3>
-                <p class="text-sea-100/70 leading-relaxed">
+                <p class="text-sea-100/75 leading-relaxed">
                   Le responsable du traitement des données personnelles collectées sur ce site est <strong>Nova Habitation et Piscine</strong>,
                   joignable à l'adresse <a [href]="'mailto:' + info()?.email" class="link-accent">{{ info()?.email }}</a>
                   ou par téléphone au {{ info()?.phone }}.
@@ -98,11 +99,11 @@ import { ApiService } from '../../services/api.service';
 
               <div>
                 <h3 class="text-2xl text-sea-200 mb-3">6.2 Données collectées</h3>
-                <p class="text-sea-100/70 leading-relaxed mb-3">
+                <p class="text-sea-100/75 leading-relaxed mb-3">
                   Dans le cadre de l'utilisation du site, notamment via le formulaire de contact, les données
                   suivantes peuvent être collectées :
                 </p>
-                <ul class="text-sea-100/70 leading-relaxed space-y-1 list-disc list-inside">
+                <ul class="text-sea-100/75 leading-relaxed space-y-1 list-disc list-inside">
                   <li>Nom et prénom</li>
                   <li>Adresse email</li>
                   <li>Numéro de téléphone</li>
@@ -113,7 +114,7 @@ import { ApiService } from '../../services/api.service';
 
               <div>
                 <h3 class="text-2xl text-sea-200 mb-3">6.3 Finalités du traitement</h3>
-                <p class="text-sea-100/70 leading-relaxed">
+                <p class="text-sea-100/75 leading-relaxed">
                   Les données collectées sont utilisées exclusivement pour répondre à vos demandes de contact ou
                   de devis, assurer le suivi de la relation commerciale, et améliorer la qualité de nos services.
                   Elles ne font l'objet d'aucune cession ou vente à des tiers.
@@ -122,7 +123,7 @@ import { ApiService } from '../../services/api.service';
 
               <div>
                 <h3 class="text-2xl text-sea-200 mb-3">6.4 Base légale</h3>
-                <p class="text-sea-100/70 leading-relaxed">
+                <p class="text-sea-100/75 leading-relaxed">
                   Le traitement de vos données repose sur votre consentement, exprimé librement lors de la
                   soumission du formulaire de contact, ainsi que sur l'intérêt légitime de Nova Habitation et Piscine à répondre aux
                   demandes qui lui sont adressées.
@@ -131,7 +132,7 @@ import { ApiService } from '../../services/api.service';
 
               <div>
                 <h3 class="text-2xl text-sea-200 mb-3">6.5 Durée de conservation</h3>
-                <p class="text-sea-100/70 leading-relaxed">
+                <p class="text-sea-100/75 leading-relaxed">
                   Les données collectées via le formulaire de contact sont conservées pendant une durée maximale
                   de 3 ans à compter du dernier contact, sauf obligation légale de conservation plus longue
                   (notamment en matière comptable et fiscale).
@@ -140,7 +141,7 @@ import { ApiService } from '../../services/api.service';
 
               <div>
                 <h3 class="text-2xl text-sea-200 mb-3">6.6 Destinataires des données</h3>
-                <p class="text-sea-100/70 leading-relaxed">
+                <p class="text-sea-100/75 leading-relaxed">
                   Les données collectées sont destinées exclusivement au personnel de Nova Habitation et Piscine habilité à traiter les
                   demandes de contact. Elles peuvent également être transmises à nos prestataires techniques
                   (hébergement, maintenance) strictement dans la mesure nécessaire au bon fonctionnement du site,
@@ -150,11 +151,11 @@ import { ApiService } from '../../services/api.service';
 
               <div>
                 <h3 class="text-2xl text-sea-200 mb-3">6.7 Vos droits</h3>
-                <p class="text-sea-100/70 leading-relaxed mb-3">
+                <p class="text-sea-100/75 leading-relaxed mb-3">
                   Conformément au Règlement Général sur la Protection des Données (RGPD) et à la loi Informatique
                   et Libertés, vous disposez des droits suivants sur vos données personnelles :
                 </p>
-                <ul class="text-sea-100/70 leading-relaxed space-y-1 list-disc list-inside">
+                <ul class="text-sea-100/75 leading-relaxed space-y-1 list-disc list-inside">
                   <li><strong>Droit d'accès :</strong> obtenir une copie des données vous concernant</li>
                   <li><strong>Droit de rectification :</strong> corriger des données inexactes ou incomplètes</li>
                   <li><strong>Droit à l'effacement :</strong> demander la suppression de vos données</li>
@@ -162,7 +163,7 @@ import { ApiService } from '../../services/api.service';
                   <li><strong>Droit d'opposition</strong> au traitement de vos données</li>
                   <li><strong>Droit à la portabilité</strong> de vos données</li>
                 </ul>
-                <p class="text-sea-100/70 leading-relaxed mt-3">
+                <p class="text-sea-100/75 leading-relaxed mt-3">
                   Pour exercer ces droits, vous pouvez nous contacter à l'adresse
                   <a [href]="'mailto:' + info()?.email" class="link-accent">{{ info()?.email }}</a>.
                   Une réponse vous sera apportée dans un délai maximum d'un mois.
@@ -171,7 +172,7 @@ import { ApiService } from '../../services/api.service';
 
               <div>
                 <h3 class="text-2xl text-sea-200 mb-3">6.8 Réclamation</h3>
-                <p class="text-sea-100/70 leading-relaxed">
+                <p class="text-sea-100/75 leading-relaxed">
                   Si vous estimez, après nous avoir contactés, que vos droits ne sont pas respectés, vous pouvez
                   adresser une réclamation à la Commission Nationale de l'Informatique et des Libertés (CNIL) :
                   <a href="https://www.cnil.fr" target="_blank" rel="noopener" class="link-accent">www.cnil.fr</a>.
@@ -180,7 +181,7 @@ import { ApiService } from '../../services/api.service';
 
               <div>
                 <h3 class="text-2xl text-sea-200 mb-3">6.9 Cookies</h3>
-                <p class="text-sea-100/70 leading-relaxed">
+                <p class="text-sea-100/75 leading-relaxed">
                   Ce site peut utiliser des cookies techniques strictement nécessaires à son bon fonctionnement.
                   Aucun cookie de mesure d'audience ou publicitaire tiers n'est déposé sans votre consentement
                   préalable. Vous pouvez à tout moment configurer votre navigateur pour refuser les cookies.
@@ -189,7 +190,7 @@ import { ApiService } from '../../services/api.service';
 
               <div>
                 <h3 class="text-2xl text-sea-200 mb-3">6.10 Sécurité</h3>
-                <p class="text-sea-100/70 leading-relaxed">
+                <p class="text-sea-100/75 leading-relaxed">
                   Nova Habitation et Piscine met en œuvre les mesures techniques et organisationnelles appropriées afin de garantir un
                   niveau de sécurité adapté au risque, et de protéger vos données contre toute perte, altération,
                   divulgation ou accès non autorisé.
@@ -201,7 +202,7 @@ import { ApiService } from '../../services/api.service';
           <!-- 7. Droit applicable -->
           <div appScrollReveal="up" class="border-t border-sea-500/15 pt-12">
             <h2 class="text-3xl text-sea-200 mb-4">7. Droit applicable</h2>
-            <p class="text-sea-100/70 leading-relaxed">
+            <p class="text-sea-100/75 leading-relaxed">
               Les présentes mentions légales sont soumises au droit français. Tout litige relatif à
               l'interprétation ou à l'exécution des présentes sera de la compétence exclusive des tribunaux
               français.
@@ -210,6 +211,8 @@ import { ApiService } from '../../services/api.service';
         </div>
       </div>
     </section>
+
+    </main>
 
     <app-footer></app-footer>
   `,

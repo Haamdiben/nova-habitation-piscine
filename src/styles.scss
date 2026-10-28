@@ -25,7 +25,7 @@
     /* Text: navy levels */
     --sea-50: 14 36 64;
     --sea-100: 30 58 92;
-    --sea-200: 20 52 92;
+    --sea-200: 27 88 132;
     /* Pool blues */
     --sea-300: 35 95 140;
     --sea-400: 52 130 170;
@@ -36,8 +36,8 @@
     --sea-800: 178 214 232;
     --sea-900: 214 234 244;
 
-    /* Gold for small labels and key figures: deep enough to stay readable on white */
-    --gold: 168 126 58;
+    /* Gold for small labels and key figures: deep enough for 4.5:1 contrast on every light background */
+    --gold: 134 99 40;
     --gold-light: 208 168 100;
   }
 
@@ -82,6 +82,11 @@
   html.site-theme,
   html.site-theme body {
     @apply bg-ink;
+  }
+
+  /* Light site: keep the browser's own controls (lists, checkboxes, scrollbars) light even in OS dark mode */
+  html.site-theme {
+    color-scheme: light;
   }
 
   html.site-theme body {
@@ -176,7 +181,7 @@
 
   /* Small uppercase label for contact details and form fields */
   .field-label {
-    @apply block font-body font-normal uppercase tracking-[0.25em] text-xs text-sea-100/60;
+    @apply block font-body font-normal uppercase tracking-[0.25em] text-xs text-sea-100/80;
   }
 }
 

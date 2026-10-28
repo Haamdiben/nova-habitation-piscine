@@ -33,14 +33,17 @@ const PHOTO_AUTOPLAY_DELAY = 3000;
         <div #swiperEl class="swiper h-full w-full">
           <div class="swiper-wrapper">
             @for (photo of c.photos; track photo.id ?? $index) {
-              <a class="swiper-slide block h-full" [routerLink]="['/chantier', c.id]">
-                <img
-                  [src]="photoUrl(photo.filepath)"
-                  [alt]="c.title"
-                  loading="lazy"
-                  class="w-full h-full object-cover transition-transform duration-[1.2s] ease-out group-hover:scale-105"
-                />
-              </a>
+              <!-- Swiper gives slides role="group", which a link can't have: the link goes inside -->
+              <div class="swiper-slide h-full">
+                <a class="block h-full" [routerLink]="['/chantier', c.id]" tabindex="-1">
+                  <img
+                    [src]="photoUrl(photo.filepath)"
+                    [alt]="c.title + ' — photo ' + ($index + 1)"
+                    [attr.loading]="eagerPhoto() && $first ? 'eager' : 'lazy'"
+                    class="w-full h-full object-cover transition-transform duration-[1.2s] ease-out group-hover:scale-105"
+                  />
+                </a>
+              </div>
             }
           </div>
         </div>
@@ -48,9 +51,6 @@ const PHOTO_AUTOPLAY_DELAY = 3000;
       <div class="pointer-events-none absolute inset-0 z-[1] bg-gradient-to-t from-ink via-ink/20 to-transparent"></div>
 
       @if (c.photos?.length > 1) {
-        <!-- Dots -->
-        <div #paginationEl class="chantier-card__dots absolute inset-x-0 top-5 z-10 flex justify-center gap-1.5"></div>
-
         <!-- Arrows -->
         <button #prevEl type="button" class="chantier-card__arrow left-4" aria-label="Photo précédente">
           <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
@@ -63,7 +63,7 @@ const PHOTO_AUTOPLAY_DELAY = 3000;
       <div class="pointer-events-none absolute inset-x-0 bottom-0 z-10 flex flex-col items-center p-7 text-center">
         <h3 class="font-display text-xl md:text-2xl leading-tight text-sea-400">{{ c.title }}</h3>
         @if (!c.photos?.length) {
-          <p class="text-sm text-sea-100/60 mt-2">Pas de photos disponibles</p>
+          <p class="text-sm text-sea-100/75 mt-2">Pas de photos disponibles</p>
         }
         <a
           [routerLink]="['/chantier', c.id]"
@@ -75,6 +75,8 @@ const PHOTO_AUTOPLAY_DELAY = 3000;
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12h14M13 6l6 6-6 6"></path>
           </svg>
         </a>
+        <!-- Photo dots under the button (space kept on single-photo cards so titles line up) -->
+        <div #paginationEl class="chantier-card__dots pointer-events-auto mt-4 flex h-1.5 items-center justify-center gap-1.5"></div>
       </div>
     </div>
   `,
@@ -114,6 +116,8 @@ export class ChantierCardComponent implements OnDestroy {
   chantier = input.required<any>();
   /** Allow swiping between photos; turned off when the card sits inside a swipeable row */
   photoSwipe = input(true);
+  /** Load the first photo right away (cards visible as soon as the page opens) */
+  eagerPhoto = input(false);
 
   private swiperEl = viewChild<ElementRef<HTMLElement>>('swiperEl');
   private paginationEl = viewChild<ElementRef<HTMLElement>>('paginationEl');

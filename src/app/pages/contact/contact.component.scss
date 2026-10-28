@@ -1,9 +1,5 @@
 input.ng-touched.ng-invalid,
-select.ng-touched.ng-invalid,
 textarea.ng-touched.ng-invalid {
   border-color: #f87171 !important;
 }
 
-select option {
-  background-color: #121110;
-}
