@@ -60,7 +60,7 @@ import { socialLinks } from '../../utils/social-links';
         <!-- Bottom bar -->
         <div class="border-t border-sea-500/15 pt-8 flex flex-col md:flex-row items-center justify-between gap-6 text-xs tracking-wider">
           <p class="text-sea-100/75">
-            © 2026 Nova Habitation et Piscine. Tous droits réservés.
+            © 2026 Nova Habitat - Piscine. Tous droits réservés.
             <span class="mx-2">·</span>
             <a [href]="info()?.legalUrl || '#'" class="footer-link">Mentions légales</a>
           </p>

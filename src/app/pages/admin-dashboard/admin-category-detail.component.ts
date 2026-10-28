@@ -4,12 +4,12 @@ import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { ApiService } from '../../services/api.service';
 import { FieldVisibilityBadgeComponent } from '../../components/field-visibility-badge/field-visibility-badge.component';
-import { uploadUrl } from '../../utils/upload-url';
+import { ThumbDirective } from '../../directives/thumb.directive';
 
 @Component({
   selector: 'app-admin-category-detail',
   standalone: true,
-  imports: [CommonModule, FormsModule, RouterLink, FieldVisibilityBadgeComponent],
+  imports: [CommonModule, FormsModule, RouterLink, FieldVisibilityBadgeComponent, ThumbDirective],
   template: `
     <!-- Header -->
     <div class="bg-white shadow">
@@ -116,7 +116,7 @@ import { uploadUrl } from '../../utils/upload-url';
                   <div class="flex items-center gap-3 min-w-0">
                     <img
                       *ngIf="chantier.photos && chantier.photos.length > 0"
-                      [src]="getPhotoUrl(chantier.photos[0].filepath)"
+                      [appThumb]="chantier.photos[0].filepath"
                       class="w-12 h-12 rounded object-cover flex-shrink-0"
                       alt=""
                     />
@@ -178,7 +178,7 @@ import { uploadUrl } from '../../utils/upload-url';
                     <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
                       <div *ngFor="let photo of chantier.photos" class="relative">
                         <img
-                          [src]="getPhotoUrl(photo.filepath)"
+                          [appThumb]="photo.filepath"
                           [alt]="photo.filename"
                           class="w-full h-32 object-cover rounded"
                         />
@@ -346,9 +346,5 @@ export class AdminCategoryDetailComponent implements OnInit {
         error: (err) => console.error('Error deleting photo:', err),
       });
     }
-  }
-
-  getPhotoUrl(filepath: string): string {
-    return uploadUrl(filepath);
   }
 }

@@ -6,7 +6,7 @@ import { socialLinks } from '../utils/social-links';
 
 /** Public address of the site: canonical links and share previews must use it, not the current host */
 export const SITE_URL = 'https://nova-habitat-piscine.fr';
-const SITE_NAME = 'Nova Habitation et Piscine';
+const SITE_NAME = 'Nova Habitat - Piscine';
 const DEFAULT_IMAGE = `${SITE_URL}/og-image.jpg`;
 
 export interface PageSeo {
@@ -71,8 +71,10 @@ export class SeoService {
         '@type': 'PostalAddress',
         addressLocality: info.city || undefined,
         postalCode: info.postalCode || undefined,
+        addressRegion: "Provence-Alpes-Côte d'Azur",
         addressCountry: 'FR',
       },
+      areaServed: { '@type': 'AdministrativeArea', name: "Côte d'Azur (Alpes-Maritimes)" },
       sameAs: socialLinks(info).map((l) => l.url),
     };
     this.setJsonLd('business', data);

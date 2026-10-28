@@ -204,6 +204,9 @@ rsync -av --exclude node_modules --exclude dist --exclude uploads --exclude .env
 ssh nova@VPS_IP "cd /opt/nova-habitation-backend && npm ci && npm run build"
 ssh root@VPS_IP "systemctl restart nova-backend"
 ```
+Photos uploaded before an update of the photo settings (size, thumbnails) are brought up to date with
+`ssh nova@VPS_IP "cd /opt/nova-habitation-backend && npm run optimize-uploads"` (safe to run again).
+
 If you changed an entity, generate the migration on your PC first
 (`npm run migration:generate -- src/migrations/Name`): the server applies it when it restarts.
 

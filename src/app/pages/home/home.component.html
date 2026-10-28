@@ -8,7 +8,7 @@
 <!-- Hero Section -->
 <section class="section">
   <div class="max-w-4xl mx-auto text-center">
-    <span appScrollReveal="up" class="eyebrow">Nova Habitation et Piscine</span>
+    <span appScrollReveal="up" class="eyebrow">Nova Habitat - Piscine</span>
     <h1 appScrollReveal="up" [revealDelay]="80" class="font-display font-medium text-6xl md:text-8xl leading-[1] tracking-tight text-sheen mb-8">Votre piscine personnalisée</h1>
     <span appScrollReveal="up" [revealDelay]="140" class="divider-accent mx-auto mb-8"></span>
     <p appScrollReveal="up" [revealDelay]="200" class="text-xl md:text-2xl leading-relaxed text-sea-100/75">Construction et rénovation de piscines en béton sur mesure pour vos projets résidentiels et commerciaux.</p>
@@ -18,18 +18,19 @@
 <!-- Credentials Section -->
 <section class="section section-alt !py-12">
   <div class="max-w-6xl mx-auto">
+    <!-- Same figures as the "À propos" page, edited in the back office -->
     <div class="grid grid-cols-1 md:grid-cols-3 gap-12 md:divide-x md:divide-sea-500/15">
       <div appScrollReveal="up" class="text-center">
-        <p class="stat-value">500+</p>
-        <p class="stat-label">Projets réalisés</p>
+        <p class="stat-value">{{ aboutInfo()?.stat1Value }}</p>
+        <p class="stat-label">{{ aboutInfo()?.stat1Label }}</p>
       </div>
       <div appScrollReveal="up" [revealDelay]="100" class="text-center">
-        <p class="stat-value">20+</p>
-        <p class="stat-label">Années d'expérience</p>
+        <p class="stat-value">{{ aboutInfo()?.stat2Value }}</p>
+        <p class="stat-label">{{ aboutInfo()?.stat2Label }}</p>
       </div>
       <div appScrollReveal="up" [revealDelay]="200" class="text-center">
-        <p class="stat-value">4.8/5</p>
-        <p class="stat-label">30 avis vérifiés</p>
+        <p class="stat-value">{{ aboutInfo()?.stat3Value }}</p>
+        <p class="stat-label">{{ aboutInfo()?.stat3Label }}</p>
       </div>
     </div>
   </div>

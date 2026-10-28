@@ -1,5 +1,6 @@
 import { Component, HostListener, input, output, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { ThumbDirective } from '../../directives/thumb.directive';
 import { uploadUrl } from '../../utils/upload-url';
 
 export interface LightboxPhoto {
@@ -10,7 +11,7 @@ export interface LightboxPhoto {
 @Component({
   selector: 'app-photo-lightbox',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, ThumbDirective],
   template: `
     <div
       class="on-dark fixed inset-0 z-[100] flex items-center justify-center overflow-hidden"
@@ -114,7 +115,7 @@ export interface LightboxPhoto {
             [style.borderColor]="i === index() ? '#7cbcde' : 'transparent'"
             [style.opacity]="i === index() ? '1' : '0.55'"
           >
-            <img [src]="photoUrl(photo)" [alt]="title()" class="w-full h-full object-cover" />
+            <img [appThumb]="photo.filepath" [alt]="title()" class="w-full h-full object-cover" />
           </button>
         </div>
       </div>

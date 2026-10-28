@@ -57,6 +57,20 @@ import { ApiService } from '../../services/api.service';
 
               <div>
                 <label class="flex items-center gap-2 text-sm font-medium text-gray-900 mb-2">
+                  Nom du gérant
+                  <app-field-visibility-badge variant="other" text='visible sur "Mentions légales" et la page de maintenance'></app-field-visibility-badge>
+                </label>
+                <input
+                  type="text"
+                  [(ngModel)]="contactData.managerName"
+                  name="managerName"
+                  class="w-full px-4 py-2 border-2 rounded-lg"
+                  style="border-color: #C09453;"
+                />
+              </div>
+
+              <div>
+                <label class="flex items-center gap-2 text-sm font-medium text-gray-900 mb-2">
                   Adresse
                   <app-field-visibility-badge></app-field-visibility-badge>
                 </label>
@@ -242,6 +256,7 @@ export class AdminContactComponent implements OnInit {
   contactData = {
     phone: '',
     email: '',
+    managerName: '',
     address: '',
     city: '',
     postalCode: '',
@@ -263,6 +278,7 @@ export class AdminContactComponent implements OnInit {
         this.contactData = {
           phone: data.phone || '',
           email: data.email || '',
+          managerName: data.managerName || '',
           address: data.address || '',
           city: data.city || '',
           postalCode: data.postalCode || '',

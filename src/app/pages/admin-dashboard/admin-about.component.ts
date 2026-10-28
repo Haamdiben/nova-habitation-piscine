@@ -140,7 +140,7 @@ import { uploadUrl } from '../../utils/upload-url';
               <div class="border-t border-gray-200 pt-8">
                 <h2 class="flex items-center gap-2 text-lg font-bold mb-4" style="color: #C09453;">
                   Statistiques
-                  <app-field-visibility-badge variant="other" text='visible uniquement sur la page "À propos"'></app-field-visibility-badge>
+                  <app-field-visibility-badge text='visible sur l&apos;accueil et la page "À propos"'></app-field-visibility-badge>
                 </h2>
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
                   <div>

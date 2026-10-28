@@ -3,6 +3,18 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, forkJoin, of } from 'rxjs';
 
+/** Text of the maintenance page when none is set in the back office */
+export const DEFAULT_MAINTENANCE_MESSAGE =
+  'Notre site fait peau neuve. En attendant, nous restons joignables pour tous vos projets de piscine et de rénovation.';
+
+/** Site-wide options set from the back office */
+export interface SiteSettings {
+  /** Visitors only see the maintenance page */
+  maintenance: boolean;
+  /** Text of the maintenance page ('' = default text) */
+  maintenanceMessage: string;
+}
+
 @Injectable({
   providedIn: 'root',
 })
@@ -142,6 +154,16 @@ export class ApiService {
 
   deleteSlide(id: number): Observable<any> {
     return this.http.delete(`${this.apiUrl}/slides/${id}`, {
+      headers: this.getAuthHeaders(),
+    });
+  }
+
+  getSiteSettings(): Observable<SiteSettings> {
+    return this.http.get<SiteSettings>(`${this.apiUrl}/site-settings`);
+  }
+
+  updateSiteSettings(data: Partial<SiteSettings>): Observable<SiteSettings> {
+    return this.http.put<SiteSettings>(`${this.apiUrl}/site-settings`, data, {
       headers: this.getAuthHeaders(),
     });
   }

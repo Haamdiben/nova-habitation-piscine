@@ -1,7 +1,7 @@
 # /etc/systemd/system/nova-backend.service
 # Starts the NestJS backend at boot and restarts it if it crashes.
 [Unit]
-Description=Nova Habitation et Piscine - backend NestJS
+Description=Nova Habitat - Piscine - backend NestJS
 After=network.target postgresql.service
 Requires=postgresql.service
 

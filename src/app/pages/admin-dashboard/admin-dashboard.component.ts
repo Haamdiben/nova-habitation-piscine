@@ -3,12 +3,12 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
 import { ApiService } from '../../services/api.service';
-import { uploadUrl } from '../../utils/upload-url';
+import { ThumbDirective } from '../../directives/thumb.directive';
 
 @Component({
   selector: 'app-admin-dashboard',
   standalone: true,
-  imports: [CommonModule, FormsModule, RouterLink],
+  imports: [CommonModule, FormsModule, RouterLink, ThumbDirective],
   template: `
     <!-- Header -->
     <div class="bg-white shadow">
@@ -68,7 +68,7 @@ import { uploadUrl } from '../../utils/upload-url';
             <div class="h-32 flex items-center justify-center" [style.background]="getCoverPhoto(category) ? 'none' : '#f3e9db'">
               <img
                 *ngIf="getCoverPhoto(category) as cover"
-                [src]="getPhotoUrl(cover)"
+                [appThumb]="cover"
                 [alt]="category.name"
                 class="w-full h-32 object-cover"
               />
@@ -168,10 +168,6 @@ export class AdminDashboardComponent implements OnInit {
       }
     }
     return null;
-  }
-
-  getPhotoUrl(filepath: string): string {
-    return uploadUrl(filepath);
   }
 
   deleteCategory(category: any) {

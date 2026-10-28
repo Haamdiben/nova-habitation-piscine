@@ -9,7 +9,7 @@ import { RouterLink, RouterLinkActive } from '@angular/router';
   template: `
     <!-- Mobile Top Bar -->
     <div class="md:hidden fixed top-0 left-0 right-0 z-30 bg-gray-900 text-white flex items-center justify-between px-4 h-16 shadow-lg">
-      <span class="text-sm font-bold leading-tight" style="color: #C09453;">Nova Habitation et Piscine</span>
+      <span class="text-sm font-bold leading-tight" style="color: #C09453;">Nova Habitat - Piscine</span>
       <button
         (click)="toggleMenu()"
         class="p-2 rounded-lg hover:bg-gray-800 transition"
@@ -42,7 +42,7 @@ import { RouterLink, RouterLinkActive } from '@angular/router';
       [class.translate-x-0]="isMenuOpen()"
     >
       <div class="p-6 border-b border-gray-700">
-        <h2 class="text-lg font-bold leading-tight" style="color: #C09453;">Nova Habitation et piscine</h2>
+        <h2 class="text-lg font-bold leading-tight" style="color: #C09453;">Nova Habitat - Piscine</h2>
         <p class="text-gray-400 text-sm mt-2">Tableau de bord</p>
       </div>
 
@@ -99,6 +99,15 @@ import { RouterLink, RouterLinkActive } from '@angular/router';
           class="block px-4 py-3 rounded-lg transition hover:bg-gray-800"
         >
           <span class="text-lg">✉️</span> Messages
+        </a>
+
+        <a
+          routerLink="/admin/dashboard/maintenance"
+          routerLinkActive="bg-gray-800"
+          (click)="closeMenu()"
+          class="block px-4 py-3 rounded-lg transition hover:bg-gray-800"
+        >
+          <span class="text-lg">🚧</span> Maintenance
         </a>
       </nav>
 

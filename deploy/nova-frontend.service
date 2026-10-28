@@ -2,7 +2,7 @@
 # Renders the public pages on the server (Angular SSR) so search engines and link
 # previews get complete HTML. Starts at boot and restarts if it crashes.
 [Unit]
-Description=Nova Habitation et Piscine - site Angular (rendu serveur)
+Description=Nova Habitat - Piscine - site Angular (rendu serveur)
 After=network.target nova-backend.service
 Wants=nova-backend.service
 

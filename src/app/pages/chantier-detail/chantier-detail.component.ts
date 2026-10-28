@@ -4,6 +4,7 @@ import { ActivatedRoute, RouterLink } from '@angular/router';
 import { NavbarComponent } from '../../components/navbar/navbar.component';
 import { FooterComponent } from '../../components/footer/footer.component';
 import { PhotoLightboxComponent, LightboxPhoto } from '../../components/photo-lightbox/photo-lightbox.component';
+import { ThumbDirective } from '../../directives/thumb.directive';
 import { ScrollRevealDirective } from '../../directives/scroll-reveal.directive';
 import { ApiService } from '../../services/api.service';
 import { SITE_URL, SeoService } from '../../services/seo.service';
@@ -12,7 +13,7 @@ import { uploadUrl } from '../../utils/upload-url';
 @Component({
   selector: 'app-chantier-detail',
   standalone: true,
-  imports: [CommonModule, RouterLink, NavbarComponent, FooterComponent, PhotoLightboxComponent, ScrollRevealDirective],
+  imports: [CommonModule, RouterLink, NavbarComponent, FooterComponent, PhotoLightboxComponent, ScrollRevealDirective, ThumbDirective],
   template: `
     <app-navbar></app-navbar>
     <main id="contenu" tabindex="-1" class="outline-none">
@@ -89,7 +90,7 @@ import { uploadUrl } from '../../utils/upload-url';
               [revealDelay]="(i % 4) * 80"
               class="relative h-36 sm:h-44 overflow-hidden group"
             >
-              <img [src]="getPhotoUrl(photo.filepath)" [alt]="c.title" class="w-full h-full object-cover group-hover:scale-110 transition duration-500" />
+              <img [appThumb]="photo.filepath" [alt]="c.title" loading="lazy" class="w-full h-full object-cover group-hover:scale-110 transition duration-500" />
               <div class="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-30 transition"></div>
             </button>
           </div>
@@ -170,7 +171,7 @@ export class ChantierDetailComponent implements OnInit {
     const photo = chantier.photos?.[0]?.filepath;
     const photoUrl = photo ? this.getPhotoUrl(photo) : '';
     this.seo.update({
-      title: `${chantier.title} | Nova Habitation et Piscine`,
+      title: `${chantier.title} | Nova Habitat - Piscine`,
       description: description.length > 160 ? description.slice(0, 157).trimEnd() + '…' : description || undefined,
       image: photoUrl && !photoUrl.startsWith('http') ? SITE_URL + photoUrl : photoUrl || undefined,
     });

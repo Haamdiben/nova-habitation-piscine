@@ -10,7 +10,7 @@ import {
 import { RouterLink } from '@angular/router';
 import Swiper from 'swiper';
 import { A11y, Autoplay, Navigation, Pagination } from 'swiper/modules';
-import { uploadUrl } from '../../utils/upload-url';
+import { ThumbDirective } from '../../directives/thumb.directive';
 
 /** Time each photo stays on screen in a card's slider */
 const PHOTO_AUTOPLAY_DELAY = 3000;
@@ -19,7 +19,7 @@ const PHOTO_AUTOPLAY_DELAY = 3000;
 @Component({
   selector: 'app-chantier-card',
   standalone: true,
-  imports: [RouterLink],
+  imports: [RouterLink, ThumbDirective],
   host: { class: 'block on-dark' },
   // Swiper adds its classes at runtime, so styles must not be view-encapsulated (they're scoped by class name)
   encapsulation: ViewEncapsulation.None,
@@ -37,7 +37,7 @@ const PHOTO_AUTOPLAY_DELAY = 3000;
               <div class="swiper-slide h-full">
                 <a class="block h-full" [routerLink]="['/chantier', c.id]" tabindex="-1">
                   <img
-                    [src]="photoUrl(photo.filepath)"
+                    [appThumb]="photo.filepath"
                     [alt]="c.title + ' — photo ' + ($index + 1)"
                     [attr.loading]="eagerPhoto() && $first ? 'eager' : 'lazy'"
                     class="w-full h-full object-cover transition-transform duration-[1.2s] ease-out group-hover:scale-105"
@@ -151,10 +151,6 @@ export class ChantierCardComponent implements OnDestroy {
         a11y: { prevSlideMessage: 'Photo précédente', nextSlideMessage: 'Photo suivante' },
       });
     });
-  }
-
-  photoUrl(filepath: string): string {
-    return uploadUrl(filepath);
   }
 
   ngOnDestroy() {
